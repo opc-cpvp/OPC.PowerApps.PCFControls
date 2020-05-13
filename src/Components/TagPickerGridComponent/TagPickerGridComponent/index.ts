@@ -1,7 +1,5 @@
 import {IInputs, IOutputs} from "./generated/ManifestTypes"
 import { TagPickerBaseComponent } from "./TagPickerBaseComponent"
-import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
-type DataSet = ComponentFramework.PropertyTypes.DataSet;
 
 export class TagPickerGridComponent extends TagPickerBaseComponent<IInputs, IOutputs> {
 	/**
