@@ -1,0 +1,76 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger: none
+
+pr:
+  branches:
+    include:
+    - master
+  paths:
+    include:
+    - azure-pipelines/*
+    - src/*
+    exclude:
+    - azure-pipelines/README.md
+
+pool:
+  vmImage: 'windows-2019'
+
+variables:
+  BuildPlatform: 'AnyCPU'
+  BuildConfiguration: 'Release'
+  Version.MajorMinor: '1.0'
+  Version.Patch: $[counter(variables['Version.MajorMinor'], 0)]
+
+steps:
+- task: WaelHamze.xrm-ci-framework-build-tasks.MSCRMToolInstaller.MSCRMToolInstaller@12
+  displayName: 'Power DevOps Tool Installer'
+
+- task: Npm@1
+  displayName: 'npm install - TagPickerComponent'
+  inputs:
+    workingDir: src/Components/TagPickerComponent
+    verbose: false
+
+- task: Npm@1
+  displayName: 'npm install - TagPickerGridComponent'
+  inputs:
+    workingDir: src/Components/TagPickerGridComponent
+    verbose: false
+
+- task: WaelHamze.xrm-ci-framework-build-tasks.MSCRMSetVersion.MSCRMSetVersion@12
+  displayName: 'Set PowerApps Solution Version'
+  inputs:
+    target: xml
+    unpackedFilesFolder: src/Solution
+    versionNumber: '$(Version.MajorMinor).$(Version.Patch)'
+
+- task: sergeyzwezdin.magic-chunks.magic.chunks.MagicChunks@2
+  displayName: 'Set TagPickerComponent Version'
+  inputs:
+    sourcePath: src/Components/TagPickerComponent/TagPickerComponent/ControlManifest.Input.xml
+    fileType: Xml
+    transformations: |
+     {
+       "manifest/control/@version": "$(Version.MajorMinor).$(Version.Patch)"
+     }
+
+- task: sergeyzwezdin.magic-chunks.magic.chunks.MagicChunks@2
+  displayName: 'Set TagPickerGridComponent Version'
+  inputs:
+    sourcePath: src/Components/TagPickerGridComponent/TagPickerGridComponent/ControlManifest.Input.xml
+    fileType: Xml
+    transformations: |
+     {
+       "manifest/control/@version": "$(Version.MajorMinor).$(Version.Patch)"
+     }
+
+- task: MSBuild@1
+  displayName: 'Build solution **/*.cdsproj'
+  inputs:
+    solution: '**/*.cdsproj'
+    configuration: '$(BuildConfiguration)'
+    msbuildArguments: /restore
