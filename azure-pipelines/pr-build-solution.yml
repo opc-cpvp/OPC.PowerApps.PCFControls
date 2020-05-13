@@ -20,7 +20,7 @@ pool:
   vmImage: 'windows-2019'
 
 variables:
-  BuildPlatform: 'AnyCPU'
+  BuildPlatform: 'Any CPU'
   BuildConfiguration: 'Release'
   Version.MajorMinor: '1.0'
   Version.Patch: $[counter(variables['Version.MajorMinor'], 0)]
