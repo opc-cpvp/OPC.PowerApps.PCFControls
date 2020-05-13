@@ -75,6 +75,14 @@ steps:
     configuration: '$(BuildConfiguration)'
     msbuildArguments: /restore
 
+- task: MSBuild@1
+  displayName: 'Build solution **/*.sln'
+  inputs:
+    solution: '**/*.sln'
+    platform: '$(BuildPlatform)'
+    configuration: '$(BuildConfiguration)'
+    msbuildArguments: /restore
+
 - task: VSTest@2
   displayName: 'Test Assemblies'
   inputs:

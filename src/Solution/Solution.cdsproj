@@ -42,7 +42,6 @@
     <ProjectReference Include="..\Components\TagPickerComponent\TagPickerComponent.pcfproj" />
     <ProjectReference Include="..\Components\TagPickerGridComponent\TagPickerGridComponent.pcfproj" />
     <ProjectReference Include="..\Plugins\Components.Support\Components.Support.csproj" />
-    <ProjectReference Include="..\Plugins\Components.Support.Tests\Components.Support.Tests.csproj" />
   </ItemGroup>
 
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
