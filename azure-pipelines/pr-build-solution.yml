@@ -20,7 +20,7 @@ pool:
   vmImage: 'windows-2019'
 
 variables:
-  BuildPlatform: 'AnyCPU'
+  BuildPlatform: 'Any CPU'
   BuildConfiguration: 'Release'
   Version.MajorMinor: '1.0'
   Version.Patch: $[counter(variables['Version.MajorMinor'], 0)]
@@ -74,3 +74,25 @@ steps:
     solution: '**/*.cdsproj'
     configuration: '$(BuildConfiguration)'
     msbuildArguments: /restore
+
+- task: MSBuild@1
+  displayName: 'Build solution **/*.sln'
+  inputs:
+    solution: '**/*.sln'
+    platform: '$(BuildPlatform)'
+    configuration: '$(BuildConfiguration)'
+    msbuildArguments: /restore
+
+- task: VSTest@2
+  displayName: 'Test Assemblies'
+  inputs:
+    testSelector: 'testAssemblies'
+    testAssemblyVer2: |
+      **\*test*.dll
+      !**\*TestAdapter.dll
+      !**\obj\**
+    searchFolder: '$(System.DefaultWorkingDirectory)'
+    resultsFolder: '$(Agent.TempDirectory)\test-output'
+    testRunTitle: '.NET - xUnit'
+    platform: '$(BuildPlatform)'
+    configuration: '$(BuildConfiguration)'
