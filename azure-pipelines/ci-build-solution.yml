@@ -97,11 +97,6 @@ steps:
     platform: '$(BuildPlatform)'
     configuration: '$(BuildConfiguration)'
 
-- task: PublishSymbols@2
-  displayName: 'Publish symbols path'
-  inputs:
-    PublishSymbols: false
-
 - task: CopyFiles@2
   displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
   inputs:
