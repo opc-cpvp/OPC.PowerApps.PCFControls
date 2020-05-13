@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PluginAssembly FullName="Components.Support, Version=1.0.0.0, Culture=neutral, PublicKeyToken=2d8165c36fd35df6" PluginAssemblyId="cac788ae-6f4a-453b-8bf5-ebd4444da7d8" CustomizationLevel="1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <IsolationMode>2</IsolationMode>
+  <SourceType>0</SourceType>
+  <IntroducedVersion>1.0</IntroducedVersion>
+  <FileName>/PluginAssemblies/ComponentsSupport-CAC788AE-6F4A-453B-8BF5-EBD4444DA7D8/ComponentsSupport.dll</FileName>
+  <PluginTypes>
+    <PluginType AssemblyQualifiedName="Components.Support.TagRegistrationPlugin, Components.Support, Version=1.0.0.0, Culture=neutral, PublicKeyToken=2d8165c36fd35df6" PluginTypeId="bba6e816-e1f4-43a9-8348-2e076f0fdd3d" Name="Components.Support.TagRegistrationPlugin">
+      <FriendlyName>e2479e4f-7d6e-4b16-98a5-d1ff123048d1</FriendlyName>
+    </PluginType>
+  </PluginTypes>
+</PluginAssembly>

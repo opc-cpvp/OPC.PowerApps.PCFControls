@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SdkMessageProcessingStep Name="Components.Support.TagRegistrationPlugin: Create of any Entity" SdkMessageProcessingStepId="{5d2b96a3-8b23-4ac9-8ad3-f20e7aeca9ea}" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <SdkMessageId>9ebdbb1b-ea3e-db11-86a7-000a3a5473e8</SdkMessageId>
+  <PluginTypeName>Components.Support.TagRegistrationPlugin, Components.Support, Version=1.0.0.0, Culture=neutral, PublicKeyToken=2d8165c36fd35df6</PluginTypeName>
+  <PluginTypeId>bba6e816-e1f4-43a9-8348-2e076f0fdd3d</PluginTypeId>
+  <AsyncAutoDelete>0</AsyncAutoDelete>
+  <Description>Links tags to the entity.</Description>
+  <FilteringAttributes></FilteringAttributes>
+  <InvocationSource>1</InvocationSource>
+  <Mode>0</Mode>
+  <Rank>1</Rank>
+  <EventHandlerTypeCode>4602</EventHandlerTypeCode>
+  <Stage>40</Stage>
+  <IsCustomizable>1</IsCustomizable>
+  <IsHidden>0</IsHidden>
+  <SupportedDeployment>0</SupportedDeployment>
+  <IntroducedVersion>1.0</IntroducedVersion>
+  <SdkMessageProcessingStepImages />
+</SdkMessageProcessingStep>

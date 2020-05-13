@@ -1,0 +1,12 @@
+extraction:
+  csharp:
+    index:
+      all_solutions: true
+      msbuild:
+        configuration: "release"
+        platform: "Any CPU"
+  javascript:
+    index:
+      include:
+        - "src/Components/TagPickerComponent"
+        - "src/Components/TagPickerGridComponent"

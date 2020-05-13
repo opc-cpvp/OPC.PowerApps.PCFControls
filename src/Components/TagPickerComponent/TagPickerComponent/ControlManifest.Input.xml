@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<manifest>
+  <control namespace="opc.pcf" constructor="TagPickerComponent" version="0.0.1" display-name-key="TagPickerComponent_Display_Key" description-key="TagPickerComponent_Desc_Key" control-type="standard">
+    <!-- property node identifies a specific, configurable piece of data that the control expects from CDS -->
+    <property name="tagData" display-name-key="tagData_Display_Key" description-key="tagData_Desc_Key" of-type="SingleLine.Text" usage="bound" required="false" />
+    <property name="relatedEntity" display-name-key="relatedEntity_Display_Key" description-key="relatedEntity_Desc_Key" of-type="SingleLine.Text" usage="input" required="true" />
+    <property name="relationshipName" display-name-key="relationshipName_Display_Key" description-key="relationshipName_Desc_Key" of-type="SingleLine.Text" usage="input" required="true" />
+    <property name="relationshipEntity" display-name-key="relationshipEntity_Display_Key" description-key="relationshipEntity_Desc_Key" of-type="SingleLine.Text" usage="input" required="true" />
+    <!--
+      Property node's of-type attribute can be of-type-group attribute.
+      Example:
+      <type-group name="numbers">
+        <type>Whole.None</type>
+        <type>Currency</type>
+        <type>FP</type>
+        <type>Decimal</type>
+      </type-group>
+      <property name="sampleProperty" display-name-key="Property_Display_Key" description-key="Property_Desc_Key" of-type-group="numbers" usage="bound" required="true" />
+    -->
+    <resources>
+      <code path="index.ts" order="1"/>
+      <resx path="strings/TagPickerComponent.1033.resx" version="1.0.0" />
+    </resources>
+    <feature-usage>
+      <uses-feature name="Utility" required="true" />
+      <uses-feature name="WebAPI" required="true" />
+    </feature-usage>
+  </control>
+</manifest>

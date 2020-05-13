@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<manifest>
+  <control namespace="opc.pcf" constructor="TagPickerGridComponent" version="0.0.1" display-name-key="TagPickerGridComponent" description-key="TagPickerGridComponent description" control-type="standard">
+    <!-- dataset node represents a set of entity records on CDS; allow more than one datasets -->
+    <data-set name="tagData" display-name-key="tagData_Display_Key">
+      <!-- 'property-set' node represents a unique, configurable property that each record in the dataset must provide. -->
+      <!-- UNCOMMENT TO ADD PROPERTY-SET NODE
+      <property-set name="samplePropertySet" display-name-key="Property_Display_Key" description-key="Property_Desc_Key" of-type="SingleLine.Text" usage="bound" required="true" />
+      -->
+    </data-set>
+    <property name="relatedEntity" display-name-key="relatedEntity_Display_Key" description-key="relatedEntity_Desc_Key" of-type="SingleLine.Text" usage="input" required="true" />
+    <property name="relationshipName" display-name-key="relationshipName_Display_Key" description-key="relationshipName_Desc_Key" of-type="SingleLine.Text" usage="input" required="true" />
+    <property name="relationshipEntity" display-name-key="relationshipEntity_Display_Key" description-key="relationshipEntity_Desc_Key" of-type="SingleLine.Text" usage="input" required="true" />
+    <resources>
+      <code path="index.ts" order="1"/>
+      <resx path="strings/TagPickerGridComponent.1033.resx" version="1.0.0" />
+    </resources>
+    <feature-usage>
+      <uses-feature name="Utility" required="true" />
+      <uses-feature name="WebAPI" required="true" />
+    </feature-usage>
+  </control>
+</manifest>

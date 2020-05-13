@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Target Name="ILRepackBuild" AfterTargets="Build" Condition="$(Configuration.Contains('Release'))">
+    <ItemGroup>
+      <InputAssemblies Include="$(OutputPath)Components.Support.dll" />
+      <InputAssemblies Include="$(OutputPath)Newtonsoft.Json.dll" />
+    </ItemGroup>
+    <ItemGroup>
+        <DoNotInternalizeAssemblies Include="Microsoft.Xrm.Sdk.dll" />
+        <DoNotInternalizeAssemblies Include="Microsoft.Crm.Sdk.Proxy.dll" />
+    </ItemGroup>
+    <ILRepack
+      AllowDuplicateResources="false"
+      DebugInfo="true"
+      InternalizeExclude="@(DoNotInternalizeAssemblies)"
+      InputAssemblies="@(InputAssemblies)"
+      KeyFile="$(KeyFile)"
+      LibraryPath="$(OutputPath)"
+      OutputFile="$(ProjectDir)bin\ILRepack\$(AssemblyName).dll"
+      Parallel="true"
+      Verbose="true"
+    />
+  </Target>
+</Project>

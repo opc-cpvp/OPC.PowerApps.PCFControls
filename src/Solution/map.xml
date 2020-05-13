@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Mapping>
+  <FileToFile map="PluginAssemblies\ComponentsSupport-CAC788AE-6F4A-453B-8BF5-EBD4444DA7D8\ComponentsSupport.dll" to="..\..\..\..\Plugins\Components.Support\bin\ILRepack\Components.Support.dll" />
+</Mapping>
