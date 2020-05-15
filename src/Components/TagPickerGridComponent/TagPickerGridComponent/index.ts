@@ -24,6 +24,7 @@ export class TagPickerGridComponent extends TagPickerBaseComponent<IInputs, IOut
 		this.relatedEntity = context.parameters.relatedEntity.raw || "";
 		this.relationshipEntity = context.parameters.relationshipEntity.raw || "";
 		this.relationshipName = context.parameters.relationshipName.raw || "";
+		this.labelText = context.parameters.labelText.raw || "";
 
 		super.init(context, notifyOutputChanged, state, container);
 	}

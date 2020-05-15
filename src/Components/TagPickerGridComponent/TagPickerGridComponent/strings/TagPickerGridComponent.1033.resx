@@ -157,4 +157,12 @@
     <value>Relationship Entity</value>
     <comment>Display text for Relationship Entity description</comment>
   </data>
+  <data name="labelText_Display_Key" xml:space="preserve">
+    <value>Label Text</value>
+    <comment>Display text for Label Text</comment>
+  </data>
+  <data name="labelText_Desc_Key" xml:space="preserve">
+    <value>Label Text</value>
+    <comment>Display text for Label Text description</comment>
+  </data>
 </root>

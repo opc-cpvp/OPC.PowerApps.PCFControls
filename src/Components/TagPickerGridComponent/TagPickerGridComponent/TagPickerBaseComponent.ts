@@ -33,6 +33,7 @@ export class TagPickerBaseComponent<TInputs, TOutputs> implements ComponentFrame
 		onResolveSuggestions: this.onResolveSuggestions.bind(this)
 	}
 
+	public labelText: string;
     public relatedEntity: string;
     public relationshipEntity: string;
     public relationshipName: string;
