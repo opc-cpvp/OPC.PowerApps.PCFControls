@@ -3,8 +3,16 @@
     padding-top: 0.25em;
 }
 
+.tagPickerGridComponent i {
+    height: 14px;
+    margin-left: 0.25em;
+    margin-right: 0.25em;
+    width: 14px;
+}
+
 .tagPickerGridComponent label {
     color: rgb(68, 68, 68);
     margin-right: 0.75em;
     text-align: left;
+    width: 150px;
 }

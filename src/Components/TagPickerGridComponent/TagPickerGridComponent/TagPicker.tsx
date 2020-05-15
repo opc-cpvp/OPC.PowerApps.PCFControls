@@ -39,13 +39,13 @@ export class TagPickerBase extends React.Component<ITagPickerProps, ITagPickerSt
 
     return (
       <div className={"tagPickerGridComponent"}>
-        <Stack horizontal tokens={{
-          childrenGap: 10
-        }}>
-          <Icon iconName="" styles={{ root: { width: 14, height: 14 } }} />
+        <Stack horizontal>
+          <Stack.Item align="center">
+            <Icon iconName="" />
+          </Stack.Item>
           <Stack.Item grow>
             <Stack horizontal wrap>
-              <Label styles={{ root: { width: 150 } }}>{this.props.labelText}</Label>
+              <Label>{this.props.labelText}</Label>
               <Stack.Item grow>
                 <TagPicker
                   removeButtonAriaLabel="Remove"
