@@ -52,6 +52,8 @@ export class TagPickerBaseComponent<TInputs, TOutputs> implements ComponentFrame
         this.entityId = (<any>this.context).page.entityId;
 		this.entityType =  (<any>this.context).page.entityTypeName;
 
+		this.props.labelText = this.labelText;
+
         this.loadMetadata().then(() => {
 			this.props.tagDisplayName = this.tagDisplayName;
 			return this.getRelatedEntities();
