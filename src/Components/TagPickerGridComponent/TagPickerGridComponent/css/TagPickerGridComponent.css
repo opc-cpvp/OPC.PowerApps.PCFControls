@@ -1,4 +1,10 @@
-.tagPickerComponent label {
+.tagPickerGridComponent {
+    padding-bottom: 0.25em;
+    padding-top: 0.25em;
+}
+
+.tagPickerGridComponent label {
     color: rgb(68, 68, 68);
+    margin-right: 0.75em;
     text-align: left;
 }

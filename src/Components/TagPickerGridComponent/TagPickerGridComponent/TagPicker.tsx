@@ -38,7 +38,7 @@ export class TagPickerBase extends React.Component<ITagPickerProps, ITagPickerSt
     const { tagDisplayName, selectedItems } = this.state;
 
     return (
-      <div className={"tagPickerComponent"}>
+      <div className={"tagPickerGridComponent"}>
         <Stack horizontal tokens={{
           childrenGap: 10
         }}>
