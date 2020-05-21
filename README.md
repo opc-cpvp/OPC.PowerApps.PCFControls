@@ -32,6 +32,16 @@ npm run build
 
 Note: You must run `npm install` before building the component for the first time.
 
+### Running a Component
+
+Navigate to the root folder of the component you wish to build and run the following commands:
+
+```
+npm run start
+```
+
+Note: You must run `npm install` before running the component for the first time.
+
 ### Building the Plugin
 
 Open the solution `OPC.PowerApps.PCFControls.sln` from Visual Studio 2019 and build the projects.
