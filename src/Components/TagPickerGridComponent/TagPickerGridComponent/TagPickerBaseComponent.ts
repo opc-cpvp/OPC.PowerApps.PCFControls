@@ -2,14 +2,12 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { ITag } from 'office-ui-fabric-react/lib/Pickers';
 import { TagPickerBase, ITagPickerProps } from './TagPicker';
-import 'whatwg-fetch';
 
 // https://docs.microsoft.com/en-us/powerapps/developer/common-data-service/entity-metadata
 enum EntityMetadataProperties {
 	EntitySetName = "EntitySetName",
 	PrimaryIdAttribute = "PrimaryIdAttribute",
-	PrimaryNameAttribute  = "PrimaryNameAttribute",
-	DisplayCollectionName  = "DisplayCollectionName"
+	PrimaryNameAttribute  = "PrimaryNameAttribute"
 }
 
 export class TagPickerBaseComponent<TInputs, TOutputs> implements ComponentFramework.StandardControl<TInputs, TOutputs> {
@@ -20,7 +18,6 @@ export class TagPickerBaseComponent<TInputs, TOutputs> implements ComponentFrame
     private entityId: string;
     private entityType: string;
 
-	private get tagDisplayName(): string { return this.relatedEntityMetadata ? this.relatedEntityMetadata[EntityMetadataProperties.DisplayCollectionName] : null; }
 	private get idAttribute(): string { return this.relatedEntityMetadata ? this.relatedEntityMetadata[EntityMetadataProperties.PrimaryIdAttribute] : ""; }
 	private get nameAttribute(): string { return this.relatedEntityMetadata ? this.relatedEntityMetadata[EntityMetadataProperties.PrimaryNameAttribute] : ""; }
 
@@ -47,7 +44,9 @@ export class TagPickerBaseComponent<TInputs, TOutputs> implements ComponentFrame
     init(context: ComponentFramework.Context<TInputs>, notifyOutputChanged: () => void, state: ComponentFramework.Dictionary, container:HTMLDivElement): void {
         this.context = context;
         this.notifyOutputChanged = notifyOutputChanged;
-        this.theContainer = container;
+		this.theContainer = container;
+
+		this.context.webAPI.clientUrl = (<any>this.context).page.getClientUrl();
 
         this.entityId = (<any>this.context).page.entityId;
 		this.entityType =  (<any>this.context).page.entityTypeName;
@@ -55,7 +54,6 @@ export class TagPickerBaseComponent<TInputs, TOutputs> implements ComponentFrame
 		this.props.labelText = this.labelText;
 
         this.loadMetadata().then(() => {
-			this.props.tagDisplayName = this.tagDisplayName;
 			return this.getRelatedEntities();
 		})
 		.then(entities => {
@@ -205,24 +203,10 @@ export class TagPickerBaseComponent<TInputs, TOutputs> implements ComponentFrame
 	 * @param item The item to associate.
 	 */
 	private associateItem(item: ITag): Promise<Response> {
-		const clientUrl: string = (<any>this.context).page.getClientUrl();
+		const parentSetName: string = this.entityMetadata[EntityMetadataProperties.EntitySetName];
+		const childSetName: string = this.relatedEntityMetadata[EntityMetadataProperties.EntitySetName];
 
-		const entityCollectionName = this.entityMetadata[EntityMetadataProperties.EntitySetName];
-		const payload = { "@odata.id" : `${clientUrl}/api/data/v9.1/${entityCollectionName}(${this.entityId})` };
-
-		const relatedEntityCollectionName: string = this.relatedEntityMetadata[EntityMetadataProperties.EntitySetName];
-
-		// https://docs.microsoft.com/en-us/powerapps/developer/common-data-service/webapi/associate-disassociate-entities-using-web-api
-		return window.fetch(`${clientUrl}/api/data/v9.1/${relatedEntityCollectionName}(${item.key})/${this.relationshipName}/$ref`, {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json; charset=utf-8",
-				"Accept": "application/json",
-				"OData-MaxVersion": "4.0",
-				"OData-Version": "4.0"
-			},
-			body: JSON.stringify(payload)
-		});
+		return this.context.webAPI.associateRecord(parentSetName, this.entityId, this.relationshipName, childSetName, item.key);
 	}
 
 	/**
@@ -230,19 +214,8 @@ export class TagPickerBaseComponent<TInputs, TOutputs> implements ComponentFrame
 	 * @param item The item to disassociate.
 	 */
 	private disassociateItem(item: ITag): Promise<Response> {
-		const clientUrl: string = (<any>this.context).page.getClientUrl();
+		const parentSetName: string = this.entityMetadata[EntityMetadataProperties.EntitySetName];
 
-		const entityCollectionName = this.entityMetadata[EntityMetadataProperties.EntitySetName];
-
-		// https://docs.microsoft.com/en-us/powerapps/developer/common-data-service/webapi/associate-disassociate-entities-using-web-api
-		return window.fetch(`${clientUrl}/api/data/v9.1/${entityCollectionName}(${this.entityId})/${this.relationshipName}(${item.key})/$ref`, {
-			method: "DELETE",
-			headers: {
-				"Content-Type": "application/json; charset=utf-8",
-				"Accept": "application/json",
-				"OData-MaxVersion": "4.0",
-				"OData-Version": "4.0"
-			}
-		});
+		return this.context.webAPI.disassociateRecord(parentSetName, this.entityId, this.relationshipName, item.key);
 	}
 }
