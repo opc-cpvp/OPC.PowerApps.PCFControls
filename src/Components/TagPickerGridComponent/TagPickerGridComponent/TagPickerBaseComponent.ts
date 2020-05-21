@@ -15,7 +15,7 @@ enum EntityMetadataProperties {
 export class TagPickerBaseComponent<TInputs, TOutputs> implements ComponentFramework.StandardControl<TInputs, TOutputs> {
     private context: ComponentFramework.Context<TInputs>;
 	private notifyOutputChanged: () => void;
-    private theContainer: HTMLDivElement;
+    public container: HTMLDivElement;
 
     private entityId: string;
     private entityType: string;
@@ -47,7 +47,7 @@ export class TagPickerBaseComponent<TInputs, TOutputs> implements ComponentFrame
     init(context: ComponentFramework.Context<TInputs>, notifyOutputChanged: () => void, state: ComponentFramework.Dictionary, container:HTMLDivElement): void {
         this.context = context;
         this.notifyOutputChanged = notifyOutputChanged;
-        this.theContainer = container;
+        this.container = container;
 
         this.entityId = (<any>this.context).page.entityId;
 		this.entityType =  (<any>this.context).page.entityTypeName;
@@ -74,13 +74,13 @@ export class TagPickerBaseComponent<TInputs, TOutputs> implements ComponentFrame
 				TagPickerBase,
 				this.props
 			),
-			this.theContainer
+			this.container
 		);
     }
 
     destroy(): void
     {
-        ReactDOM.unmountComponentAtNode(this.theContainer);
+        ReactDOM.unmountComponentAtNode(this.container);
     }
 
     /**
