@@ -3,47 +3,69 @@ import * as ReactDOM from 'react-dom';
 import { ITag } from 'office-ui-fabric-react/lib/Pickers';
 import { TagPickerBase, ITagPickerProps } from './TagPicker';
 
-// https://docs.microsoft.com/en-us/powerapps/developer/common-data-service/entity-metadata
-enum EntityMetadataProperties {
-	EntitySetName = "EntitySetName",
-	PrimaryIdAttribute = "PrimaryIdAttribute",
-	PrimaryNameAttribute  = "PrimaryNameAttribute"
-}
+export abstract class TagPickerBaseComponent<TInputs, TOutputs> implements ComponentFramework.StandardControl<TInputs, TOutputs> {
+	/**
+	 * Parameters passed to the control via CDS.
+	 */
+	public relatedEntity: string;
+	public relationshipEntity: string;
+    public relationshipName: string;
 
-export class TagPickerBaseComponent<TInputs, TOutputs> implements ComponentFramework.StandardControl<TInputs, TOutputs> {
+	/**
+	 * Selected items cache.
+	 */
+	public selectedItems: ITag[];
+
+	/**
+	 * General PCF properties.
+	 */
     private context: ComponentFramework.Context<TInputs>;
 	private notifyOutputChanged: () => void;
-    private theContainer: HTMLDivElement;
+    public container: HTMLDivElement;
 
+	/**
+	 * Properties related to the current entity.
+	 */
     private entityId: string;
-    private entityType: string;
+	private entityType: string;
 
-	private get idAttribute(): string { return this.relatedEntityMetadata ? this.relatedEntityMetadata[EntityMetadataProperties.PrimaryIdAttribute] : ""; }
-	private get nameAttribute(): string { return this.relatedEntityMetadata ? this.relatedEntityMetadata[EntityMetadataProperties.PrimaryNameAttribute] : ""; }
-
+	/**
+	 * Entity metadata.
+	 */
     private entityMetadata: ComponentFramework.PropertyHelper.EntityMetadata;
     private relatedEntityMetadata: ComponentFramework.PropertyHelper.EntityMetadata;
 
+	/**
+	 * React component properties.
+	 */
     private props: ITagPickerProps = {
 		onChange: this.onChange.bind(this),
 		onEmptyInputFocus: this.onEmptyInputFocus.bind(this),
 		onResolveSuggestions: this.onResolveSuggestions.bind(this)
 	}
 
-    public relatedEntity: string;
-    public relationshipEntity: string;
-    public relationshipName: string;
-
-    public selectedItems: ITag[];
+	/**
+	 * Helper methods used to access common metadata properties.
+	 */
+	private get idAttribute(): string { return this.relatedEntityMetadata ? this.relatedEntityMetadata[EntityMetadataProperties.PrimaryIdAttribute] : ""; }
+	private get nameAttribute(): string { return this.relatedEntityMetadata ? this.relatedEntityMetadata[EntityMetadataProperties.PrimaryNameAttribute] : ""; }
 
     constructor()
     {
     }
 
+	/**
+     * Used to initialize the control instance. Controls can kick off remote server calls and other initialization actions here.
+     * Data-set values are not initialized here, use updateView.
+     * @param context The entire property bag available to control via Context Object; It contains values as set up by the customizer mapped to property names defined in the manifest, as well as utility functions.
+     * @param notifyOutputChanged A callback method to alert the framework that the control has new outputs ready to be retrieved asynchronously.
+     * @param state A piece of data that persists in one session for a single user. Can be set at any point in a controls life cycle by calling 'setControlState' in the Mode interface.
+     * @param container If control is marked control-type='standard', it receives an empty div element within which it can render its content.
+     */
     init(context: ComponentFramework.Context<TInputs>, notifyOutputChanged: () => void, state: ComponentFramework.Dictionary, container:HTMLDivElement): void {
         this.context = context;
         this.notifyOutputChanged = notifyOutputChanged;
-		this.theContainer = container;
+		this.container = container;
 
 		this.context.webAPI.clientUrl = (<any>this.context).page.getClientUrl();
 
@@ -62,6 +84,10 @@ export class TagPickerBaseComponent<TInputs, TOutputs> implements ComponentFrame
 		});
     }
 
+	/**
+     * Called when any value in the property bag has changed. This includes field values, data-sets, global values such as container height and width, offline status, control metadata values such as label, visible, etc.
+     * @param context The entire property bag available to control via Context Object; It contains values as set up by the customizer mapped to names defined in the manifest, as well as utility functions
+     */
     updateView(context: ComponentFramework.Context<TInputs>): void
     {
         ReactDOM.render(
@@ -69,19 +95,23 @@ export class TagPickerBaseComponent<TInputs, TOutputs> implements ComponentFrame
 				TagPickerBase,
 				this.props
 			),
-			this.theContainer
+			this.container
 		);
     }
 
+	/**
+     * Called when the control is to be removed from the DOM tree. Controls should use this call for cleanup.
+     * i.e. canceling any pending remote calls, removing listeners, etc.
+     */
     destroy(): void
     {
-        ReactDOM.unmountComponentAtNode(this.theContainer);
+        ReactDOM.unmountComponentAtNode(this.container);
     }
 
     /**
 	 * Used to load the metadata for to the entity and related entity.
 	 */
-	private loadMetadata(): Promise<ComponentFramework.PropertyHelper.EntityMetadata> {
+	private loadMetadata(): Promise<ComponentFramework.PropertyHelper.EntityMetadata[]> {
 		return Promise.all([
 			this.context.utils.getEntityMetadata(this.entityType).then(value => this.entityMetadata = value),
 			this.context.utils.getEntityMetadata(this.relatedEntity).then(value => this.relatedEntityMetadata = value)
