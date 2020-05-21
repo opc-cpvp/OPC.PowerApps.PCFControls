@@ -3,6 +3,7 @@ import { TagPickerBaseComponent } from "./TagPickerBaseComponent"
 
 export class TagPickerGridComponent extends TagPickerBaseComponent<IInputs, IOutputs> {
 	public static readonly BodyContainerDataId = "data-set-body-container";
+	private observer: MutationObserver;
 
 	/**
 	 * Empty constructor.
@@ -37,6 +38,13 @@ export class TagPickerGridComponent extends TagPickerBaseComponent<IInputs, IOut
 		this.applyContainerStyles(this.container);
 	}
 
+	public destroy(): void {
+		super.destroy();
+
+		if (this.observer !== null)
+			this.observer.disconnect();
+	}
+
 	/**
 	 * It is called by the framework prior to a control receiving new data.
 	 * @returns an object based on nomenclature defined in manifest, expecting object[s] for property marked as “bound” or “output”
@@ -49,8 +57,28 @@ export class TagPickerGridComponent extends TagPickerBaseComponent<IInputs, IOut
 	private applyContainerStyles(container: HTMLDivElement): void {
 		const bodyContainer = this.getBodyContainer(container);
 
-		if (bodyContainer !== null)
+		if (bodyContainer !== null) {
 			bodyContainer.classList.add("tagPickerGridBodyContainer");
+
+			this.observer = new MutationObserver((mutations, observer) => {
+				observer.disconnect();
+
+				if (!bodyContainer.classList.contains("tagPickerGridBodyContainer"))
+					bodyContainer.classList.add("tagPickerGridBodyContainer");
+
+				observer.observe(bodyContainer, {
+					attributes: true,
+					attributeFilter: ["class"],
+					childList: false
+				});
+			});
+
+			this.observer.observe(bodyContainer, {
+				attributes: true,
+				attributeFilter: ["class"],
+				childList: false
+			});
+		}
 
 		container.classList.add("tagPickerGridContainer");
 	}
