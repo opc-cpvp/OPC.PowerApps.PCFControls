@@ -2,6 +2,8 @@ import {IInputs, IOutputs} from "./generated/ManifestTypes"
 import { TagPickerBaseComponent } from "./TagPickerBaseComponent"
 
 export class TagPickerGridComponent extends TagPickerBaseComponent<IInputs, IOutputs> {
+	public static readonly HostContainer = "DataSetHostContainer";
+
 	/**
 	 * Empty constructor.
 	 */
@@ -26,6 +28,8 @@ export class TagPickerGridComponent extends TagPickerBaseComponent<IInputs, IOut
 		this.relationshipName = context.parameters.relationshipName.raw || "";
 		this.labelText = context.parameters.labelText.raw || "";
 
+		this.applyContainerStyles(container);
+
 		super.init(context, notifyOutputChanged, state, container);
 	}
 
@@ -36,5 +40,31 @@ export class TagPickerGridComponent extends TagPickerBaseComponent<IInputs, IOut
 	public getOutputs(): IOutputs
 	{
 		return {};
+	}
+
+	private applyContainerStyles(container: HTMLDivElement): void {
+		const hostContainer = this.getHostContainer(container);
+
+		if (hostContainer !== null)
+			hostContainer?.classList.add("tagPickerGridContainer");
+	}
+
+	private getHostContainer(element: HTMLElement): HTMLElement | null {
+		let parent = element.parentElement;
+
+        while (parent != null) {
+            if (!parent?.hasAttribute("data-id")) {
+                parent = parent.parentElement;
+                continue;
+			}
+
+			const dataId = parent.getAttribute("data-id");
+			parent = parent.parentElement;
+
+            if (dataId === TagPickerGridComponent.HostContainer)
+                break;
+		}
+
+        return parent;
 	}
 }
