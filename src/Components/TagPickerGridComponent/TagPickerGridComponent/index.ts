@@ -51,6 +51,8 @@ export class TagPickerGridComponent extends TagPickerBaseComponent<IInputs, IOut
 
 		if (bodyContainer !== null)
 			bodyContainer.classList.add("tagPickerGridBodyContainer");
+
+		container.classList.add("tagPickerGridContainer");
 	}
 
 	private getBodyContainer(element: HTMLElement): HTMLElement | null {

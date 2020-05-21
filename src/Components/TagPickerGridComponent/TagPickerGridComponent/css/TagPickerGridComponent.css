@@ -2,7 +2,7 @@
     min-height: auto;
 }
 
-.tagPickerGridComponent {
+.tagPickerGridContainer {
     border-bottom: 1px solid rgb(216, 216, 216);
     min-height: 42px;
     padding-bottom: 0.25em;
