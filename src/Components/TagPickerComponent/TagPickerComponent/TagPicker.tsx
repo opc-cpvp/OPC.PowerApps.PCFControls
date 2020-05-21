@@ -6,7 +6,6 @@ import { initializeIcons } from 'office-ui-fabric-react/lib/Icons';
 initializeIcons();
 
 export interface ITagPickerProps {
-  tagDisplayName?: string,
   selectedItems?: ITag[],
   onChange?: (items?: ITag[]) => void;
   onEmptyInputFocus?: (selectedItems?: ITag[]) => Promise<ITag[]>;
@@ -21,7 +20,6 @@ export class TagPickerBase extends React.Component<ITagPickerProps, ITagPickerSt
     super(props);
 
     this.state = {
-      tagDisplayName: props.tagDisplayName || "Tags",
       selectedItems: props.selectedItems || []
     };
   }
