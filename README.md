@@ -4,7 +4,6 @@
 
 [![Total alerts](https://img.shields.io/lgtm/alerts/g/opc-cpvp/OPC.PowerApps.PCFControls.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/opc-cpvp/OPC.PowerApps.PCFControls/alerts/)
 [![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/opc-cpvp/OPC.PowerApps.PCFControls.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/opc-cpvp/OPC.PowerApps.PCFControls/context:javascript)
-[![Language grade: C#](https://img.shields.io/lgtm/grade/csharp/g/opc-cpvp/OPC.PowerApps.PCFControls.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/opc-cpvp/OPC.PowerApps.PCFControls/context:csharp)
 
 Collection of PowerApps PCF Controls.
 
