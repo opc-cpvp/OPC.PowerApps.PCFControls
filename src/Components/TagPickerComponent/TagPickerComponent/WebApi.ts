@@ -1,5 +1,5 @@
 declare namespace ComponentFramework {
-    class WebApi {
+    export class WebApi {
         clientUrl: string;
 
         /**
