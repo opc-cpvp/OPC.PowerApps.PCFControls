@@ -3,6 +3,9 @@ import { TagPickerBaseComponent } from "./TagPickerBaseComponent"
 
 export class TagPickerGridComponent extends TagPickerBaseComponent<IInputs, IOutputs> {
 	public static readonly BodyContainerDataId = "data-set-body-container";
+	public static readonly BodyContainerClass = "tagPickerGridBodyContainer";
+	public static readonly ContainerClass = "tagPickerGridContainer";
+
 	private observer: MutationObserver;
 
 	/**
@@ -35,13 +38,13 @@ export class TagPickerGridComponent extends TagPickerBaseComponent<IInputs, IOut
 	public updateView(context: ComponentFramework.Context<IInputs>): void {
 		super.updateView(context);
 
-		this.applyContainerStyles(this.container);
+		this.applyContainerStyles();
 	}
 
 	public destroy(): void {
 		super.destroy();
 
-		if (this.observer !== null)
+		if (!this.observer !== null)
 			this.observer.disconnect();
 	}
 
@@ -54,37 +57,42 @@ export class TagPickerGridComponent extends TagPickerBaseComponent<IInputs, IOut
 		return {};
 	}
 
-	private applyContainerStyles(container: HTMLDivElement): void {
-		const bodyContainer = this.getBodyContainer(container);
+	/**
+	 * Applies the styles to the container.
+	 */
+	private applyContainerStyles(): void {
+		const bodyContainer = this.getBodyContainer();
 
 		if (bodyContainer !== null) {
-			bodyContainer.classList.add("tagPickerGridBodyContainer");
+			bodyContainer.classList.add(TagPickerGridComponent.BodyContainerClass);
 
-			this.observer = new MutationObserver((mutations, observer) => {
-				observer.disconnect();
-
-				if (!bodyContainer.classList.contains("tagPickerGridBodyContainer"))
-					bodyContainer.classList.add("tagPickerGridBodyContainer");
-
-				observer.observe(bodyContainer, {
-					attributes: true,
-					attributeFilter: ["class"],
-					childList: false
-				});
-			});
-
-			this.observer.observe(bodyContainer, {
+			const options: MutationObserverInit = {
 				attributes: true,
 				attributeFilter: ["class"],
 				childList: false
+			};
+
+			// Add an observer to watch for changes to the container class attribute
+			this.observer = new MutationObserver((mutations, observer) => {
+				observer.disconnect();
+
+				if (!bodyContainer.classList.contains(TagPickerGridComponent.BodyContainerClass))
+					bodyContainer.classList.add(TagPickerGridComponent.BodyContainerClass);
+
+				observer.observe(bodyContainer, options);
 			});
+
+			this.observer.observe(bodyContainer, options);
 		}
 
-		container.classList.add("tagPickerGridContainer");
+		this.container.classList.add(TagPickerGridComponent.ContainerClass);
 	}
 
-	private getBodyContainer(element: HTMLElement): HTMLElement | null {
-		let parent = element.parentElement;
+	/**
+	 * Retrieves the body container of the grid.
+	 */
+	private getBodyContainer(): HTMLElement | null {
+		let parent = this.container.parentElement;
 
         while (parent != null) {
             if (!parent?.hasAttribute("data-id")) {

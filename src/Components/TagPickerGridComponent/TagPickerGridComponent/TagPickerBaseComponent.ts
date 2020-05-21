@@ -12,7 +12,7 @@ enum EntityMetadataProperties {
 	DisplayCollectionName  = "DisplayCollectionName"
 }
 
-export class TagPickerBaseComponent<TInputs, TOutputs> implements ComponentFramework.StandardControl<TInputs, TOutputs> {
+export abstract class TagPickerBaseComponent<TInputs, TOutputs> implements ComponentFramework.StandardControl<TInputs, TOutputs> {
     private context: ComponentFramework.Context<TInputs>;
 	private notifyOutputChanged: () => void;
     public container: HTMLDivElement;
