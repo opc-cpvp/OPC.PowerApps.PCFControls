@@ -44,7 +44,7 @@ export class TagPickerGridComponent extends TagPickerBaseComponent<IInputs, IOut
 	public destroy(): void {
 		super.destroy();
 
-		if (!this.observer !== null)
+		if (this.observer !== null)
 			this.observer.disconnect();
 	}
 
