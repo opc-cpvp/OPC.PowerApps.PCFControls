@@ -3,6 +3,7 @@ import * as ReactDOM from 'react-dom';
 import { ITag } from 'office-ui-fabric-react/lib/Pickers';
 import { TagPickerBase, ITagPickerProps } from './TagPicker';
 import { EntityMetadataProperties } from './EntityMetadataProperties'
+import { IWebApi, WebApi } from './WebApi';
 
 export abstract class TagPickerBaseComponent<TInputs, TOutputs> implements ComponentFramework.StandardControl<TInputs, TOutputs> {
 	/**
@@ -22,7 +23,12 @@ export abstract class TagPickerBaseComponent<TInputs, TOutputs> implements Compo
 	 */
     private context: ComponentFramework.Context<TInputs>;
 	private notifyOutputChanged: () => void;
-    public container: HTMLDivElement;
+	public container: HTMLDivElement;
+
+	/**
+	 * WebApi reference
+	 */
+	private webAPI: IWebApi;
 
 	/**
 	 * Properties related to the current entity.
@@ -68,7 +74,8 @@ export abstract class TagPickerBaseComponent<TInputs, TOutputs> implements Compo
         this.notifyOutputChanged = notifyOutputChanged;
 		this.container = container;
 
-		this.context.webAPI.clientUrl = (<any>this.context).page.getClientUrl();
+		const clientUrl = (<any>this.context).page.getClientUrl();
+		this.webAPI = new WebApi(this.context.webAPI, clientUrl);
 
         this.entityId = (<any>this.context).page.entityId;
 		this.entityType =  (<any>this.context).page.entityTypeName;
@@ -124,7 +131,7 @@ export abstract class TagPickerBaseComponent<TInputs, TOutputs> implements Compo
 	 */
 	private getRelatedEntities(): Promise<ComponentFramework.WebApi.Entity[]> {
 		const options = `?$filter=${this.entityType}id eq ${this.entityId}`;
-		return this.context.webAPI.retrieveMultipleRecords(this.relationshipEntity, options).then(
+		return this.webAPI.retrieveMultipleRecords(this.relationshipEntity, options).then(
 			results => { return results.entities; }
 		);
 	}
@@ -142,7 +149,7 @@ export abstract class TagPickerBaseComponent<TInputs, TOutputs> implements Compo
 		for(let entity of entities) {
 			const relatedEntityId = entity[this.idAttribute];
 			const options = `?$select=${this.idAttribute},${this.nameAttribute}`;
-			promises.push(this.context.webAPI.retrieveRecord(this.relatedEntity, relatedEntityId, options));
+			promises.push(this.webAPI.retrieveRecord(this.relatedEntity, relatedEntityId, options));
 		}
 
 		return Promise.all(promises).then(
@@ -182,7 +189,7 @@ export abstract class TagPickerBaseComponent<TInputs, TOutputs> implements Compo
 		if (filter)
 			options = `${options}&$filter=contains(${this.nameAttribute},'${filter}')`;
 
-		return this.context.webAPI.retrieveMultipleRecords(this.relatedEntity, options).then(
+		return this.webAPI.retrieveMultipleRecords(this.relatedEntity, options).then(
 			results => {
 				if (results.entities.length < 1)
 					return [];
@@ -234,7 +241,7 @@ export abstract class TagPickerBaseComponent<TInputs, TOutputs> implements Compo
 		const parentSetName: string = this.entityMetadata[EntityMetadataProperties.EntitySetName];
 		const childSetName: string = this.relatedEntityMetadata[EntityMetadataProperties.EntitySetName];
 
-		return this.context.webAPI.associateRecord(parentSetName, this.entityId, this.relationshipName, childSetName, item.key);
+		return this.webAPI.associateRecord(parentSetName, this.entityId, this.relationshipName, childSetName, item.key);
 	}
 
 	/**
@@ -244,6 +251,6 @@ export abstract class TagPickerBaseComponent<TInputs, TOutputs> implements Compo
 	private disassociateItem(item: ITag): Promise<Response> {
 		const parentSetName: string = this.entityMetadata[EntityMetadataProperties.EntitySetName];
 
-		return this.context.webAPI.disassociateRecord(parentSetName, this.entityId, this.relationshipName, item.key);
+		return this.webAPI.disassociateRecord(parentSetName, this.entityId, this.relationshipName, item.key);
 	}
 }
