@@ -6,7 +6,11 @@ import { initializeIcons } from 'office-ui-fabric-react/lib/Icons';
 initializeIcons();
 
 export interface ITagPickerProps {
-  selectedItems?: ITag[],
+  inputLabel?:string;
+  noResultsFoundLabel?: string;
+  removeButtonLabel?: string;
+
+  selectedItems?: ITag[];
   onChange?: (items?: ITag[]) => void;
   onEmptyInputFocus?: (selectedItems?: ITag[]) => Promise<ITag[]>;
 	onResolveSuggestions?: (filter: string, selectedItems?: ITag[]) => Promise<ITag[]>;
@@ -29,12 +33,12 @@ export class TagPickerBase extends React.Component<ITagPickerProps, ITagPickerSt
   }
 
   public render(): JSX.Element {
-    const { tagDisplayName, selectedItems } = this.state;
+    const { selectedItems } = this.state;
 
     return (
       <div className={"tagPickerComponent"}>
         <TagPicker
-          removeButtonAriaLabel="Remove"
+          removeButtonAriaLabel={this.props.removeButtonLabel}
           selectedItems={selectedItems}
           onChange={this._onChange}
           onItemSelected={this._onItemSelected}
@@ -42,11 +46,11 @@ export class TagPickerBase extends React.Component<ITagPickerProps, ITagPickerSt
           onEmptyInputFocus={this._onEmptyInputFocus}
           getTextFromItem={this._getTextFromItem}
           pickerSuggestionsProps={{
-            noResultsFoundText: `No ${tagDisplayName} Found`
+            noResultsFoundText: this.props.noResultsFoundLabel
           }}
           resolveDelay={300}
           inputProps={{
-            'aria-label': `${tagDisplayName} Picker`
+            'aria-label': this.props.inputLabel
           }}
         />
       </div>

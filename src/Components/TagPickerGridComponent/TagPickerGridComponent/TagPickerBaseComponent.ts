@@ -81,6 +81,10 @@ export abstract class TagPickerBaseComponent<TInputs, TOutputs> implements Compo
         this.entityId = (<any>this.context).page.entityId;
 		this.entityType =  (<any>this.context).page.entityTypeName;
 
+		this.props.inputLabel = this.context.resources.getString("tagPicker");
+		this.props.noResultsFoundLabel = this.context.resources.getString("noResultsFound");
+		this.props.removeButtonLabel = this.context.resources.getString("remove");
+
 		this.props.labelText = this.labelText;
 
         this.loadMetadata().then(() => {
