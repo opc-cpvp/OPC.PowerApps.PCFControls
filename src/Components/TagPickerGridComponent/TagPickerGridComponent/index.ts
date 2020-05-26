@@ -41,7 +41,7 @@ export class TagPickerGridComponent extends TagPickerBaseComponent<IInputs, IOut
     public destroy(): void {
         super.destroy();
 
-        if (this.observer !== null)
+        if (this.observer !== undefined)
             this.observer.disconnect();
     }
 
@@ -60,7 +60,7 @@ export class TagPickerGridComponent extends TagPickerBaseComponent<IInputs, IOut
         this.container.classList.add(TagPickerGridComponent.ContainerClass);
 
         // exit if the observer is already configured
-        if (this.observer !== null)
+        if (this.observer !== undefined)
             return;
 
         const bodyContainer = this.getBodyContainer();
