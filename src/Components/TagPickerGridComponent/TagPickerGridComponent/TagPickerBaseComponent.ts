@@ -147,10 +147,13 @@ export abstract class TagPickerBaseComponent<TInputs, TOutputs> implements Compo
             translations.set(language, label);
         }
 
-        const languageId: string = (<any>this.context).orgSettings.languageId;
-        const currentLanguage: Languages = (<any>Languages)[languageId] ?? Languages.en;
+        const languageId: number = (<any>this.context).userSettings.languageId;
+        const userLanguage: Languages = (<any>Languages)[languageId];
 
-        return translations.get(currentLanguage) ?? "";
+        // check if the user language is supported, otherwise default to English
+        const labelLanguage: number = userLanguage ? languageId : Languages.en;
+
+        return translations.get(labelLanguage) ?? "";
     }
 
     /**
