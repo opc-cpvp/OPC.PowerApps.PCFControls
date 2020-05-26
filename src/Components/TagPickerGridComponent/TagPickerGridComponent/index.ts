@@ -64,7 +64,7 @@ export class TagPickerGridComponent extends TagPickerBaseComponent<IInputs, IOut
     this.container.classList.add(TagPickerGridComponent.ContainerClass);
 
     // exit if the observer is already configured
-    if (this.observer != null)
+    if (this.observer !== null)
       return;
 
 		const bodyContainer = this.getBodyContainer();
@@ -98,7 +98,7 @@ export class TagPickerGridComponent extends TagPickerBaseComponent<IInputs, IOut
 	private getBodyContainer(): HTMLElement | null {
 		let parent = this.container.parentElement;
 
-        while (parent != null) {
+        while (parent !== null) {
             if (!parent?.hasAttribute("data-id")) {
                 parent = parent.parentElement;
                 continue;
