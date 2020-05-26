@@ -2,6 +2,12 @@ import {IInputs, IOutputs} from "./generated/ManifestTypes"
 import { TagPickerBaseComponent } from "./TagPickerBaseComponent"
 
 export class TagPickerGridComponent extends TagPickerBaseComponent<IInputs, IOutputs> {
+	public static readonly BodyContainerDataId = "data-set-body-container";
+	public static readonly BodyContainerClass = "tagPickerGridBodyContainer";
+	public static readonly ContainerClass = "tagPickerGridContainer";
+
+	private observer: MutationObserver;
+
 	/**
 	 * Empty constructor.
 	 */
@@ -29,6 +35,19 @@ export class TagPickerGridComponent extends TagPickerBaseComponent<IInputs, IOut
 		super.init(context, notifyOutputChanged, state, container);
 	}
 
+	public updateView(context: ComponentFramework.Context<IInputs>): void {
+		super.updateView(context);
+
+		this.applyContainerStyles();
+	}
+
+	public destroy(): void {
+		super.destroy();
+
+		if (this.observer !== null)
+			this.observer.disconnect();
+	}
+
 	/**
 	 * It is called by the framework prior to a control receiving new data.
 	 * @returns an object based on nomenclature defined in manifest, expecting object[s] for property marked as “bound” or “output”
@@ -36,5 +55,62 @@ export class TagPickerGridComponent extends TagPickerBaseComponent<IInputs, IOut
 	public getOutputs(): IOutputs
 	{
 		return {};
+	}
+
+	/**
+	 * Applies the styles to the container.
+	 */
+	private applyContainerStyles(): void {
+    this.container.classList.add(TagPickerGridComponent.ContainerClass);
+
+    // exit if the observer is already configured
+    if (this.observer !== null)
+      return;
+
+		const bodyContainer = this.getBodyContainer();
+
+		if (bodyContainer !== null) {
+			bodyContainer.classList.add(TagPickerGridComponent.BodyContainerClass);
+
+			const options: MutationObserverInit = {
+				attributes: true,
+				attributeFilter: ["class"],
+				childList: false
+			};
+
+			// Add an observer to watch for changes to the container class attribute
+			this.observer = new MutationObserver((mutations, observer) => {
+				observer.disconnect();
+
+				if (!bodyContainer.classList.contains(TagPickerGridComponent.BodyContainerClass))
+					bodyContainer.classList.add(TagPickerGridComponent.BodyContainerClass);
+
+				observer.observe(bodyContainer, options);
+			});
+
+			this.observer.observe(bodyContainer, options);
+		}
+	}
+
+	/**
+	 * Retrieves the body container of the grid.
+	 */
+	private getBodyContainer(): HTMLElement | null {
+		let parent = this.container.parentElement;
+
+        while (parent !== null) {
+            if (!parent?.hasAttribute("data-id")) {
+                parent = parent.parentElement;
+                continue;
+			}
+
+			const dataId = parent.getAttribute("data-id");
+			parent = parent.parentElement;
+
+            if (dataId === TagPickerGridComponent.BodyContainerDataId)
+                break;
+		}
+
+        return parent;
 	}
 }
