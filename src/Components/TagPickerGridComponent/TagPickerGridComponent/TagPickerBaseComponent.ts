@@ -4,6 +4,7 @@ import { ITag } from 'office-ui-fabric-react/lib/Pickers';
 import { TagPickerBase, ITagPickerProps } from './TagPicker';
 import { EntityMetadataProperties } from './EntityMetadataProperties'
 import { IWebApi, WebApi } from './WebApi';
+import { Languages } from './Languages';
 
 export abstract class TagPickerBaseComponent<TInputs, TOutputs> implements ComponentFramework.StandardControl<TInputs, TOutputs> {
     /**
@@ -84,7 +85,7 @@ export abstract class TagPickerBaseComponent<TInputs, TOutputs> implements Compo
         this.props.noResultsFoundLabel = this.context.resources.getString("noResultsFound");
         this.props.removeButtonLabel = this.context.resources.getString("remove");
 
-        this.props.labelText = this.labelText;
+        this.props.labelText = this.getLabelText();
 
         this.loadMetadata().then(() => {
             return this.getRelatedEntities();
@@ -118,6 +119,38 @@ export abstract class TagPickerBaseComponent<TInputs, TOutputs> implements Compo
      */
     destroy(): void {
         ReactDOM.unmountComponentAtNode(this.container);
+    }
+
+    /**
+     * Retrieves the label based on the current language.
+     */
+    private getLabelText(): string {
+        if (this.labelText.indexOf("|") === -1)
+            return this.labelText;
+
+        // load the translations from the label
+        const translations = new Map<Languages, string>();
+        for (const translation of this.labelText.split("|")) {
+            const values: string[] = translation.split("=");
+
+            // check if the string is formatted correctly
+            if (values.length !== 2)
+                continue;
+
+            const language: Languages = (<any>Languages)[values[0]];
+
+            // check if the language is supported
+            if (language === undefined)
+                continue;
+
+            const label: string = values[1];
+            translations.set(language, label);
+        }
+
+        const languageId: string = (<any>this.context).orgSettings.languageId;
+        const currentLanguage: Languages = (<any>Languages)[languageId] ?? Languages.en;
+
+        return translations.get(currentLanguage) ?? "";
     }
 
     /**
