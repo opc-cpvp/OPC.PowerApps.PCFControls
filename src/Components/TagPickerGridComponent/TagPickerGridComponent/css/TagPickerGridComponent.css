@@ -13,6 +13,10 @@
     border-color: rgb(207, 205, 204);
 }
 
+.tagPickerGridComponent .ms-TagItem {
+    margin: 4px 4px 4px 0px;
+}
+
 .tagPickerGridComponent i {
     height: 14px;
     margin-left: 0.25em;

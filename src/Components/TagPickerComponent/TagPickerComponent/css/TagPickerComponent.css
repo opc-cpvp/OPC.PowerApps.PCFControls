@@ -1,3 +1,7 @@
 .tagPickerComponent .ms-BasePicker-text {
     border-color: rgb(207, 205, 204);
 }
+
+.tagPickerComponent .ms-TagItem {
+    margin: 4px 4px 4px 0px;
+}
