@@ -61,6 +61,12 @@ export class TagPickerGridComponent extends TagPickerBaseComponent<IInputs, IOut
 	 * Applies the styles to the container.
 	 */
 	private applyContainerStyles(): void {
+    this.container.classList.add(TagPickerGridComponent.ContainerClass);
+
+    // exit if the observer is already configured
+    if (this.observer != null)
+      return;
+
 		const bodyContainer = this.getBodyContainer();
 
 		if (bodyContainer !== null) {
@@ -84,8 +90,6 @@ export class TagPickerGridComponent extends TagPickerBaseComponent<IInputs, IOut
 
 			this.observer.observe(bodyContainer, options);
 		}
-
-		this.container.classList.add(TagPickerGridComponent.ContainerClass);
 	}
 
 	/**
