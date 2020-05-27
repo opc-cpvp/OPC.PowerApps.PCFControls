@@ -118,55 +118,55 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="TagPickerComponent_Display_Key" xml:space="preserve">
-    <value>Tag Picker Component</value>
-    <comment>Display text for Tag Picker Component</comment>
+    <value>Composant de sélecteur d'étiquettes</value>
+    <comment>Nom d'affichage du composant de sélecteur d'étiquettes</comment>
   </data>
   <data name="TagPickerComponent_Desc_Key" xml:space="preserve">
-    <value>Allow users to select multiple items and display them using tags</value>
-    <comment>Display text for TagPickerComponent description</comment>
+    <value>Permet à l'utilisateur de sélectionner plusieurs items et des afficher à l'aide d'étiquettes</value>
+    <comment>Texte d'affichage de la description du composant de sélecteur d'étiquettes</comment>
   </data>
   <data name="tagData_Display_Key" xml:space="preserve">
-    <value>Tag Data</value>
-    <comment>Display text for Tag Data</comment>
+    <value>Information d'étiquettes</value>
+    <comment>Texte d'affichage de l'information d'étiquettes</comment>
   </data>
   <data name="tagData_Desc_Key" xml:space="preserve">
-    <value>Stores the temporary values required for the creation of the related entities</value>
+    <value>Stoke les valuers temporaire requises pour créer les entités liée</value>
     <comment>Display text for Tag Data description</comment>
   </data>
   <data name="relatedEntity_Display_Key" xml:space="preserve">
-    <value>Related Entity</value>
-    <comment>Display text for Related Entity</comment>
+    <value>Entité liée</value>
+    <comment>Texte d'affichage de l'entité liée</comment>
   </data>
   <data name="relatedEntity_Desc_Key" xml:space="preserve">
-    <value>Logical name of the related entity</value>
-    <comment>Display text for Related Entity description</comment>
+    <value>Nom logique de l'entité liée</value>
+    <comment>Texte d'affichage de la description de l'entité liée</comment>
   </data>
   <data name="relationshipName_Display_Key" xml:space="preserve">
-    <value>Relationship Name</value>
-    <comment>Display text for Relationship Name</comment>
+    <value>Nom de la relation</value>
+    <comment>Texte d'affichage pour le nom de la relation</comment>
   </data>
   <data name="relationshipName_Desc_Key" xml:space="preserve">
-    <value>Relationship name between the primary entity and the related entity</value>
-    <comment>Display text for Relationship Name description</comment>
+    <value>Nom de la relation entre l'entité primaire et l'entité liée</value>
+    <comment>Texte d'affichage poue la description du nom de la relation</comment>
   </data>
   <data name="relationshipEntity_Display_Key" xml:space="preserve">
-    <value>Relationship Entity</value>
-    <comment>Display text for Relationship Entity</comment>
+    <value>Nom d'entité de relation</value>
+    <comment>Texte d'affichage du nom d'entité de relation</comment>
   </data>
   <data name="relationshipEntity_Desc_Key" xml:space="preserve">
-    <value>Logical name of the relationship entity</value>
-    <comment>Display text for Relationship Entity description</comment>
+    <value>Nom logique de l'entité de relation</value>
+    <comment>Texte d'affichage de la description du nom logique de l'entité de relation</comment>
   </data>
   <data name="remove" xml:space="preserve">
-    <value>Remove</value>
-    <comment>Display text for the remove button</comment>
+    <value>Supprimer</value>
+    <comment>Texte d'affichage du bouton supprimer</comment>
   </data>
   <data name="noResultsFound" xml:space="preserve">
-    <value>No Results Found</value>
-    <comment>Display text for when no results are found</comment>
+    <value>Aucun résultat</value>
+    <comment>Texte d'affichage lorsque aucun résultat a été trouvé</comment>
   </data>
   <data name="tagPicker" xml:space="preserve">
-    <value>Tag Picker</value>
-    <comment>Display text for the tag picker input field</comment>
+    <value>Sélecteur d'étiquettes</value>
+    <comment>Texte d'affichage du champ d'entrée de sélecteur d'étiquettes</comment>
   </data>
 </root>

@@ -118,27 +118,23 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="TagPickerGridComponent_Display_Key" xml:space="preserve">
-    <value>TagPickerGridComponent</value>
-    <comment>Display text for TagPickerGridComponent</comment>
+    <value>Tag Picker Grid Component</value>
+    <comment>Tag Picker Grid Component display name</comment>
   </data>
   <data name="TagPickerGridComponent_Desc_Key" xml:space="preserve">
-    <value>TagPickerGridComponent</value>
+    <value>Allow users to select multiple items and display them using tags</value>
     <comment>Display text for TagPickerGridComponent description</comment>
   </data>
   <data name="tagData_Display_Key" xml:space="preserve">
     <value>Tag Data</value>
     <comment>Display text for Tag Data</comment>
   </data>
-  <data name="tagData_Desc_Key" xml:space="preserve">
-    <value>Tag Data</value>
-    <comment>Display text for Tag Data description</comment>
-  </data>
   <data name="relatedEntity_Display_Key" xml:space="preserve">
     <value>Related Entity</value>
     <comment>Display text for Related Entity</comment>
   </data>
   <data name="relatedEntity_Desc_Key" xml:space="preserve">
-    <value>Related Entity</value>
+    <value>Logical name of the related entity</value>
     <comment>Display text for Related Entity description</comment>
   </data>
   <data name="relationshipName_Display_Key" xml:space="preserve">
@@ -146,7 +142,7 @@
     <comment>Display text for Relationship Name</comment>
   </data>
   <data name="relationshipName_Desc_Key" xml:space="preserve">
-    <value>Relationship Name</value>
+    <value>Relationship name between the primary entity and the related entity</value>
     <comment>Display text for Relationship Name description</comment>
   </data>
   <data name="relationshipEntity_Display_Key" xml:space="preserve">
@@ -154,7 +150,7 @@
     <comment>Display text for Relationship Entity</comment>
   </data>
   <data name="relationshipEntity_Desc_Key" xml:space="preserve">
-    <value>Relationship Entity</value>
+    <value>Logical name of the relationship entity</value>
     <comment>Display text for Relationship Entity description</comment>
   </data>
   <data name="labelText_Display_Key" xml:space="preserve">
@@ -162,7 +158,19 @@
     <comment>Display text for Label Text</comment>
   </data>
   <data name="labelText_Desc_Key" xml:space="preserve">
-    <value>Label Text</value>
+    <value>Field label that will be displayed on the form</value>
     <comment>Display text for Label Text description</comment>
+  </data>
+  <data name="remove" xml:space="preserve">
+    <value>Remove</value>
+    <comment>Display text for the remove button</comment>
+  </data>
+  <data name="noResultsFound" xml:space="preserve">
+    <value>No Results Found</value>
+    <comment>Display text for when no results are found</comment>
+  </data>
+  <data name="tagPicker" xml:space="preserve">
+    <value>Tag Picker</value>
+    <comment>Display text for the tag picker input field</comment>
   </data>
 </root>

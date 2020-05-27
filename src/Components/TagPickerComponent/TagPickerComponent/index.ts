@@ -16,8 +16,7 @@ export class TagPickerComponent extends TagPickerBaseComponent<IInputs, IOutputs
 	/**
 	 * Empty constructor.
 	 */
-	constructor()
-	{
+	constructor() {
 		super();
 	}
 
@@ -29,8 +28,7 @@ export class TagPickerComponent extends TagPickerBaseComponent<IInputs, IOutputs
 	 * @param state A piece of data that persists in one session for a single user. Can be set at any point in a controls life cycle by calling 'setControlState' in the Mode interface.
 	 * @param container If a control is marked control-type='starndard', it will receive an empty div element within which it can render its content.
 	 */
-	public init(context: ComponentFramework.Context<IInputs>, notifyOutputChanged: () => void, state: ComponentFramework.Dictionary, container:HTMLDivElement)
-	{
+	public init(context: ComponentFramework.Context<IInputs>, notifyOutputChanged: () => void, state: ComponentFramework.Dictionary, container:HTMLDivElement) {
 		this.relatedEntity = context.parameters.relatedEntity.raw || "";
 		this.relationshipEntity = context.parameters.relationshipEntity.raw || "";
 		this.relationshipName = context.parameters.relationshipName.raw || "";
