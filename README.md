@@ -8,8 +8,8 @@
 Collection of PowerApps PCF Controls.
 
 Controls:
-- TagPickerComponent
-- TagPickerGridComponent
+- [TagPickerComponent](#tagpickercomponent)
+- [TagPickerGridComponent](#tagpickergridcomponent)
 
 Plugins:
 - TagRegistrationPlugin
@@ -53,6 +53,34 @@ Run the following command from the `Solution` folder in order to build the solut
 ```
 msbuild /t:clean;build /p:Configuration=Release /restore
 ```
+
+## TagPickerComponent
+
+### Purpose
+
+The purpose of this control is to allow user to associate / disassociate records for a many-to-many relationship in the form of tags. This also works when creating an entity for the first time.
+
+### Configuration
+
+|Parameter|Description|Required|Bound to an attribute|
+|---------|-----------|:----:|:---:|
+|**Tag Data**|Stores the temporary values required for the creation of the related entities|X|X|
+|**Related Entity**|Logical name of the related entity|X||
+|**Relationship Name**|Relationship name between the primary entity and the related entity|X||
+|**Relationship Entity**|Logical name of the relationship entity|X||
+
+## TagPickerGridComponent
+
+The purpose of this control is to allow user to associate / disassociate records for a many-to-many relationship in the form of tags.
+
+### Configuration
+
+|Parameter|Description|Required|Bound to an attribute|
+|---------|-----------|:----:|:---:|
+|**Related Entity**|Logical name of the related entity|X||
+|**Relationship Name**|Relationship name between the primary entity and the related entity|X||
+|**Relationship Entity**|Logical name of the relationship entity|X||
+|**Label Text**|Field label that will be displayed on the form. It currently accepts the following formats: Label or en=Label\|fr=Étiquette|X||
 
 ## Versioning
 
