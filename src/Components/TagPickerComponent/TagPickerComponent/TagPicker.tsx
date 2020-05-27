@@ -11,7 +11,7 @@ export interface ITagPickerLabelProps {
 }
 
 export interface ITagPickerProps {
-    labels: ITagPickerLabelProps;
+    labels?: ITagPickerLabelProps;
     selectedItems?: ITag[];
     onChange?: (items?: ITag[]) => void;
     onEmptyInputFocus?: (selectedItems?: ITag[]) => Promise<ITag[]>;
@@ -26,7 +26,6 @@ export class TagPickerBase extends React.Component<ITagPickerProps, ITagPickerSt
         super(props);
 
         this.state = {
-            labels: props.labels,
             selectedItems: props.selectedItems || []
         };
     }
@@ -41,7 +40,7 @@ export class TagPickerBase extends React.Component<ITagPickerProps, ITagPickerSt
         return (
             <div className={"tagPickerComponent"}>
                 <TagPicker
-                    removeButtonAriaLabel={this.props.labels.removeButton}
+                    removeButtonAriaLabel={this.props.labels?.removeButton}
                     selectedItems={selectedItems}
                     onChange={this._onChange}
                     onItemSelected={this._onItemSelected}
@@ -49,11 +48,11 @@ export class TagPickerBase extends React.Component<ITagPickerProps, ITagPickerSt
                     onEmptyInputFocus={this._onEmptyInputFocus}
                     getTextFromItem={this._getTextFromItem}
                     pickerSuggestionsProps={{
-                        noResultsFoundText: this.props.labels.noResultsFound
+                        noResultsFoundText: this.props.labels?.noResultsFound
                     }}
                     resolveDelay={300}
                     inputProps={{
-                        'aria-label': this.props.labels.input
+                        'aria-label': this.props.labels?.input
                     }}
                 />
             </div>

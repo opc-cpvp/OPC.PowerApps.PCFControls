@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { ITag } from 'office-ui-fabric-react/lib/Pickers';
-import { TagPickerBase, ITagPickerProps, ITagPickerLabelProps } from './TagPicker';
+import { TagPickerBase, ITagPickerProps } from './TagPicker';
 import { EntityMetadataProperties } from './EntityMetadataProperties'
 import { IWebApi, WebApi } from './WebApi';
 import { Languages } from './Languages';
@@ -82,9 +82,11 @@ export abstract class TagPickerBaseComponent<TInputs, TOutputs> implements Compo
         this.entityId = (<any>this.context).page.entityId;
         this.entityType =  (<any>this.context).page.entityTypeName;
 
-        this.props.labels.input = this.context.resources.getString("tagPicker");
-        this.props.labels.noResultsFound = this.context.resources.getString("noResultsFound");
-        this.props.labels.removeButton = this.context.resources.getString("remove");
+        this.props.labels = {
+            input: this.context.resources.getString("tagPicker"),
+            noResultsFound: this.context.resources.getString("noResultsFound"),
+            removeButton: this.context.resources.getString("remove")
+        };
 
         this.props.labelText = this.getLabelText();
 
