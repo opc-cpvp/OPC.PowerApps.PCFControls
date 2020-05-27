@@ -4,11 +4,14 @@ import { initializeIcons } from 'office-ui-fabric-react/lib/Icons';
 
 initializeIcons();
 
-export interface ITagPickerProps {
-    inputLabel?:string;
-    noResultsFoundLabel?: string;
-    removeButtonLabel?: string;
+export interface ITagPickerLabelProps {
+    input?: string;
+    noResultsFound?: string;
+    removeButton?: string;
+}
 
+export interface ITagPickerProps {
+    labels: ITagPickerLabelProps;
     selectedItems?: ITag[];
     onChange?: (items?: ITag[]) => void;
     onEmptyInputFocus?: (selectedItems?: ITag[]) => Promise<ITag[]>;
@@ -23,7 +26,8 @@ export class TagPickerBase extends React.Component<ITagPickerProps, ITagPickerSt
         super(props);
 
         this.state = {
-        selectedItems: props.selectedItems || []
+            labels: props.labels,
+            selectedItems: props.selectedItems || []
         };
     }
 
@@ -37,7 +41,7 @@ export class TagPickerBase extends React.Component<ITagPickerProps, ITagPickerSt
         return (
             <div className={"tagPickerComponent"}>
                 <TagPicker
-                    removeButtonAriaLabel={this.props.removeButtonLabel}
+                    removeButtonAriaLabel={this.props.labels.removeButton}
                     selectedItems={selectedItems}
                     onChange={this._onChange}
                     onItemSelected={this._onItemSelected}
@@ -45,11 +49,11 @@ export class TagPickerBase extends React.Component<ITagPickerProps, ITagPickerSt
                     onEmptyInputFocus={this._onEmptyInputFocus}
                     getTextFromItem={this._getTextFromItem}
                     pickerSuggestionsProps={{
-                        noResultsFoundText: this.props.noResultsFoundLabel
+                        noResultsFoundText: this.props.labels.noResultsFound
                     }}
                     resolveDelay={300}
                     inputProps={{
-                        'aria-label': this.props.inputLabel
+                        'aria-label': this.props.labels.input
                     }}
                 />
             </div>

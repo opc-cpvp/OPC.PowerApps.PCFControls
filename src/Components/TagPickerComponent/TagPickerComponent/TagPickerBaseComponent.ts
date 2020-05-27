@@ -46,6 +46,7 @@ export abstract class TagPickerBaseComponent<TInputs, TOutputs> implements Compo
      * React component properties.
      */
     private props: ITagPickerProps = {
+        labels: {},
         onChange: this.onChange.bind(this),
         onEmptyInputFocus: this.onEmptyInputFocus.bind(this),
         onResolveSuggestions: this.onResolveSuggestions.bind(this)
@@ -79,9 +80,9 @@ export abstract class TagPickerBaseComponent<TInputs, TOutputs> implements Compo
         const clientUrl = (<any>this.context).page.getClientUrl();
         this.webAPI = new WebApi(this.context.webAPI, clientUrl);
 
-        this.props.inputLabel = this.context.resources.getString("tagPicker");
-        this.props.noResultsFoundLabel = this.context.resources.getString("noResultsFound");
-        this.props.removeButtonLabel = this.context.resources.getString("remove");
+        this.props.labels.input = this.context.resources.getString("tagPicker");
+        this.props.labels.noResultsFound = this.context.resources.getString("noResultsFound");
+        this.props.labels.removeButton = this.context.resources.getString("remove");
 
         this.entityId = (<any>this.context).page.entityId;
         this.entityType = (<any>this.context).page.entityTypeName;
@@ -214,16 +215,20 @@ export abstract class TagPickerBaseComponent<TInputs, TOutputs> implements Compo
         // We only need to associate / dissasociate items when the entity exists.
         if (entityExists)
         {
+            const parentSetName: string = this.entityMetadata[EntityMetadataProperties.EntitySetName];
+
             // Associate the added items.
             const itemsAdded = items?.filter(item => !this.selectedItems.some(selectedItem => selectedItem.key === item.key)) || [];
             for(let item of itemsAdded) {
-                promises.push(this.associateItem(item));
+                const childSetName: string = this.relatedEntityMetadata[EntityMetadataProperties.EntitySetName];
+
+                promises.push(this.webAPI.associateRecord(parentSetName, this.entityId, this.relationshipName, childSetName, item.key));
             }
 
             // Disassociate the removed items.
             const itemsRemoved = this.selectedItems.filter(selectedItem => !items?.some(item => item.key === selectedItem.key));
             for (let item of itemsRemoved) {
-                promises.push(this.disassociateItem(item));
+                promises.push(this.webAPI.disassociateRecord(parentSetName, this.entityId, this.relationshipName, item.key));
             }
         }
 
@@ -235,26 +240,5 @@ export abstract class TagPickerBaseComponent<TInputs, TOutputs> implements Compo
                     this.notifyOutputChanged();
             }
         );
-    }
-
-    /**
-     * Associate the item with the entity.
-     * @param item The item to associate.
-     */
-    private associateItem(item: ITag): Promise<Response> {
-        const parentSetName: string = this.entityMetadata[EntityMetadataProperties.EntitySetName];
-        const childSetName: string = this.relatedEntityMetadata[EntityMetadataProperties.EntitySetName];
-
-        return this.webAPI.associateRecord(parentSetName, this.entityId, this.relationshipName, childSetName, item.key);
-    }
-
-    /**
-     * Disassociate the item with the entity.
-     * @param item The item to disassociate.
-     */
-    private disassociateItem(item: ITag): Promise<Response> {
-        const parentSetName: string = this.entityMetadata[EntityMetadataProperties.EntitySetName];
-
-        return this.webAPI.disassociateRecord(parentSetName, this.entityId, this.relationshipName, item.key);
     }
 }

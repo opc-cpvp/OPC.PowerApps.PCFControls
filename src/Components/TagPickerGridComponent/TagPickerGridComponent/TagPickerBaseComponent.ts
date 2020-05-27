@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { ITag } from 'office-ui-fabric-react/lib/Pickers';
-import { TagPickerBase, ITagPickerProps } from './TagPicker';
+import { TagPickerBase, ITagPickerProps, ITagPickerLabelProps } from './TagPicker';
 import { EntityMetadataProperties } from './EntityMetadataProperties'
 import { IWebApi, WebApi } from './WebApi';
 import { Languages } from './Languages';
@@ -48,6 +48,7 @@ export abstract class TagPickerBaseComponent<TInputs, TOutputs> implements Compo
      * React component properties.
      */
     private props: ITagPickerProps = {
+        labels: {},
         onChange: this.onChange.bind(this),
         onEmptyInputFocus: this.onEmptyInputFocus.bind(this),
         onResolveSuggestions: this.onResolveSuggestions.bind(this)
@@ -81,9 +82,9 @@ export abstract class TagPickerBaseComponent<TInputs, TOutputs> implements Compo
         this.entityId = (<any>this.context).page.entityId;
         this.entityType =  (<any>this.context).page.entityTypeName;
 
-        this.props.inputLabel = this.context.resources.getString("tagPicker");
-        this.props.noResultsFoundLabel = this.context.resources.getString("noResultsFound");
-        this.props.removeButtonLabel = this.context.resources.getString("remove");
+        this.props.labels.input = this.context.resources.getString("tagPicker");
+        this.props.labels.noResultsFound = this.context.resources.getString("noResultsFound");
+        this.props.labels.removeButton = this.context.resources.getString("remove");
 
         this.props.labelText = this.getLabelText();
 
@@ -123,6 +124,9 @@ export abstract class TagPickerBaseComponent<TInputs, TOutputs> implements Compo
 
     /**
      * Retrieves the label based on the current language.
+     * Accepts the following formats:
+     *   - Label
+     *   - en=Label|fr=Étiquette
      */
     private getLabelText(): string {
         if (this.labelText.indexOf("|") === -1)
@@ -147,7 +151,7 @@ export abstract class TagPickerBaseComponent<TInputs, TOutputs> implements Compo
             translations.set(language, label);
         }
 
-        const languageId: number = (<any>this.context).userSettings.languageId;
+        const languageId: number = this.context.userSettings.languageId;
         const userLanguage: Languages = (<any>Languages)[languageId];
 
         // check if the user language is supported, otherwise default to English
@@ -250,16 +254,20 @@ export abstract class TagPickerBaseComponent<TInputs, TOutputs> implements Compo
         // We only need to associate / dissasociate items when the entity exists.
         if (entityExists)
         {
+            const parentSetName: string = this.entityMetadata[EntityMetadataProperties.EntitySetName];
+
             // Associate the added items.
             const itemsAdded = items?.filter(item => !this.selectedItems.some(selectedItem => selectedItem.key === item.key)) || [];
             for(let item of itemsAdded) {
-                promises.push(this.associateItem(item));
+                const childSetName: string = this.relatedEntityMetadata[EntityMetadataProperties.EntitySetName];
+
+                promises.push(this.webAPI.associateRecord(parentSetName, this.entityId, this.relationshipName, childSetName, item.key));
             }
 
             // Disassociate the removed items.
             const itemsRemoved = this.selectedItems.filter(selectedItem => !items?.some(item => item.key === selectedItem.key));
             for (let item of itemsRemoved) {
-                promises.push(this.disassociateItem(item));
+                promises.push(this.webAPI.disassociateRecord(parentSetName, this.entityId, this.relationshipName, item.key));
             }
         }
 
@@ -271,26 +279,5 @@ export abstract class TagPickerBaseComponent<TInputs, TOutputs> implements Compo
                     this.notifyOutputChanged();
             }
         );
-    }
-
-    /**
-     * Associate the item with the entity.
-     * @param item The item to associate.
-     */
-    private associateItem(item: ITag): Promise<Response> {
-        const parentSetName: string = this.entityMetadata[EntityMetadataProperties.EntitySetName];
-        const childSetName: string = this.relatedEntityMetadata[EntityMetadataProperties.EntitySetName];
-
-        return this.webAPI.associateRecord(parentSetName, this.entityId, this.relationshipName, childSetName, item.key);
-    }
-
-    /**
-     * Disassociate the item with the entity.
-     * @param item The item to disassociate.
-     */
-    private disassociateItem(item: ITag): Promise<Response> {
-        const parentSetName: string = this.entityMetadata[EntityMetadataProperties.EntitySetName];
-
-        return this.webAPI.disassociateRecord(parentSetName, this.entityId, this.relationshipName, item.key);
     }
 }
