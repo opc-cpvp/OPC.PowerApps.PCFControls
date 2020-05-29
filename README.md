@@ -56,6 +56,10 @@ msbuild /t:clean;build /p:Configuration=Release /restore
 
 ## TagPickerComponent
 
+### Preview
+
+![TagPickerComponent Preview](https://github.com/opc-cpvp/OPC.PowerApps.PCFControls/blob/master/img/tagpickercomponent.gif?raw=true)
+
 ### Purpose
 
 The purpose of this control is to allow user to associate / disassociate records for a many-to-many relationship in the form of tags. This also works when creating an entity for the first time.
@@ -70,6 +74,10 @@ The purpose of this control is to allow user to associate / disassociate records
 |**Relationship Entity**|Logical name of the relationship entity|X||
 
 ## TagPickerGridComponent
+
+### Preview
+
+![TagPickerGridComponent Preview](https://github.com/opc-cpvp/OPC.PowerApps.PCFControls/blob/master/img/tagpickergridcomponent.gif?raw=true)
 
 The purpose of this control is to allow user to associate / disassociate records for a many-to-many relationship in the form of tags.
 
