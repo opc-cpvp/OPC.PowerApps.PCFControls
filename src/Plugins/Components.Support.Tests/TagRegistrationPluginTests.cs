@@ -13,18 +13,6 @@ namespace Components.Support.Tests
     public class TagRegistrationPluginTests
     {
         const string relationshipName = "placeholder_tags";
-        private static TagRegistrationPlugin pluginInstance = null;
-
-        private static TagRegistrationPlugin PluginInstance
-        {
-            get
-            {
-                if (pluginInstance is null)
-                    pluginInstance = new TagRegistrationPlugin(string.Empty, string.Empty);
-
-                return pluginInstance;
-            }
-        }
 
         private static XrmFakedContext GenerateBaseContext()
         {
@@ -72,7 +60,7 @@ namespace Components.Support.Tests
                 context.Initialize(new Entity[] { tag, placeholder });
 
                 // Act
-                context.ExecutePluginWithTarget(PluginInstance, placeholder, PluginMessage.Create);
+                context.ExecutePluginWithTarget(new TagRegistrationPlugin(string.Empty, string.Empty), placeholder, PluginMessage.Create);
 
                 // Assert
                 var placeholderTags = context.CreateQuery<PlaceholderTags>().ToList();
@@ -103,7 +91,7 @@ namespace Components.Support.Tests
                 context.Initialize(new Entity[] { tag, placeholder });
 
                 // Act
-                context.ExecutePluginWithTarget(PluginInstance, placeholder, PluginMessage.Create);
+                context.ExecutePluginWithTarget(new TagRegistrationPlugin(string.Empty, string.Empty), placeholder, PluginMessage.Create);
 
                 // Assert
                 var placeholderTags = context.CreateQuery<PlaceholderTags>().ToList();
@@ -134,7 +122,7 @@ namespace Components.Support.Tests
                 context.Initialize(new Entity[] { tag, placeholder });
 
                 // Act
-                context.ExecutePluginWithTarget(PluginInstance, placeholder, PluginMessage.Create);
+                context.ExecutePluginWithTarget(new TagRegistrationPlugin(string.Empty, string.Empty), placeholder, PluginMessage.Create);
 
                 // Assert
                 var placeholderTags = context.CreateQuery<PlaceholderTags>().ToList();
@@ -165,7 +153,7 @@ namespace Components.Support.Tests
                 context.Initialize(new Entity[] { tag, placeholder });
 
                 // Act
-                context.ExecutePluginWithTarget(PluginInstance, placeholder, PluginMessage.Create);
+                context.ExecutePluginWithTarget(new TagRegistrationPlugin(string.Empty, string.Empty), placeholder, PluginMessage.Create);
 
                 // Assert
                 var placeholderTags = context.CreateQuery<PlaceholderTags>().ToList();
