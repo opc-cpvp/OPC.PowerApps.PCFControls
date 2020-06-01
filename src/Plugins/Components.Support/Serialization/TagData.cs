@@ -6,7 +6,7 @@ namespace Components.Support.Serialization
 {
     public class TagData
     {
-        public static readonly string Prefix = "TAGDATA:";
+        public const string Prefix = "TAGDATA:";
 
         [JsonProperty("relatedEntity")]
         public string RelatedEntity { get; set; }
