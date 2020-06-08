@@ -8,8 +8,8 @@
 Collection of PowerApps PCF Controls.
 
 Controls:
-- [TagPickerComponent](#tagpickercomponent)
-- [TagPickerGridComponent](#tagpickergridcomponent)
+- [Tag Picker Component](#tagpickercomponent)
+- [Tag Picker Grid Component](#tagpickergridcomponent)
 
 Plugins:
 - TagRegistrationPlugin
@@ -54,7 +54,7 @@ Run the following command from the `Solution` folder in order to build the solut
 msbuild /t:clean;build /p:Configuration=Release /restore
 ```
 
-## TagPickerComponent
+## Tag Picker Component
 
 [![dependencies Status](https://david-dm.org/opc-cpvp/OPC.PowerApps.PCFControls/status.svg?path=src/Components/TagPickerComponent)](https://david-dm.org/opc-cpvp/OPC.PowerApps.PCFControls?path=src/Components/TagPickerComponent) [![devDependencies Status](https://david-dm.org/opc-cpvp/OPC.PowerApps.PCFControls/dev-status.svg?path=src/Components/TagPickerComponent)](https://david-dm.org/opc-cpvp/OPC.PowerApps.PCFControls?path=src/Components/TagPickerComponent&type=dev)
 
@@ -75,7 +75,7 @@ The purpose of this control is to allow user to associate / disassociate records
 |**Relationship Name**|Relationship name between the primary entity and the related entity|X||
 |**Relationship Entity**|Logical name of the relationship entity|X||
 
-## TagPickerGridComponent
+## Tag Picker Grid Component
 
 [![dependencies Status](https://david-dm.org/opc-cpvp/OPC.PowerApps.PCFControls/status.svg?path=src/Components/TagPickerGridComponent)](https://david-dm.org/opc-cpvp/OPC.PowerApps.PCFControls?path=src/Components/TagPickerGridComponent) [![devDependencies Status](https://david-dm.org/opc-cpvp/OPC.PowerApps.PCFControls/dev-status.svg?path=src/Components/TagPickerGridComponent)](https://david-dm.org/opc-cpvp/OPC.PowerApps.PCFControls?path=src/Components/TagPickerGridComponent&type=dev)
 
