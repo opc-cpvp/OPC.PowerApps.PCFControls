@@ -8,8 +8,8 @@
 Collection of PowerApps PCF Controls.
 
 Controls:
-- [Tag Picker Component](#tagpickercomponent)
-- [Tag Picker Grid Component](#tagpickergridcomponent)
+- [Tag Picker Component](#tag-picker-component)
+- [Tag Picker Grid Component](#tag-picker-grid-component)
 
 Plugins:
 - TagRegistrationPlugin
