@@ -51,7 +51,7 @@ Open the solution `OPC.PowerApps.PCFControls.sln` from Visual Studio 2019 and bu
 Run the following command from the `Solution` folder in order to build the solution:
 
 ```
-msbuild /t:clean;build /p:Configuration=Release /restore
+msbuild /p:Configuration=Release /restore
 ```
 
 ## Tag Picker Component
