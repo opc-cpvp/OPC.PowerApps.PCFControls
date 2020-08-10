@@ -24,6 +24,12 @@ variables:
   BuildConfiguration: 'Release'
   Version.MajorMinor: '1.0'
   Version.Patch: $[counter(variables['Version.MajorMinor'], 0)]
+  ${{ if ne(variables['Build.SourceBranchName'], 'master') }}:
+    Version.PreRelease: $[format('-{0}', variables['Build.SourceBranchName'])]
+  ${{ if eq(variables['Build.SourceBranchName'], 'master') }}:
+    Version.PreRelease: ''
+
+name: $[format('{0}.{1}{2}', variables['Version.MajorMinor'], variables['Version.Patch'], variables['Version.PreRelease'])]
 
 steps:
 - task: WaelHamze.xrm-ci-framework-build-tasks.MSCRMToolInstaller.MSCRMToolInstaller@12
@@ -112,7 +118,8 @@ steps:
     repositoryName: '$(Build.Repository.Name)'
     action: 'create'
     target: '$(Build.SourceVersion)'
-    tagSource: 'gitTag'
+    tagSource: 'userSpecifiedTag'
+    tag: '$(Build.BuildNumber)'
     assets: '$(Build.ArtifactStagingDirectory)/**/Solution*.zip'
     changeLogCompareToRelease: 'lastFullRelease'
     changeLogType: 'commitBased'
