@@ -113,6 +113,7 @@ steps:
     TargetFolder: '$(build.artifactstagingdirectory)'
 
 - task: GitHubRelease@1
+  displayName: 'Publish Solution to GitHub'
   inputs:
     gitHubConnection: 'opc-buildbot'
     repositoryName: '$(Build.Repository.Name)'
