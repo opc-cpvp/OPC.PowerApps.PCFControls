@@ -96,7 +96,7 @@ The purpose of this control is to allow user to associate / disassociate records
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags).
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/opc-cpvp/OPC.PowerApps.PCFControls/tags).
 
 ## Authors
 
