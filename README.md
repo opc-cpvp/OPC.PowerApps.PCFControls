@@ -14,6 +14,10 @@ Controls:
 Plugins:
 - TagRegistrationPlugin
 
+## Download
+
+You can download the latest version of the managed / un-managed solution from the project's [releases](https://github.com/opc-cpvp/OPC.PowerApps.PCFControls/releases/latest).
+
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
