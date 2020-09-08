@@ -96,7 +96,7 @@ The purpose of this control is to allow user to associate / disassociate records
 |**Related Entity**|Logical name of the related entity|X||
 |**Relationship Name**|Relationship name between the primary entity and the related entity|X||
 |**Relationship Entity**|Logical name of the relationship entity|X||
-|**Label Text**|Field label that will be displayed on the form. It currently accepts the following formats: Label or en=Label\|fr=Étiquette|X||
+|**Label Text**|Field label that will be displayed on the form. It currently accepts the following formats: `Label` or `en=Label\|fr=Étiquette`|X||
 
 ## Versioning
 
