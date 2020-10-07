@@ -263,13 +263,13 @@ export abstract class TagPickerBaseComponent<TInputs, TOutputs> implements Compo
             for(let item of itemsAdded) {
                 const childSetName: string = this.relatedEntityMetadata[EntityMetadataProperties.EntitySetName];
 
-                promises.push(this.webAPI.associateRecord(parentSetName, this.entityId, this.relationshipName, childSetName, item.key));
+                promises.push(this.webAPI.associateRecord(parentSetName, this.entityId, this.relationshipName, childSetName, item.key.toString()));
             }
 
             // Disassociate the removed items.
             const itemsRemoved = this.selectedItems.filter(selectedItem => !items?.some(item => item.key === selectedItem.key));
             for (let item of itemsRemoved) {
-                promises.push(this.webAPI.disassociateRecord(parentSetName, this.entityId, this.relationshipName, item.key));
+                promises.push(this.webAPI.disassociateRecord(parentSetName, this.entityId, this.relationshipName, item.key.toString()));
             }
         }
 
