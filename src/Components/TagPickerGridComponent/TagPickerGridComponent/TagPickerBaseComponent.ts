@@ -210,7 +210,7 @@ export abstract class TagPickerBaseComponent<TInputs, TOutputs> implements Compo
      * @param selectedItems A collection of selected items.
      */
     private onEmptyInputFocus(selectedItems?: ITag[]): Promise<ITag[]> {
-        return this.searchTags();
+        return this.searchTags(undefined, selectedItems);
     }
 
     /**
@@ -221,15 +221,22 @@ export abstract class TagPickerBaseComponent<TInputs, TOutputs> implements Compo
      * @param selectedItems A collection of selected items.
      */
     private onResolveSuggestions(filter: string, selectedItems?: ITag[]): Promise<ITag[]> {
-        return this.searchTags(filter);
+        return this.searchTags(filter, selectedItems);
     }
+
+    private listContainsTagList(tag: ITag, tagList?: ITag[]): boolean {
+        if (!tagList || !tagList.length || tagList.length === 0) {
+          return false;
+        }
+        return tagList.some(compareTag => compareTag.key === tag.key);
+      };
 
     /**
      * Searches the related entity for a given filter.
      * Returns all the tags if no filter was given.
      * @param filter Text used to filter suggestions.
      */
-    private searchTags(filter?: string): Promise<ITag[]> {
+    private searchTags(filter?: string, selectedItems?: ITag[]): Promise<ITag[]> {
         let options = `?$select=${this.idAttribute},${this.nameAttribute}&$orderby=${this.nameAttribute} asc`;
 
         if (filter)
@@ -240,7 +247,9 @@ export abstract class TagPickerBaseComponent<TInputs, TOutputs> implements Compo
                 if (results.entities.length < 1)
                     return [];
 
-                return results.entities.map(item => ({ key: item[this.idAttribute], name: item[this.nameAttribute] }));
+                return results.entities
+                .map(item => ({ key: item[this.idAttribute], name: item[this.nameAttribute] }))
+                .filter(tag => !this.listContainsTagList(tag, selectedItems));;
             }
         );
     }
