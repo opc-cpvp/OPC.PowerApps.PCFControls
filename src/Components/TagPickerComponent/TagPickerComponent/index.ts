@@ -44,7 +44,7 @@ export class TagPickerComponent extends TagPickerBaseComponent<IInputs, IOutputs
 		const selectedItems: ITagData = {
 			relatedEntity: this.relatedEntity,
 			relationshipName: this.relationshipName,
-			tags: this.selectedItems?.map(items => items.key) || []
+			tags: this.selectedItems?.map(items => items.key.toString()) || []
 		};
 
 		return {
