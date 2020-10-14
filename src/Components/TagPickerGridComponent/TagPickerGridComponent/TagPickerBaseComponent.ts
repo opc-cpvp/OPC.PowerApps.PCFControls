@@ -249,7 +249,7 @@ export abstract class TagPickerBaseComponent<TInputs, TOutputs> implements Compo
 
                 return results.entities
                 .map(item => ({ key: item[this.idAttribute], name: item[this.nameAttribute] }))
-                .filter(tag => !this.listContainsTagList(tag, selectedItems));;
+                .filter(tag => !this.listContainsTagList(tag, selectedItems));
             }
         );
     }
