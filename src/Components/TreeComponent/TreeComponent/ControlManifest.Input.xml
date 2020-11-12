@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-62" ?>
+<manifest>
+
+  <control namespace="ItAintBoring.PCFControls" constructor="TreeRelationships" version="0.0.287" display-name-key="Tree Relationships" description-key="Tree Relationships" control-type="standard">
+
+    <!-- property node identifies a specific, configurable piece of data that the control expects from CDS -->
+	<data-set name="tableGrid" display-name-key="Table Grid" />
+	
+	<property name="treeEntityName" display-name-key="Tree Entity Name" description-key="Tree Entity Name" of-type="SingleLine.Text" usage="input" required="false" />
+	<property name="treeEntityAttribute" display-name-key="Tree Entity Lookup Attribute" description-key="Tree Entity Lookup Attribute" of-type="SingleLine.Text" usage="input" required="false" />
+	<property name="nameAttribute" display-name-key="Tree Entity Name Attribute" description-key="Tree Entity Name Attribute" of-type="SingleLine.Text" usage="input" required="false" />
+	<property name="idAttribute" display-name-key="Tree Entity ID Attribute" description-key="Tree Entity ID Attribute" of-type="SingleLine.Text" usage="input" required="false" />
+	<property name="relationshipName" display-name-key="Relationship Name" description-key="Relationship Name" of-type="SingleLine.Text" usage="input" required="false" />
+	<property name="relationshipEntity" display-name-key="Relationship Entity" description-key="Relationship Entity" of-type="SingleLine.Text" usage="input" required="false" />
+	
+	<feature-usage>
+       <uses-feature name="WebAPI" required="true" />
+    </feature-usage>
+	<!--
+	<property name="value" display-name-key="Value" description-key="Value" of-type="Multiple" usage="bound" required="true" />
+	
+    <property name="sampleProperty" display-name-key="Tree Relationships" description-key="Tree Relationships" of-type="SingleLine.Text" usage="bound" required="true" />
+	-->
+    <!-- 
+      Property node's of-type attribute can be of-type-group attribute. 
+      Example:
+      <type-group name="numbers">
+        <type>Whole.None</type>
+        <type>Currency</type>
+        <type>FP</type>
+        <type>Decimal</type>
+      </type-group>
+      <property name="sampleProperty" display-name-key="Property_Display_Key" description-key="Property_Desc_Key" of-type-group="numbers" usage="bound" required="true" />
+    -->
+    <resources>
+      <code path="index.ts" order="1"/>
+	  <css path="resources/jstree.style.min.css" order="2" />
+	  <css path="resources/pcfsupport.css" order="3" />
+	  <img path="resources/40px.png" />
+	  <img path="resources/32px.png" />
+	  <img path="resources/throbber.gif" />
+	  
+      
+	  <!--
+      <resx path="strings/TreeRelationships.1033.resx" version="1.0.0" />
+      -->
+    </resources>
+	
+  </control>
+</manifest>
