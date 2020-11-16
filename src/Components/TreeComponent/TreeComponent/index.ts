@@ -144,7 +144,7 @@ export class TreeRelationships implements ComponentFramework.StandardControl<IIn
 
 		await Promise.all(promiseArray).then(results => {
 			this._mainEntityCollectionName = results[0].EntitySetName;
-			this._mainEntityCollectionName = results[1].EntitySetName;
+			this._treeEntityCollectionName = results[1].EntitySetName;
 
 			// Items that are selected from the tree
 			let selectedTagsResult = results[2];
