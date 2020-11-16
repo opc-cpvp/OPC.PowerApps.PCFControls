@@ -46,6 +46,12 @@ steps:
   inputs:
     workingDir: src/Components/TagPickerGridComponent
     verbose: false
+    
+- task: Npm@1
+  displayName: 'npm install - TreeComponent'
+  inputs:
+    workingDir: src/Components/TreeComponent
+    verbose: false
 
 - task: WaelHamze.xrm-ci-framework-build-tasks.MSCRMSetVersion.MSCRMSetVersion@12
   displayName: 'Set PowerApps Solution Version'
@@ -68,6 +74,16 @@ steps:
   displayName: 'Set TagPickerGridComponent Version'
   inputs:
     sourcePath: src/Components/TagPickerGridComponent/TagPickerGridComponent/ControlManifest.Input.xml
+    fileType: Xml
+    transformations: |
+     {
+       "manifest/control/@version": "$(Version.MajorMinor).$(Version.Patch)"
+     }
+
+- task: sergeyzwezdin.magic-chunks.magic.chunks.MagicChunks@2
+  displayName: 'Set TreeComponent Version'
+  inputs:
+    sourcePath: src/Components/TreeComponent/TreeComponent/ControlManifest.Input.xml
     fileType: Xml
     transformations: |
      {
