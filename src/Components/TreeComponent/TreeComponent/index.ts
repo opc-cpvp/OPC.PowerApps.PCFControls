@@ -3,7 +3,6 @@ import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
 
 import * as $ from 'jquery';
-import { exception } from "console";
 /*
 /// <reference types="@types/[jstree]" />
 */
