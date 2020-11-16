@@ -41,6 +41,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Components\TagPickerComponent\TagPickerComponent.pcfproj" />
     <ProjectReference Include="..\Components\TagPickerGridComponent\TagPickerGridComponent.pcfproj" />
+    <ProjectReference Include="..\Components\TreeComponent\TreeComponent.pcfproj" />
     <ProjectReference Include="..\Plugins\Components.Support\Components.Support.csproj" />
   </ItemGroup>
 

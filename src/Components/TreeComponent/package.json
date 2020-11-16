@@ -16,7 +16,7 @@
   },
   "devDependencies": {
     "@types/jquery": "^3.3.29",
-    "@types/jstree": "^3.3.37",
+    "@types/jstree": "^3.3.40",
     "pcf-scripts": "~0",
     "pcf-start": "~0"
   }
