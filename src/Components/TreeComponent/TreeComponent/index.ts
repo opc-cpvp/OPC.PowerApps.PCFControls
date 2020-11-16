@@ -226,7 +226,7 @@ export class TreeRelationships implements ComponentFramework.StandardControl<IIn
 		// set up the search
 		$("#search-form").submit(function (e) {
 			e.preventDefault();
-			$("#container").jstree(true).search($("#search").val()?.toString() || "");
+			$("#container").jstree(true).search($("#search").val() as string);
 		});
 	}
 
