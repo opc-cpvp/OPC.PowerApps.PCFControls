@@ -30,7 +30,7 @@ class jsTreeNode {
 
 declare var Xrm: any;
 
-export class TreeRelationships implements ComponentFramework.StandardControl<IInputs, IOutputs> {
+export class TreeComponent implements ComponentFramework.StandardControl<IInputs, IOutputs> {
 
 	// TODO: clean variables up (copy the other PCF's in this project)
 	private root: jsTreeNode;
