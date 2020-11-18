@@ -1,8 +1,6 @@
 import { IInputs, IOutputs } from "./generated/ManifestTypes";
-import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
-type DataSet = ComponentFramework.PropertyTypes.DataSet;
-
 import * as $ from 'jquery';
+import 'jstree';
 /*
 /// <reference types="@types/[jstree]" />
 */
@@ -11,8 +9,6 @@ import * as $ from 'jquery';
 //		Lazy loading (jstree supported)
 // 		More cleanup
 // 		Better icons?
-
-
 
 class jsTreeNodeState {
 	opened: boolean;
@@ -42,7 +38,6 @@ export class TreeComponent implements ComponentFramework.StandardControl<IInputs
 	// Div element created as part of this control's main container
 	private mainContainer: HTMLDivElement;
 
-	//private _successCallback: any;
 	private _onNodeCheckClick: any;
 
 	private _relationshipName: string;
@@ -56,6 +51,7 @@ export class TreeComponent implements ComponentFramework.StandardControl<IInputs
 	private _nameAttribute: string;
 	private controlId: string;
 	private container: HTMLDivElement;
+	private scriptElement: HTMLScriptElement;
 
 	/**
 	 * Empty constructor.
@@ -73,7 +69,6 @@ export class TreeComponent implements ComponentFramework.StandardControl<IInputs
 	 * @param container If a control is marked control-type='starndard', it will receive an empty div element within which it can render its content.
 	 */
 	public async init(context: ComponentFramework.Context<IInputs>, notifyOutputChanged: () => void, state: ComponentFramework.Dictionary, container: HTMLDivElement): Promise<void> {
-
 		this.container = container;
 		this.context = context;
 		// Need to track container resize so that control could get the available width. The available height won't be provided even this is true
@@ -97,37 +92,25 @@ export class TreeComponent implements ComponentFramework.StandardControl<IInputs
 			</div>
 		`;
 
-		var scriptElement = document.createElement("script");
-		scriptElement.src = "https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"; // TODO: Upgrade version
-		scriptElement.type = "text/javascript";
-
-		container.appendChild(scriptElement);
 		container.appendChild(this.mainContainer);
 
-		var scriptElementOnLoad = document.createElement("script");
-		scriptElementOnLoad.type = "text/javascript";
-
-		this.container.appendChild(scriptElementOnLoad);
-
-		// May be a better way
-		if (context.parameters.treeEntityName != null)
-			this._treeEntityName = context.parameters.treeEntityName.raw;
-		if (context.parameters.treeEntityAttribute != null)
-			this._treeEntityAttribute = '_' + context.parameters.treeEntityAttribute.raw + '_value';
-		if (context.parameters.idAttribute != null)
-			this._idAttribute = context.parameters.idAttribute.raw;
-		if (context.parameters.nameAttribute != null)
-			this._nameAttribute = context.parameters.nameAttribute.raw;
-		if (context.parameters.relationshipEntity != null)
-			this._relationshipEntity = context.parameters.relationshipEntity.raw;
-		if (context.parameters.relationshipName != null)
-			this._relationshipName = context.parameters.relationshipName.raw;
+		if (this.context.parameters.treeEntityName != null)
+			this._treeEntityName = this.context.parameters.treeEntityName.raw;
+		if (this.context.parameters.treeEntityAttribute != null)
+			this._treeEntityAttribute = '_' + this.context.parameters.treeEntityAttribute.raw + '_value';
+		if (this.context.parameters.idAttribute != null)
+			this._idAttribute = this.context.parameters.idAttribute.raw;
+		if (this.context.parameters.nameAttribute != null)
+			this._nameAttribute = this.context.parameters.nameAttribute.raw;
+		if (this.context.parameters.relationshipEntity != null)
+			this._relationshipEntity = this.context.parameters.relationshipEntity.raw;
+		if (this.context.parameters.relationshipName != null)
+			this._relationshipName = this.context.parameters.relationshipName.raw;
 
 		this.root = new jsTreeNode();
 		this.root.id = null;
 		this.root.children = [];
 
-		// Instead of success calbacks why not promises and wait?? gonna most likely do that, won't require weird timeouts..
 		this._onNodeCheckClick = this.nodeClick.bind(this);
 
 		const promiseArray: [
@@ -136,12 +119,13 @@ export class TreeComponent implements ComponentFramework.StandardControl<IInputs
 			Promise<ComponentFramework.WebApi.RetrieveMultipleResponse>,
 			Promise<ComponentFramework.WebApi.RetrieveMultipleResponse>] = [
 
-				context.utils.getEntityMetadata((<any>this.context).page.entityTypeName, []),
-				context.utils.getEntityMetadata(this._treeEntityName, []),
+				this.context.utils.getEntityMetadata((<any>this.context).page.entityTypeName, []),
+				this.context.utils.getEntityMetadata(this._treeEntityName, []),
 				this.context.webAPI.retrieveMultipleRecords(this._relationshipEntity, "?$filter=" + (<any>this.context).page.entityTypeName + "id eq " + (<any>this.context).page.entityId, 5000),
 				this.context.webAPI.retrieveMultipleRecords(this._treeEntityName, "?$orderby=" + this._nameAttribute + " asc", 5000)
 			];
 
+		// TODO: Handle errors properly
 		await Promise.all(promiseArray).then(results => {
 			this._mainEntityCollectionName = results[0].EntitySetName;
 			this._treeEntityCollectionName = results[1].EntitySetName;
@@ -149,15 +133,20 @@ export class TreeComponent implements ComponentFramework.StandardControl<IInputs
 			// Items that are selected from the tree
 			let selectedTagsResult = results[2];
 			for (var i in selectedTagsResult.entities) {
+				console.log(selectedTagsResult.entities[i][this._idAttribute]);
 				this.selectedItems.push(selectedTagsResult.entities[i][this._idAttribute]);
 			}
 
 			let tagsResult = results[3];
 
-			// Tree is ready to go
-			this.addChildElements(tagsResult, this.root);
-			this.initTree();
-			this.setReadonly();
+			try {
+				// Tree is ready to go
+				this.addChildElements(tagsResult, this.root);
+				this.initTree();
+				this.setReadonly();
+			} catch (e) {
+				console.log(e);
+			}
 		});
 	}
 
@@ -192,8 +181,7 @@ export class TreeComponent implements ComponentFramework.StandardControl<IInputs
 	}
 
 	public initTree(): void {
-
-		$(this.controlId)
+		$("#" + this.controlId)
 			.jstree({
 
 				"plugins": ["checkbox", "search"],
@@ -202,7 +190,7 @@ export class TreeComponent implements ComponentFramework.StandardControl<IInputs
 					"data": this.root.children
 				}
 			})
-			.hide_dots()
+			//.hide_dots() does not exist?
 			.on('select_node.jstree', function (e: any, data: any) {
 				if (data.event) {
 					data.instance.select_node(data.node.children_d);
@@ -217,7 +205,7 @@ export class TreeComponent implements ComponentFramework.StandardControl<IInputs
 
 		// Bind this to other variable so we can still use it in the callback
 		var _self = this;
-		$(this.controlId).on("changed.jstree",
+		$("#" + this.controlId).on("changed.jstree",
 			function (e: any, data: any) {
 				setTimeout(() => { _self._onNodeCheckClick(data); }, 50);// TODO: Check if timeout can be removed and don't "trigger" the click
 			}
