@@ -36,8 +36,8 @@
     <resources>
       <code path="index.ts" order="1"/>
 	  <css path="css/TreeComponent.css" order="2" />
-	  <css path="resources/jstree.style.min.css" order="2" />
-	  <css path="resources/pcfsupport.css" order="3" />
+	  <css path="resources/jstree.style.min.css" order="3" />
+	  <css path="resources/pcfsupport.css" order="4" />
 	  <img path="resources/40px.png" />
 	  <img path="resources/32px.png" />
 	  <img path="resources/throbber.gif" />
