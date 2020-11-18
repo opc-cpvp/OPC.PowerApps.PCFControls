@@ -9,6 +9,7 @@ import 'jstree';
 //		Lazy loading (jstree supported)
 // 		More cleanup
 // 		Better icons?
+// 		Styling
 
 class jsTreeNodeState {
 	opened: boolean;
@@ -83,10 +84,7 @@ export class TreeComponent implements ComponentFramework.StandardControl<IInputs
 		// Set basic html for jstree
 		this.mainContainer.innerHTML = `
 			<div class="pcf_overlay_element" id="${this.controlId}_overlay"></div>
-			<form id="search-form">
-				<input type="search" id="search" />
-				<button type="submit">Search</button>
-			</form>
+			<div id="search-container"></div>
 		    <div id="${this.controlId}" class="pcf_main_element jstree-open">
 			  Loading...
 			</div>
@@ -188,6 +186,10 @@ export class TreeComponent implements ComponentFramework.StandardControl<IInputs
 				"checkbox": { cascade: "", three_state: false },
 				"core": {
 					"data": this.root.children
+				},
+				"search": {
+					"case_insensitive": true,
+					"show_only_matches": true
 				}
 			})
 			//.hide_dots() does not exist?
@@ -204,7 +206,7 @@ export class TreeComponent implements ComponentFramework.StandardControl<IInputs
 
 
 		// Bind this to other variable so we can still use it in the callback
-		var _self = this;
+		const _self = this;
 		$("#" + this.controlId).on("changed.jstree",
 			function (e: any, data: any) {
 				setTimeout(() => { _self._onNodeCheckClick(data); }, 50);// TODO: Check if timeout can be removed and don't "trigger" the click
@@ -212,9 +214,19 @@ export class TreeComponent implements ComponentFramework.StandardControl<IInputs
 		);
 
 		// set up the search
+		$("#search-container").append(
+			`
+			<form id="search-form">
+				<input type="search" id="search" class="form-control"/>
+				<button type="submit" class="btn btn-primary">Search</button>
+			</form>
+			`
+		);
+
 		$("#search-form").submit(function (e) {
+			// TODO: Loading/spinner
 			e.preventDefault();
-			$("#container").jstree(true).search($("#search").val() as string);
+			$("#" + _self.controlId).jstree(true).search($("#search").val() as string);
 		});
 	}
 
@@ -249,7 +261,6 @@ export class TreeComponent implements ComponentFramework.StandardControl<IInputs
 
 	public nodeClick(data: any) {
 		// TODO: Most likely refactor a bit, take example of other custom components in this project
-
 		var url: string = (<any>Xrm).Utility.getGlobalContext().getClientUrl();
 		// TODO: figure out if there's a better way to get the ID (and all these requests)
 		var recordUrl: string = url + "/api/data/v9.1/" + this._mainEntityCollectionName + "(" + (<any>this.context).page.entityId + ")";
