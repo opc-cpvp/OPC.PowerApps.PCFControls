@@ -77,6 +77,7 @@ export class TreeComponent implements ComponentFramework.StandardControl<IInputs
 		// Create main table container div. 
 		this.mainContainer = document.createElement("div");
 		this.mainContainer.classList.add("pcf_container_element");
+		this.mainContainer.classList.add("tree-component");
 
 		// Unique ID is most likely needed to prevent collisions if same component if added twice to a form, but maybe just go for a guid instead
 		this.controlId = "tree_" + Math.random().toString(36).substr(2, 9);
