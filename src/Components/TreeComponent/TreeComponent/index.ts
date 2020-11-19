@@ -1,4 +1,5 @@
 import { IInputs, IOutputs } from "./generated/ManifestTypes";
+import { WebApi, IWebApi } from "pcf-project-shared";
 import * as $ from 'jquery';
 import 'jstree';
 /*
@@ -39,20 +40,18 @@ export class TreeComponent implements ComponentFramework.StandardControl<IInputs
 	// Div element created as part of this control's main container
 	private mainContainer: HTMLDivElement;
 
-	private _onNodeCheckClick: any;
+	private relationshipName: string;
+	private treeEntityCollectionName: string;
+	private mainEntityCollectionName: string;
 
-	private _relationshipName: string;
-	private _treeEntityCollectionName: string;
-	private _mainEntityCollectionName: string;
+	private relationshipEntity: string;
+	private treeEntityName: string;
+	private treeEntityAttribute: string;
+	private idAttribute: string;
+	private nameAttribute: string;
+	private jstreeContainer: JQuery<HTMLElement>;
 
-	private _relationshipEntity: string;
-	private _treeEntityName: string;
-	private _treeEntityAttribute: string;
-	private _idAttribute: string;
-	private _nameAttribute: string;
-	private controlId: string;
-	private container: HTMLDivElement;
-	private scriptElement: HTMLScriptElement;
+	private webAPI: IWebApi;
 
 	/**
 	 * Empty constructor.
@@ -70,47 +69,52 @@ export class TreeComponent implements ComponentFramework.StandardControl<IInputs
 	 * @param container If a control is marked control-type='starndard', it will receive an empty div element within which it can render its content.
 	 */
 	public async init(context: ComponentFramework.Context<IInputs>, notifyOutputChanged: () => void, state: ComponentFramework.Dictionary, container: HTMLDivElement): Promise<void> {
-		this.container = container;
 		this.context = context;
+
+		// Passed control variables
+		if (this.context.parameters.treeEntityAttribute != null)
+			this.treeEntityAttribute = '_' + this.context.parameters.treeEntityAttribute.raw + '_value';
+
+		this.treeEntityName = this.context.parameters.treeEntityName.raw || "";
+		this.idAttribute = this.context.parameters.idAttribute.raw || "";
+		this.nameAttribute = this.context.parameters.nameAttribute.raw || "";
+		this.relationshipEntity = this.context.parameters.relationshipEntity.raw || "";
+		this.relationshipName = this.context.parameters.relationshipName.raw || "";
+
+		const clientUrl = (<any>this.context).page.getClientUrl();
+		this.webAPI = new WebApi(this.context.webAPI, clientUrl);
+
+		this.root = new jsTreeNode();
+		this.root.id = null;
+		this.root.children = [];
+
 		// Need to track container resize so that control could get the available width. The available height won't be provided even this is true
 		context.mode.trackContainerResize(true);
+
 		// Create main table container div. 
 		this.mainContainer = document.createElement("div");
 		this.mainContainer.classList.add("pcf_container_element");
 		this.mainContainer.classList.add("tree-component");
 
 		// Unique ID is most likely needed to prevent collisions if same component if added twice to a form, but maybe just go for a guid instead
-		this.controlId = "tree_" + Math.random().toString(36).substr(2, 9);
+		const controlId = "tree_" + Math.random().toString(36).substr(2, 9);
 
 		// Set basic html for jstree
 		this.mainContainer.innerHTML = `
-			<div class="pcf_overlay_element" id="${this.controlId}_overlay"></div>
+			<div class="pcf_overlay_element" id="${controlId}_overlay"></div>
 			<div id="search-container"></div>
-		    <div id="${this.controlId}" class="pcf_main_element jstree-open">
+		    <div id="${controlId}" class="pcf_main_element test jstree-open">
 			  Loading...
 			</div>
 		`;
 
 		container.appendChild(this.mainContainer);
 
-		if (this.context.parameters.treeEntityName != null)
-			this._treeEntityName = this.context.parameters.treeEntityName.raw;
-		if (this.context.parameters.treeEntityAttribute != null)
-			this._treeEntityAttribute = '_' + this.context.parameters.treeEntityAttribute.raw + '_value';
-		if (this.context.parameters.idAttribute != null)
-			this._idAttribute = this.context.parameters.idAttribute.raw;
-		if (this.context.parameters.nameAttribute != null)
-			this._nameAttribute = this.context.parameters.nameAttribute.raw;
-		if (this.context.parameters.relationshipEntity != null)
-			this._relationshipEntity = this.context.parameters.relationshipEntity.raw;
-		if (this.context.parameters.relationshipName != null)
-			this._relationshipName = this.context.parameters.relationshipName.raw;
+		this.jstreeContainer = $("#" + controlId);
 
-		this.root = new jsTreeNode();
-		this.root.id = null;
-		this.root.children = [];
-
-		this._onNodeCheckClick = this.nodeClick.bind(this);
+		const entityTypeName = (<any>this.context).page.entityTypeName;
+		let relationshipOptions = "?$filter=" + entityTypeName + "id eq " + (<any>this.context).page.entityId;
+		let treeEntityOptions = "?$orderby=" + this.nameAttribute + " asc";
 
 		const promiseArray: [
 			ComponentFramework.PropertyHelper.EntityMetadata,
@@ -118,47 +122,44 @@ export class TreeComponent implements ComponentFramework.StandardControl<IInputs
 			Promise<ComponentFramework.WebApi.RetrieveMultipleResponse>,
 			Promise<ComponentFramework.WebApi.RetrieveMultipleResponse>] = [
 
-				this.context.utils.getEntityMetadata((<any>this.context).page.entityTypeName, []),
-				this.context.utils.getEntityMetadata(this._treeEntityName, []),
-				this.context.webAPI.retrieveMultipleRecords(this._relationshipEntity, "?$filter=" + (<any>this.context).page.entityTypeName + "id eq " + (<any>this.context).page.entityId, 5000),
-				this.context.webAPI.retrieveMultipleRecords(this._treeEntityName, "?$orderby=" + this._nameAttribute + " asc", 5000)
+				this.context.utils.getEntityMetadata(entityTypeName, []),
+				this.context.utils.getEntityMetadata(this.treeEntityName, []),
+				this.context.webAPI.retrieveMultipleRecords(this.relationshipEntity, relationshipOptions, 5000),
+				this.context.webAPI.retrieveMultipleRecords(this.treeEntityName, treeEntityOptions, 5000)
 			];
 
 		// TODO: Handle errors properly
 		await Promise.all(promiseArray).then(results => {
-			this._mainEntityCollectionName = results[0].EntitySetName;
-			this._treeEntityCollectionName = results[1].EntitySetName;
+			this.mainEntityCollectionName = results[0].EntitySetName;
+			this.treeEntityCollectionName = results[1].EntitySetName;
 
-			// Items that are selected from the tree
-			let selectedTagsResult = results[2];
-			for (var i in selectedTagsResult.entities) {
-				console.log(selectedTagsResult.entities[i][this._idAttribute]);
-				this.selectedItems.push(selectedTagsResult.entities[i][this._idAttribute]);
+			// Entities that are selected from the tree
+			let taggedEntities = results[2];
+			for (var i in taggedEntities.entities) {
+				console.log(taggedEntities.entities[i][this.idAttribute]);
+				this.selectedItems.push(taggedEntities.entities[i][this.idAttribute]);
 			}
 
-			let tagsResult = results[3];
-
-			try {
-				// Tree is ready to go
-				this.addChildElements(tagsResult, this.root);
-				this.initTree();
-				this.setReadonly();
-			} catch (e) {
-				console.log(e);
-			}
+			// All entities that will be displayed on the tree
+			let allEntities = results[3];
+			console.log(allEntities);
+			this.addChildElements(allEntities, this.root);
+			this.initTree();
+			this.setReadonly();
+		}).catch(e => {
+			console.error("An error occured starting up the pcf", e);
 		});
 	}
 
-	// TODO : Give type to "value"
-	public addChildElements(value: any, root: jsTreeNode | null) {
-		for (var i in value.entities) {
-			var current: any = value.entities[i];
+	public addChildElements(entities: ComponentFramework.WebApi.RetrieveMultipleResponse, root: jsTreeNode | null) {
+		for (var i in entities.entities) {
+			let current = entities.entities[i];
 			if (current != null && root != null) {
-				if (current[this._treeEntityAttribute] == root.id) {
+				if (current[this.treeEntityAttribute] == root.id) {
 
 					var newNode: jsTreeNode = new jsTreeNode();
-					newNode.id = current[this._idAttribute];
-					newNode.text = current[this._nameAttribute];
+					newNode.id = current[this.idAttribute];
+					newNode.text = current[this.nameAttribute];
 					newNode.children = [];
 
 					var checked = this.selectedItems.indexOf(<string>newNode.id) > -1;
@@ -169,31 +170,33 @@ export class TreeComponent implements ComponentFramework.StandardControl<IInputs
 					newNode.state.selected = checked;
 
 					root.children.push(newNode);
-					this.addChildElements(value, newNode);
+					this.addChildElements(entities, newNode);
 				}
 			}
 		}
 	}
 
-	public errorCallback(value: any) {
-		alert(value);
-	}
-
 	public initTree(): void {
-		$("#" + this.controlId)
+		this.jstreeContainer
 			.jstree({
-
 				"plugins": ["checkbox", "search"],
 				"checkbox": { cascade: "", three_state: false },
 				"core": {
-					"data": this.root.children
+					"data": this.root.children,
+					"themes": {
+						dots: false
+					},
 				},
 				"search": {
 					"case_insensitive": true,
 					"show_only_matches": true
+				},
+				"types": {
+					"default": {
+						"icon": "glyphicon glyphicon-flash"
+					}
 				}
 			})
-			//.hide_dots() does not exist?
 			.on('select_node.jstree', function (e: any, data: any) {
 				if (data.event) {
 					data.instance.select_node(data.node.children_d);
@@ -208,27 +211,41 @@ export class TreeComponent implements ComponentFramework.StandardControl<IInputs
 
 		// Bind this to other variable so we can still use it in the callback
 		const _self = this;
-		$("#" + this.controlId).on("changed.jstree",
+		this.jstreeContainer.on("changed.jstree",
 			function (e: any, data: any) {
-				setTimeout(() => { _self._onNodeCheckClick(data); }, 50);// TODO: Check if timeout can be removed and don't "trigger" the click
+				setTimeout(() => { _self.nodeClick(data); }, 50);// TODO: Check if timeout can be removed and don't "trigger" the click
 			}
 		);
 
 		// set up the search
 		$("#search-container").append(
 			`
-			<form id="search-form">
-				<input type="search" id="search" class="form-control"/>
-				<button type="submit" class="btn btn-primary">Search</button>
+			<form id="search-form" class="form-inline my-2 my-lg-0">
+				<input type="search" placeholder="search" id="search" class="form-control mr-sm-2"/>
+				<button type="submit" class="btn btn-primary my-2 my-sm-0">Search</button>
 			</form>
 			`
 		);
 
 		$("#search-form").submit(function (e) {
-			// TODO: Loading/spinner
 			e.preventDefault();
-			$("#" + _self.controlId).jstree(true).search($("#search").val() as string);
+			_self.jstreeContainer.jstree(true).search($("#search").val() as string);
 		});
+	}
+
+	public nodeClick(data: any) {
+		if (data.action == "select_node") {
+			this.webAPI.associateRecord(this.mainEntityCollectionName, (<any>this.context).page.entityId, this.relationshipName, this.treeEntityCollectionName, data.node.id)
+				.catch(e => {
+					console.error(e);
+				});
+		}
+		else if (data.action == "deselect_node") {
+			this.webAPI.disassociateRecord(this.mainEntityCollectionName, (<any>this.context).page.entityId, this.relationshipName, data.node.id)
+				.catch(e => {
+					console.error(e);
+				});
+		}
 	}
 
 	public setReadonly(): void {
@@ -258,59 +275,5 @@ export class TreeComponent implements ComponentFramework.StandardControl<IInputs
 	 */
 	public destroy(): void {
 		// Add code to cleanup control if necessary
-	}
-
-	public nodeClick(data: any) {
-		// TODO: Most likely refactor a bit, take example of other custom components in this project
-		var url: string = (<any>Xrm).Utility.getGlobalContext().getClientUrl();
-		// TODO: figure out if there's a better way to get the ID (and all these requests)
-		var recordUrl: string = url + "/api/data/v9.1/" + this._mainEntityCollectionName + "(" + (<any>this.context).page.entityId + ")";
-
-		if (data.action == "select_node") {
-			//See himbap samples here: http://himbap.com/blog/?p=2063
-			var associate = {
-				"@odata.id": recordUrl
-			};
-
-			var req = new XMLHttpRequest();
-			req.open("POST", url + "/api/data/v9.1/" + this._treeEntityCollectionName + "(" + data.node.id + ")/" + this._relationshipName + "/$ref", true);
-			req.setRequestHeader("Accept", "application/json");
-			req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
-			req.setRequestHeader("OData-MaxVersion", "4.0");
-			req.setRequestHeader("OData-Version", "4.0");
-			req.onreadystatechange = function () {
-				if (this.readyState == 4 /* complete */) {
-					req.onreadystatechange = null;
-					if (this.status == 204) {
-						//alert('Record Associated');
-					} else {
-						var error = JSON.parse(this.response).error;
-						alert(error.message);
-					}
-				}
-			};
-
-			req.send(JSON.stringify(associate));
-		}
-		else if (data.action == "deselect_node") {
-			var req = new XMLHttpRequest();
-			req.open("DELETE", url + "/api/data/v9.1/" + this._treeEntityCollectionName + "(" + data.node.id + ")/" + this._relationshipName + "/$ref" + "?$id=" + recordUrl, true);
-			req.setRequestHeader("Accept", "application/json");
-			req.setRequestHeader("Content-Type", "application/json; charset=utf-8");
-			req.setRequestHeader("OData-MaxVersion", "4.0");
-			req.setRequestHeader("OData-Version", "4.0");
-			req.onreadystatechange = function () {
-				if (this.readyState == 4 /* complete */) {
-					req.onreadystatechange = null;
-					if (this.status == 204) {
-						//alert('Record Disassociated');
-					} else {
-						var error = JSON.parse(this.response).error;
-						alert(error.message);
-					}
-				}
-			};
-			req.send();
-		}
-	}
+	}	
 }
