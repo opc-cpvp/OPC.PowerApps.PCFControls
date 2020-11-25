@@ -36,6 +36,12 @@ steps:
   displayName: 'Power DevOps Tool Installer'
 
 - task: Npm@1
+  displayName: 'npm install - Shared Project'
+  inputs:
+    workingDir: src/Components/Shared
+    verbose: false
+
+- task: Npm@1
   displayName: 'npm install - TagPickerComponent'
   inputs:
     workingDir: src/Components/TagPickerComponent
