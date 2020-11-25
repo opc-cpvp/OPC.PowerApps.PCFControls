@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { IInputs, IOutputs } from "./generated/ManifestTypes";
-import { WebApi, IWebApi } from "pcf-project-shared";
+import { WebApi, IWebApi } from "./WebApi";
 import { TreeSelect } from 'antd';
 import * as $ from 'jquery';
 import 'jstree';
@@ -120,7 +120,7 @@ export class TreeComponent implements ComponentFramework.StandardControl<IInputs
 
 
 		container.appendChild(this.mainContainer);
-		
+
 		this.treeComponentContainer = document.getElementById("tree-select") as HTMLDivElement;
 
 

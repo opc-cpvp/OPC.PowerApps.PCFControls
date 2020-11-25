@@ -6,8 +6,7 @@
     "build": "pcf-scripts build",
     "clean": "pcf-scripts clean",
     "rebuild": "pcf-scripts rebuild",
-    "start": "pcf-scripts start",
-    "postinstall": "npm link pcf-project-shared"
+    "start": "pcf-scripts start"
   },
   "dependencies": {
     "@types/node": "^10.12.18",

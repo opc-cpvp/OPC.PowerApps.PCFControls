@@ -2,7 +2,6 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { TreeSelect } from 'antd/lib/';
 import { TreeSelectProps } from 'antd/lib/tree-select';
-import 'antd/lib/tree-select/style/index.css';
 
 
 const { SHOW_PARENT } = TreeSelect;

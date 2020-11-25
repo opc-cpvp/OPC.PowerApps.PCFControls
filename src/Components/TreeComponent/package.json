@@ -6,8 +6,7 @@
     "build": "pcf-scripts build",
     "clean": "pcf-scripts clean",
     "rebuild": "pcf-scripts rebuild",
-    "start": "pcf-scripts start",
-    "postinstall": "npm link pcf-project-shared"
+    "start": "pcf-scripts start"
   },
   "dependencies": {
     "@types/node": "^10.12.18",
@@ -17,7 +16,8 @@
     "jquery": "^3.4.1",
     "jstree": "^3.3.10",
     "react": "^17.0.1",
-    "react-dom": "^17.0.1"
+    "react-dom": "^17.0.1",
+    "whatwg-fetch": "^3.5.0"
   },
   "devDependencies": {
     "@types/jquery": "^3.3.29",

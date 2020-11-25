@@ -7,8 +7,7 @@
   "private": true,
   "scripts": {
     "build": "tsc",
-    "build:watch": "tsc --watch",
-    "postinstall": "npm link"
+    "build:watch": "tsc --watch"
   },
   "dependencies": {
     "@types/powerapps-component-framework": "^1.2.3",
