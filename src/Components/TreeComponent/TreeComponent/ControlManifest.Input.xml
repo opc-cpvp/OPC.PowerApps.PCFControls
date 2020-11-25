@@ -35,9 +35,13 @@
     -->
     <resources>
       <code path="index.ts" order="1"/>
+      <!-- Not best practices to iport custom library css like this as it might clash with other css but this should be temporary for testing -->
 	  <css path="css/TreeComponent.css" order="2" />
-	  <css path="resources/jstree.style.min.css" order="3" />
-	  <css path="resources/pcfsupport.css" order="4" />
+	  <css path="css/antd.css" order="3" />
+
+
+	  <css path="resources/jstree.style.min.css" order="4" />
+	  <css path="resources/pcfsupport.css" order="5" />
 	  <img path="resources/40px.png" />
 	  <img path="resources/32px.png" />
 	  <img path="resources/throbber.gif" />

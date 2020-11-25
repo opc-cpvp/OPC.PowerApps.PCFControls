@@ -3,7 +3,7 @@ import * as ReactDOM from 'react-dom';
 import { ITag } from 'office-ui-fabric-react/lib/Pickers';
 import { TagPickerBase, ITagPickerProps } from './TagPicker';
 import { EntityMetadataProperties } from './EntityMetadataProperties'
-import { IWebApi, WebApi } from './WebApi';
+import { IWebApi, WebApi } from 'pcf-project-shared';
 
 export abstract class TagPickerBaseComponent<TInputs, TOutputs> implements ComponentFramework.StandardControl<TInputs, TOutputs> {
     /**
@@ -76,7 +76,6 @@ export abstract class TagPickerBaseComponent<TInputs, TOutputs> implements Compo
         this.context = context;
         this.notifyOutputChanged = notifyOutputChanged;
         this.container = container;
-
         const clientUrl = (<any>this.context).page.getClientUrl();
         this.webAPI = new WebApi(this.context.webAPI, clientUrl);
 
