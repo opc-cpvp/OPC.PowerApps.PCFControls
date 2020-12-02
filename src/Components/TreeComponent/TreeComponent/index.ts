@@ -2,54 +2,48 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { IInputs, IOutputs } from "./generated/ManifestTypes";
 import { WebApi, IWebApi } from "./WebApi";
-import { TreeSelect } from 'antd';
-import * as $ from 'jquery';
-import 'jstree';
-import { TreeSelectProps } from 'antd/lib/tree-select';
-import { TreeSelectComponent, ITreeSelectProps } from './TreeSelectComponent';
-/*
-/// <reference types="@types/[jstree]" />
-*/
-
-// TODO: 
-//		Lazy loading (jstree supported)
-// 		More cleanup
-// 		Better icons?
-// 		Styling
+import { TreeSelectComponent, ITreeSelectProps, TreeSelectNode } from './TreeSelectComponent';
 
 class JsTreeNodeState {
 	opened: boolean;
 	disabled: boolean;
 	selected: boolean;
 }
-class JsTreeNode {
-	id: string | null;
-	text: string;
-	children: JsTreeNode[];
-	state: JsTreeNodeState;
+
+// Only needed when creating relationships
+interface ITagData {
+	relatedEntity: string,
+	relationshipName: string,
+	tags: string[]
 }
 
 export class TreeComponent implements ComponentFramework.StandardControl<IInputs, IOutputs> {
-	private root: JsTreeNode;
-	private selectedItems: string[] = [];
+	private readonly prefix: string = "TAGDATA:";
+
+	//private selectedItems: string[] = [];
+
+	private treeSelectRoot: TreeSelectNode;
 
 	// Cached context object for the latest updateView
 	private context: ComponentFramework.Context<IInputs>;
+	private notifyOutputChanged: () => void;
 
 	// Div element created as part of this control's main container
 	private mainContainer: HTMLDivElement;
 
 	private relationshipName: string;
-	private treeEntityCollectionName: string;
-	private mainEntityCollectionName: string;
+	private treeEntityCollectionName: string; //Needed?
+	private mainEntityCollectionName: string; //Needed?
 
 	private relationshipEntity: string;
 	private treeEntityName: string;
 	private treeEntityAttribute: string;
 	private idAttribute: string;
 	private nameAttribute: string;
-	private jstreeContainer: JQuery<HTMLElement>;
 	private treeComponentContainer: HTMLDivElement;
+
+	// Flat list of tree items
+	private items: ComponentFramework.WebApi.Entity[];
 
 	private webAPI: IWebApi;
 
@@ -62,10 +56,14 @@ export class TreeComponent implements ComponentFramework.StandardControl<IInputs
 
 	// Specify available props to change
 	private props: ITreeSelectProps = {
-		labels: {},
+		//labels: {},
 		//     onChange: this.onChange.bind(this),
 		//     onEmptyInputFocus: this.onEmptyInputFocus.bind(this),
 		//     onResolveSuggestions: this.onResolveSuggestions.bind(this)
+		treeData: null,
+		selectedItems: [],
+		onChange: this.onChange.bind(this)
+
 	}
 
 	/**
@@ -79,6 +77,7 @@ export class TreeComponent implements ComponentFramework.StandardControl<IInputs
 	public async init(context: ComponentFramework.Context<IInputs>, notifyOutputChanged: () => void, state: ComponentFramework.Dictionary, container: HTMLDivElement): Promise<void> {
 
 		this.context = context;
+		this.notifyOutputChanged = notifyOutputChanged;
 
 		// Passed control variables
 		if (this.context.parameters.treeEntityAttribute != null)
@@ -93,9 +92,9 @@ export class TreeComponent implements ComponentFramework.StandardControl<IInputs
 		const clientUrl = (<any>this.context).page.getClientUrl();
 		this.webAPI = new WebApi(this.context.webAPI, clientUrl);
 
-		this.root = new JsTreeNode();
-		this.root.id = null;
-		this.root.children = [];
+		this.treeSelectRoot = new TreeSelectNode();
+		this.treeSelectRoot.key = ""; // Check this out please, this is causing the populating issue
+		this.treeSelectRoot.children = [];
 
 		// Need to track container resize so that control could get the available width. The available height won't be provided even this is true
 		context.mode.trackContainerResize(true);
@@ -108,23 +107,17 @@ export class TreeComponent implements ComponentFramework.StandardControl<IInputs
 		// Unique ID is most likely needed to prevent collisions if same component if added twice to a form, but maybe just go for a guid instead
 		const controlId = "tree_" + Math.random().toString(36).substr(2, 9);
 
-		// Set basic html for jstree (and antd treeselect)
+		// TODO: Create like container above
 		this.mainContainer.innerHTML = `
-			<div class="pcf_overlay_element" id="${controlId}_overlay"></div>
-			<div id="search-container"></div>
-		    <div id="${controlId}" class="pcf_main_element test jstree-open col-md-6">
-			  Loading...
-			</div>
-			<div id="tree-select" class="col-md-6"></div>
+				<div class="pcf_overlay_element" id="${controlId}_overlay"></div>				
+				<div id="${controlId}" class="pcf_main_element test jstree-open">
+					Loading...
+				</div>
 		`;
-
 
 		container.appendChild(this.mainContainer);
 
-		this.treeComponentContainer = document.getElementById("tree-select") as HTMLDivElement;
-
-
-		this.jstreeContainer = $("#" + controlId);
+		this.treeComponentContainer = document.getElementById(controlId) as HTMLDivElement;
 
 		const entityTypeName = (<any>this.context).page.entityTypeName;
 		let relationshipOptions = "?$filter=" + entityTypeName + "id eq " + (<any>this.context).page.entityId;
@@ -142,7 +135,6 @@ export class TreeComponent implements ComponentFramework.StandardControl<IInputs
 				this.context.webAPI.retrieveMultipleRecords(this.treeEntityName, treeEntityOptions, 5000)
 			];
 
-		// TODO: Handle errors properly
 		await Promise.all(promiseArray).then(results => {
 			this.mainEntityCollectionName = results[0].EntitySetName;
 			this.treeEntityCollectionName = results[1].EntitySetName;
@@ -150,115 +142,49 @@ export class TreeComponent implements ComponentFramework.StandardControl<IInputs
 			// Entities that are selected from the tree
 			let taggedEntities = results[2];
 			for (var i in taggedEntities.entities) {
-				console.log(taggedEntities.entities[i][this.idAttribute]);
-				this.selectedItems.push(taggedEntities.entities[i][this.idAttribute]);
+				console.log("Tagged entity: ", taggedEntities.entities[i][this.idAttribute]);
+				this.props.selectedItems?.push(taggedEntities.entities[i][this.idAttribute]);
 			}
-
-			// All entities that will be displayed on the tree
 			let allEntities = results[3];
-			console.log(allEntities);
-			this.addChildElements(allEntities, this.root);
-			this.initTree();
+
+			this.items = results[3].entities; // needed for filtering onm the onchange
+
+			this.addChildElements(allEntities, this.treeSelectRoot);
+			this.props.treeData = this.treeSelectRoot.children;
+
+			// May not be needed
 			this.setReadonly();
+
+			// Render the component now that we have all data
+			this.updateView(context);
+
 		}).catch(e => {
 			console.error("An error occured starting up the pcf", e);
 		});
 	}
 
-	public addChildElements(entities: ComponentFramework.WebApi.RetrieveMultipleResponse, root: JsTreeNode | null) {
+	// TODO: Optimize
+	public addChildElements(entities: ComponentFramework.WebApi.RetrieveMultipleResponse, treeRoot: TreeSelectNode | null) {
+
 		for (var i in entities.entities) {
 			let current = entities.entities[i];
-			if (current != null && root != null) {
-				if (current[this.treeEntityAttribute] == root.id) {
+			if (current != null && treeRoot != null) {
+				// Add to tree if root node or tree root is the parent of the current node
+				if (current[this.treeEntityAttribute] == (treeRoot.key || null)) {
 
-					var newNode: JsTreeNode = new JsTreeNode();
-					newNode.id = current[this.idAttribute];
-					newNode.text = current[this.nameAttribute];
+					let newNode = new TreeSelectNode();
+					newNode.key = current[this.idAttribute];
+					newNode.title = current[this.nameAttribute];
 					newNode.children = [];
+					// Multilangual plugin will most likely handle the bilinugal problem, could go with the tag picker route and specify wich field to use if "en" or "fr" etc..
+					newNode.description = current["opc_englishdescription"];
+					newNode.summary = current["opc_englishtitle"];
+					newNode.name = current[this.nameAttribute]; // Same as title but won't be modified to include other content
 
-					var checked = this.selectedItems.indexOf(<string>newNode.id) > -1;
-					newNode.state = new JsTreeNodeState();
-
-					newNode.state.disabled = false;
-					newNode.state.opened = false;
-					newNode.state.selected = checked;
-
-					root.children.push(newNode);
+					treeRoot.children.push(newNode);
 					this.addChildElements(entities, newNode);
 				}
 			}
-		}
-	}
-
-	public initTree(): void {
-		this.jstreeContainer
-			.jstree({
-				"plugins": ["checkbox", "search"],
-				"checkbox": { cascade: "", three_state: false },
-				"core": {
-					"data": this.root.children,
-					"themes": {
-						dots: false
-					},
-				},
-				"search": {
-					"case_insensitive": true,
-					"show_only_matches": true
-				},
-				"types": {
-					"default": {
-						"icon": "glyphicon glyphicon-flash"
-					}
-				}
-			})
-			.on('select_node.jstree', function (e: any, data: any) {
-				if (data.event) {
-					data.instance.select_node(data.node.children_d);
-				}
-			})
-			.on('deselect_node.jstree', function (e: any, data: any) {
-				if (data.event) {
-					data.instance.deselect_node(data.node.children_d);
-				}
-			})
-			.on("changed.jstree",
-				(e: any, data: any) => {
-					setTimeout(() => { this.nodeClick(data); }, 50); // TODO: Check if timeout can be removed and don't "trigger" the click
-				}
-			);
-
-		this.initSearch();
-	}
-
-	private initSearch(): void {
-		// set up the search
-		$("#search-container").append(
-			`
-			<form id="search-form" class="form-inline my-2 my-lg-0">
-				<input type="search" placeholder="search" id="search" class="form-control mr-sm-2"/>
-				<button type="submit" class="btn btn-primary my-2 my-sm-0">Search</button>
-			</form>
-			`
-		);
-
-		$("#search-form").submit((e) => {
-			e.preventDefault();
-			this.jstreeContainer.jstree(true).search($("#search").val() as string);
-		});
-	}
-
-	private nodeClick(data: any) {
-		if (data.action == "select_node") {
-			this.webAPI.associateRecord(this.mainEntityCollectionName, (<any>this.context).page.entityId, this.relationshipName, this.treeEntityCollectionName, data.node.id)
-				.catch((e: any) => {
-					console.error(e);
-				});
-		}
-		else if (data.action == "deselect_node") {
-			this.webAPI.disassociateRecord(this.mainEntityCollectionName, (<any>this.context).page.entityId, this.relationshipName, data.node.id)
-				.catch((e: any) => {
-					console.error(e);
-				});
 		}
 	}
 
@@ -271,25 +197,16 @@ export class TreeComponent implements ComponentFramework.StandardControl<IInputs
 	 * @param context The entire property bag available to control via Context Object; It contains values as set up by the customizer mapped to names defined in the manifest, as well as utility functions
 	 */
 	public updateView(context: ComponentFramework.Context<IInputs>): void {
-
-		// Also render the antd select tree for testing
-		console.log("View updated");
-		console.log(this.treeComponentContainer);
 		ReactDOM.render(
 			React.createElement(
 				TreeSelectComponent,
-				this.props
+				this.props,
 			),
-			this.treeComponentContainer // Change
+			this.treeComponentContainer
 		);
 
 		this.context = context;
 		this.setReadonly();
-
-
-		// if(this.jstreeContainer){
-		// 	this.initTree();
-		// }
 	}
 
 	/** 
@@ -297,7 +214,15 @@ export class TreeComponent implements ComponentFramework.StandardControl<IInputs
 	 * @returns an object based on nomenclature defined in manifest, expecting object[s] for property marked as “bound” or “output”
 	 */
 	public getOutputs(): IOutputs {
-		return {};
+		const selectedItems: ITagData = {
+			relatedEntity: this.relationshipEntity,
+			relationshipName: this.relationshipName,
+			tags: this.props.selectedItems || []
+		};
+
+		return {
+			tagData: `${this.prefix}${JSON.stringify(selectedItems)}`
+		};
 	}
 
 	/** 
@@ -306,5 +231,59 @@ export class TreeComponent implements ComponentFramework.StandardControl<IInputs
 	 */
 	public destroy(): void {
 		// Add code to cleanup control if necessary
+	}
+
+	/**
+     * A callback for when the selected list of items changes.
+     * @param items A collection containing the items.
+     */
+	private onChange(newItems?: string[]): void {
+		const promises: Promise<Response>[] = [];
+		// TODO: property for entity id
+
+		console.log("custom on change called with:", newItems);
+		const entityExists: boolean = ((<any>this.context).page.entityId !== undefined && (<any>this.context).page.entityId !== "00000000-0000-0000-0000-000000000000");
+
+		// We only need to associate / dissasociate items when the entity exists.
+		if (entityExists) {
+			const parentSetName: string = this.mainEntityCollectionName;
+			console.log("Selected", this.props.selectedItems); // Should work now...
+			console.log("Newly tagged (all currently tagged)", newItems); // Should work now...
+
+			//this.entityMetadata[EntityMetadataProperties.EntitySetName];
+
+			// Associate the added items.
+			// Will need to keep a flat array of the original items to filter everything
+			const itemsAdded = newItems?.filter((item: string): boolean => !this.props.selectedItems?.some(selectedItem => selectedItem === item)) || [];
+			console.log("Items added", itemsAdded);
+			for (let item of itemsAdded) {
+				const childSetName: string = this.treeEntityCollectionName;//  this.relatedEntityMetadata[EntityMetadataProperties.EntitySetName]; // Need metadata
+
+				promises.push(this.webAPI.associateRecord(parentSetName, (<any>this.context).page.entityId, this.relationshipName, childSetName, item));
+			}
+
+			// Disassociate the removed items.
+			const itemsRemoved = this.props.selectedItems?.filter(selectedItem => {
+
+				let newItemsIncludeCurrentlySelected = !newItems?.includes(selectedItem);
+
+				console.log("Current selected item is in new selected items?", selectedItem, newItemsIncludeCurrentlySelected);
+				return newItemsIncludeCurrentlySelected
+			}
+			) || [];
+			console.log("Items removed", itemsRemoved);
+			for (let item of itemsRemoved) {
+				promises.push(this.webAPI.disassociateRecord(parentSetName, (<any>this.context).page.entityId, this.relationshipName, item));
+			}
+		}
+
+		Promise.all(promises).then(
+			_ => {
+				this.props.selectedItems = this.props.selectedItems = newItems || [];
+
+				if (!entityExists)
+					this.notifyOutputChanged();
+			}
+		);
 	}
 }

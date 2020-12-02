@@ -1,114 +1,85 @@
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-import { TreeSelect } from 'antd/lib/';
-import { TreeSelectProps } from 'antd/lib/tree-select';
+import { TreeSelect, Popover, Button } from 'antd/lib';
 
+const { SHOW_CHILD } = TreeSelect;
 
-const { SHOW_PARENT } = TreeSelect;
-
-// Temp data
-const treeData = [
-  {
-    title: 'parent 0',
-    key: '0-0',
-    children: [
-      {
-        title: 'leaf 0-0',
-        key: '0-0-0',
-        isLeaf: true,
-      },
-      {
-        title: 'leaf 0-1',
-        key: '0-0-1',
-        isLeaf: true,
-      },
-    ],
-  },
-  {
-    title: 'parent 1',
-    key: '0-1',
-    children: [
-      {
-        title: 'stuff',
-        key: '0-1-0',
-        isLeaf: true,
-      },
-      {
-        title: 'leaf 1-1',
-        key: '0-1-1',
-        isLeaf: true,
-      },
-    ],
-  },
-];
-
-// export interface ITagPickerLabelProps {
-//     input?: string;
-//     noResultsFound?: string;
-//     removeButton?: string;
-// }
-
-// export interface Tree {
-//     labels?: ITagPickerLabelProps,
-//     labelText?: string;
-//     selectedItems?: ITag[];
-//     onChange?: (items?: ITag[]) => void;
-//     onEmptyInputFocus?: (selectedItems?: ITag[]) => Promise<ITag[]>;
-//     onResolveSuggestions?: (filter: string, selectedItems?: ITag[]) => Promise<ITag[]>;
-// }
+export class TreeSelectNode {
+  title: React.ReactNode | null
+  name: string
+  key: string
+  isLeaf: boolean
+  children: TreeSelectNode[]
+  summary: string
+  description: string
+}
 
 // Customize to whatever needs to be changed
 export interface ITreeSelectProps {
-  // labels?: ITagPickerLabelProps,
-  // labelText?: string;
-  // selectedItems?: ITag[];
-  // onChange?: (items?: ITag[]) => void;
-  // onEmptyInputFocus?: (selectedItems?: ITag[]) => Promise<ITag[]>;
-  // onResolveSuggestions?: (filter: string, selectedItems?: ITag[]) => Promise<ITag[]>;
+  selectedItems?: string[];
+  onChange(selectedItems?: string[]): void;
+  treeData: any; // Can't seem to find the real type, keep any for now
 }
 
-export interface ITreeSelectState extends React.ComponentState, ITreeSelectProps {
+export interface ITreeSelectState extends React.ComponentState { // Check if extending props is the way to go, but don't state for all props so probably not
+  selectedItems?: string[];
 }
 
 export class TreeSelectComponent extends React.Component<ITreeSelectProps, ITreeSelectState> {
 
+  // TODO: Create custom array of tree nodes and create the real tree "here"
   constructor(props: ITreeSelectProps) {
     super(props);
 
-    // this.state = {
-    //     selectedItems: props.selectedItems || []
-    // };
+    this.state = {
+      selectedItems: props.selectedItems
+    };
   }
 
-  state = {
-    value: ['0-0-0'],
+  // TODO: Deprecated, use componentDidUpdate instead (but needs tweaks) https://reactjs.org/docs/react-component.html#componentdidupdate
+  public componentWillReceiveProps(newProps: ITreeSelectProps): void {
+    console.log("Will recieve props:", newProps.selectedItems)
+    this.setState({
+      //treeData: newProps.treeData,
+      selectedItems: newProps.selectedItems
+    });
+  }
+
+  // public componentDidUpdate(prevProps: any){
+  //   if(this.props.treeData !== prevProps.treeData){
+  //     this.setState({
+  //       treeData: newProps.treeData, hovered: false,
+  //       clicked: false,
+  //     });
+  //   }
+  // }
+
+  // On change shows the keys of the nodes that are selected only, this is where we'll associate (if the entity already exists)
+  onChange = (selectedItems: string[]) => {
+    console.log('onChange ', selectedItems);
+    this.setState({ selectedItems }); // Not sure if this will affect props in a negative manner
+    this.props.onChange(selectedItems);
   };
 
-  onChange = (value: any) => {
-    console.log('onChange ', value);
-    this.setState({ value });
-  };
+  filter = (inputValue: string, treeNode: any): boolean => {
+    const includesIgnoreCase = (value1: string, value2: string) =>
+      (value1 && value2) ? value1.toLowerCase().includes(value2.toLowerCase()) : false;
 
+    return includesIgnoreCase(treeNode.summary, inputValue) ||
+      includesIgnoreCase(treeNode.description, inputValue) || // description may be removed since it's not currently displayed
+      includesIgnoreCase(treeNode.name, inputValue);
+  }
+
+  // Can possibly just use props instead of state
   public render(): JSX.Element {
-    const tProps: TreeSelectProps<ITreeSelectState> = {
-      treeData,
-      value: this.state.value,
-      onChange: this.onChange,
-      treeCheckable: true,
-      showCheckedStrategy: SHOW_PARENT,
-      placeholder: 'Please select',
-      style: {
-        width: '100%',
-      },
-    };
     return (
       <TreeSelect
-        treeData={treeData}
-        value={this.state.value}
+        treeData={this.props.treeData}
+        value={this.state.selectedItems} // Value is the currently selected nodes. may be the only thing that requires state
         onChange={this.onChange}
         treeCheckable={true}
-        showCheckedStrategy={SHOW_PARENT}
+        showCheckedStrategy={SHOW_CHILD}
         placeholder={'Please select'}
+        filterTreeNode={this.filter}
         style={{
           width: '100%',
         }} />
