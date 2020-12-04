@@ -38,7 +38,7 @@ steps:
 - task: PowerShell@2
   inputs:
     targetType: 'inline'
-    script: ls | cd |  npm i
+    script: ls | foreach  { cd $_.FullName | npm i }
     workingDirectory: 'src/Components'
 
 - task: WaelHamze.xrm-ci-framework-build-tasks.MSCRMSetVersion.MSCRMSetVersion@12
