@@ -1,0 +1,28 @@
+.is-selected .ms-DetailsRow-fields {
+    text-decoration: line-through;
+}
+
+.badge {
+    display: inline-block;
+    padding: .25em .4em;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    padding-right: .6em;
+    padding-left: .6em;
+    border-radius: 10rem;
+    margin-left: .5rem;
+}
+
+.badge.badge-red {
+    color:#fff;
+    background-color:#dc3545;
+}
+
+.task-wrapper { display: flex; }
+.task-title { }
+.task-description { font-size: smaller;}
+.task-action { margin-left: auto; }
