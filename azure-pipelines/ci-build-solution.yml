@@ -47,6 +47,12 @@ steps:
     workingDir: src/Components/TagPickerGridComponent
     verbose: false
 
+- task: Npm@1
+  displayName: 'npm install - TaskManagerComponent'
+  inputs:
+    workingDir: src/Components/TaskManagerComponent
+    verbose: false
+
 - task: WaelHamze.xrm-ci-framework-build-tasks.MSCRMSetVersion.MSCRMSetVersion@12
   displayName: 'Set PowerApps Solution Version'
   inputs:
