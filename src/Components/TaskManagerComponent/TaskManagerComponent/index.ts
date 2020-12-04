@@ -29,6 +29,7 @@ export class TaskManagerComponent implements ComponentFramework.StandardControl<
 	public init(context: ComponentFramework.Context<IInputs>, notifyOutputChanged: () => void, state: ComponentFramework.Dictionary, container:HTMLDivElement)
 	{
 		console.log(context.parameters.tasks);
+		console.log(context.parameters.tasks.records[0].getNamedReference());
 		// Add control initialization code
 		this.container = container;
 	}
