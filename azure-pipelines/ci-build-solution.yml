@@ -35,23 +35,11 @@ steps:
 - task: WaelHamze.xrm-ci-framework-build-tasks.MSCRMToolInstaller.MSCRMToolInstaller@12
   displayName: 'Power DevOps Tool Installer'
 
-- task: Npm@1
-  displayName: 'npm install - TagPickerComponent'
+- task: PowerShell@2
   inputs:
-    workingDir: src/Components/TagPickerComponent
-    verbose: false
-
-- task: Npm@1
-  displayName: 'npm install - TagPickerGridComponent'
-  inputs:
-    workingDir: src/Components/TagPickerGridComponent
-    verbose: false
-
-- task: Npm@1
-  displayName: 'npm install - TaskManagerComponent'
-  inputs:
-    workingDir: src/Components/TaskManagerComponent
-    verbose: false
+    targetType: 'inline'
+    script: ls | cd |  npm i
+    workingDirectory: 'src/Components'
 
 - task: WaelHamze.xrm-ci-framework-build-tasks.MSCRMSetVersion.MSCRMSetVersion@12
   displayName: 'Set PowerApps Solution Version'
