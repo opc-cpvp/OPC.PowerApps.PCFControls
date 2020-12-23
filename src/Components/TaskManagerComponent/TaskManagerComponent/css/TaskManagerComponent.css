@@ -15,11 +15,20 @@
     padding-left: .6em;
     border-radius: 10rem;
     margin-left: .5rem;
+    color: #fff;
 }
 
 .badge.badge-red {
     color:#fff;
     background-color:#dc3545;
+}
+.badge.badge-gray {
+    color:#fff;
+    background-color:gray;
+}
+.badge.badge-green {
+    color:#fff;
+    background-color:green;
 }
 
 .task-wrapper { display: flex; }

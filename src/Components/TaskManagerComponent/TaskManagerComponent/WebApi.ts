@@ -1,8 +1,9 @@
 import 'whatwg-fetch';
 
 export interface IWebApi extends ComponentFramework.WebApi {
-    associateRecord(parentSetName:string, parentId:string, relationshipName: string, childSetName: string, childId: string): Promise<Response>;
-    disassociateRecord(parentSetName:string, parentId:string, relationshipName: string, childId: string): Promise<Response>;
+    associateRecord(parentSetName: string, parentId: string, relationshipName: string, childSetName: string, childId: string): Promise<Response>;
+    disassociateRecord(parentSetName: string, parentId: string, relationshipName: string, childId: string): Promise<Response>;
+    retrieveOptionSetMetadata(entityType: string, attributeName: string): Promise<Response>;
 }
 
 export class WebApi implements IWebApi {
@@ -14,6 +15,19 @@ export class WebApi implements IWebApi {
         this.clientUrl = clientUrl;
     }
 
+    retrieveOptionSetMetadata(entityType: string, attributeName: string): Promise<Response> {
+        return window.fetch(`${this.clientUrl}/api/data/v9.1/EntityDefinitions(LogicalName='${entityType}')/Attributes(LogicalName='${attributeName}')/Microsoft.Dynamics.CRM.${attributeName === "statuscode" ? "StatusAttributeMetadata" : "PicklistAttributeMetadata"}?$select=LogicalName&$expand=OptionSet($select=Options)`,
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json; charset=utf-8",
+                    "Accept": "application/json",
+                    "OData-MaxVersion": "4.0",
+                    "OData-Version": "4.0"
+                }
+            })
+    }
+
     /**
      * Associates a child record to a parent record.
      * @param parentSetName Set name of the parent entity.
@@ -23,7 +37,7 @@ export class WebApi implements IWebApi {
      * @param childId ID of the child record.
      */
     associateRecord(parentSetName: string, parentId: string, relationshipName: string, childSetName: string, childId: string): Promise<Response> {
-        const payload = { "@odata.id" : `${this.clientUrl}/api/data/v9.1/${parentSetName}(${parentId})` };
+        const payload = { "@odata.id": `${this.clientUrl}/api/data/v9.1/${parentSetName}(${parentId})` };
 
         // https://docs.microsoft.com/en-us/powerapps/developer/common-data-service/webapi/associate-disassociate-entities-using-web-api
         return window.fetch(`${this.clientUrl}/api/data/v9.1/${childSetName}(${childId})/${relationshipName}/$ref`, {
