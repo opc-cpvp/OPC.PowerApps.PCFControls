@@ -78,6 +78,8 @@ export class TaskManagerComponent implements ComponentFramework.StandardControl<
 			context: context,
 			badgeConfig: parsedBadgeConfig
 		}
+		console.log("passing props...");
+		console.log(this.props);
 		ReactDOM.render(
 			React.createElement(
 				TaskManager,
@@ -97,16 +99,28 @@ export class TaskManagerComponent implements ComponentFramework.StandardControl<
 
 		if (!dataset.records) return [];
 
+
 		const tasks: ITaskItem[] = [];
-		for (let taskId of dataset.sortedRecordIds) {
-			tasks.push({
-				key: dataset.records[taskId].getRecordId(),
-				isActive: dataset.records[taskId].getValue("statecode") == 0 ? true : false,
-				subject: dataset.records[taskId].getValue("subject") as string,
-				description: dataset.records[taskId].getValue("description") as string,
-				statuscode: dataset.records[taskId].getValue("statuscode") as string
-			});
+		try{
+			for (let taskId of dataset.sortedRecordIds) {
+				let task = {
+					key: dataset.records[taskId].getRecordId(),
+					isActive: dataset.records[taskId].getValue("statecode") == 0 ? true : false,
+					subject: dataset.records[taskId].getValue("subject") as string,
+					description: dataset.records[taskId].getValue("description") as string,
+					statuscode: dataset.records[taskId].getValue("statuscode") as string
+				}
+
+				for(let col of dataset.columns){
+					(task as any)[col.name] = dataset.records[taskId].getValue(col.name);
+				}
+				tasks.push(task);
+
+			}
+		} catch(e){
+			console.error(e);
 		}
+
 
 		console.log(tasks);
 

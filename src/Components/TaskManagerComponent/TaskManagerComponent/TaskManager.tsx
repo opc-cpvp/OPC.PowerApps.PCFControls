@@ -255,15 +255,6 @@ export class TaskManager extends React.Component<ITaskManagerProps, ITaskManager
   }
 
   private _onRenderColumn(item?: ITaskItem, index?: number, column?: IColumn) {
-
-    const value =
-      item && column?.fieldName ? item[column.fieldName as keyof ITaskItem] || '' : '';
-    const buttonStyles: Partial<IButtonStyles> = {
-      icon: {
-        color: SharedColors.red10
-      }
-    };
-
       return <div className="task-wrapper">
         <div className="task-content">
           <span className="task-title">{item?.subject}</span>
@@ -272,6 +263,7 @@ export class TaskManager extends React.Component<ITaskManagerProps, ITaskManager
             const optionKey = (item as any)[badgeConfigItem.name];
             const optionMetadata = badgeConfigItem.values?.find(v => v.key == optionKey);
 
+            // This transforms all badge configurations into <span> elements if the current value matches something in the configuration.
             // If the value was not mapped in the configuration, don't do anything with it.
             if (optionMetadata) {
               return <span className="badge" style={{ backgroundColor: optionMetadata.color ?? "gray" }}>{optionMetadata?.label}</span>
@@ -279,7 +271,7 @@ export class TaskManager extends React.Component<ITaskManagerProps, ITaskManager
           })}
           <div className="task-description">{item?.description}</div>
         </div>
-        <div className="task-action"><IconButton iconProps={{ iconName: 'Delete' }} title="Delete" ariaLabel="Delete" styles={buttonStyles} onClick={() => this.handleDeleteTask(item?.key)} /></div>
+        <div className="task-action"><IconButton iconProps={{ iconName: 'Delete' }} title="Delete" ariaLabel="Delete" styles={{icon:{color: SharedColors.red10}}} onClick={() => this.handleDeleteTask(item?.key)} /></div>
       </div>;
   }
 
