@@ -36,7 +36,7 @@ steps:
   displayName: 'Power DevOps Tool Installer'
 
 - task: PowerShell@2
-  displayName: 'Build all PCF Components'
+  displayName: 'Install dependencies for all PCF Components'
   inputs:
     targetType: 'inline'
     script: ls | foreach  { cd $_.FullName | npm i }
