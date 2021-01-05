@@ -36,6 +36,7 @@ steps:
   displayName: 'Power DevOps Tool Installer'
 
 - task: PowerShell@2
+  displayName: 'Install dependencies for all PCF Components'
   inputs:
     targetType: 'inline'
     script: ls | foreach  { cd $_.FullName | npm i }
@@ -62,6 +63,16 @@ steps:
   displayName: 'Set TagPickerGridComponent Version'
   inputs:
     sourcePath: src/Components/TagPickerGridComponent/TagPickerGridComponent/ControlManifest.Input.xml
+    fileType: Xml
+    transformations: |
+     {
+       "manifest/control/@version": "$(Version.MajorMinor).$(Version.Patch)"
+     }
+
+- task: sergeyzwezdin.magic-chunks.magic.chunks.MagicChunks@2
+  displayName: 'Set TaskManager Version'
+  inputs:
+    sourcePath: src/Components/TaskManagerComponent/TaskManagerComponent/ControlManifest.Input.xml
     fileType: Xml
     transformations: |
      {
