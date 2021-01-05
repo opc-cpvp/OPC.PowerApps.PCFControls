@@ -6,7 +6,7 @@
 
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" />
   <Import Project="$(PowerAppsTargetsPath)\Microsoft.PowerApps.VisualStudio.Pcf.props" Condition="Exists('$(PowerAppsTargetsPath)\Microsoft.PowerApps.VisualStudio.Pcf.props')"/>
-  
+
   <PropertyGroup>
     <Name>TaskManagerComponent</Name>
     <ProjectGuid>78311115-4cf9-4db6-98ed-e0932a01a17f</ProjectGuid>
