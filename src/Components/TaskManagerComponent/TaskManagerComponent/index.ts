@@ -45,7 +45,7 @@ export class TaskManagerComponent implements ComponentFramework.StandardControl<
 		// Load badge configuration if present
 		let parsedBadgeConfig: ITaskManagerBadgeConfigurationItem[];
 		try {
-			parsedBadgeConfig = JSON.parse(context.parameters.relationshipEntity.raw ?? "");
+			parsedBadgeConfig = JSON.parse(context.parameters.badgeConfig.raw ?? "");
 		} catch (e) {
 			parsedBadgeConfig = [];
 			console.error("The badge configuration does not appear to be properly formatted.\n", e);
@@ -78,8 +78,7 @@ export class TaskManagerComponent implements ComponentFramework.StandardControl<
 			context: context,
 			badgeConfig: parsedBadgeConfig
 		}
-		console.log("passing props...");
-		console.log(this.props);
+
 		ReactDOM.render(
 			React.createElement(
 				TaskManager,
