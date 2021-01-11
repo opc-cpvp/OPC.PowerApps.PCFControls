@@ -1,52 +1,30 @@
 import React = require("react");
 import {
-  DefaultButton,
   DetailsHeader,
   DetailsList,
   IColumn,
   IDetailsHeaderProps,
   IDetailsList,
-  IGroup,
   IRenderFunction,
-  IToggleStyles,
-  mergeStyles,
-  Toggle,
   IButtonStyles,
   DetailsListLayoutMode,
   CheckboxVisibility,
   Checkbox,
-  IDetailsRowStyles,
-  IDetailsRowProps,
   DetailsRow,
-  IDetailsListProps,
   SelectionMode,
   DetailsRowFields,
   IDetailsRowFieldsProps,
-  IButtonGridStyles,
   Selection,
   IDetailsListCheckboxProps,
-  IObjectWithKey
+  IObjectWithKey,
+  IDetailsRowProps,
 } from 'office-ui-fabric-react';
 import { initializeIcons } from '@uifabric/icons';
 import { IconButton } from '@fluentui/react/lib/Button';
 import { SharedColors } from '@fluentui/theme';
 import { IInputs } from "./generated/ManifestTypes";
-import { exception } from "console";
 import { ITaskManagerBadgeConfigurationItem } from "./ITaskManagerBadgeConfigurationItem";
 initializeIcons();
-
-const margin = '0 20px 20px 0';
-const controlWrapperClass = mergeStyles({
-  display: 'flex',
-  flexWrap: 'wrap',
-});
-const toggleStyles: Partial<IToggleStyles> = {
-  root: { margin: margin },
-  label: { marginLeft: 10 },
-};
-const addItemButtonStyles: Partial<IButtonStyles> = { root: { margin: margin } };
-const _blueGroupIndex = 2;
-
 export interface ITaskItem {
   key: string;
   subject: string;
@@ -56,14 +34,14 @@ export interface ITaskItem {
 }
 
 export interface ITaskManagerProps {
-  items: () => ITaskItem[];
-  badgeConfig?: ITaskManagerBadgeConfigurationItem[];
-  context?: ComponentFramework.Context<IInputs>;
-  showInactive?: boolean;
+  getTasks: () => ITaskItem[];
+  badgeConfig: ITaskManagerBadgeConfigurationItem[];
+  context: ComponentFramework.Context<IInputs>;
 }
 
 export interface ITaskManagerState extends React.ComponentState, ITaskManagerProps {
   selectedItems: IObjectWithKey[];
+  showInactive: boolean;
 }
 
 export class TaskManager extends React.Component<ITaskManagerProps, ITaskManagerState>{
@@ -75,59 +53,40 @@ export class TaskManager extends React.Component<ITaskManagerProps, ITaskManager
   constructor(props: ITaskManagerProps) {
     super(props);
 
-    // Enable 'this' reference for these method calls
-    this._onRenderColumn = this._onRenderColumn.bind(this);
-    this._onShowAllClick = this._onShowAllClick.bind(this);
-    this._handleAddOnClick = this._handleAddOnClick.bind(this);
-    this.handleDeleteTask = this.handleDeleteTask.bind(this);
+    // Enable 'this' reference for handlers registered in this method
+    this.bindThis();
 
-    this._context = props.context as ComponentFramework.Context<IInputs>; // TODO: verify this cast
+    this._context = props.context;
     this._selection = new Selection({
-      onSelectionChanged: () => {
-        const currentSelection = this._selection.getSelection();
-        const checked = currentSelection.filter(t => !this.state.selectedItems.find(s => s.key === t.key));
-        const unchecked = this.state.selectedItems.filter(t => !currentSelection.find(s => s.key === t.key));
-
-        this.setState({ selectedItems: currentSelection });
-        if (checked.length > 0) {
-          this._context.webAPI.updateRecord("task", checked[0].key as string, { statecode: 1, statuscode: 5 })
-            .catch(ex => console.error(ex));
-        }
-        else if (unchecked.length > 0) {
-          this._context.webAPI.updateRecord("task", unchecked[0].key as string, { statecode: 0, statuscode: 3 })
-            .catch(ex => console.error(ex));
-        }
-      }
+      onSelectionChanged: this._handleOnSelectionChanged
     });
+
     this.state = {
-      items: props.items,
+      getTasks: props.getTasks,
       context: props.context,
       showInactive: false,
       selectedItems: this._selection.getSelection(),
       badgeConfig: props.badgeConfig
-      // This is based on the definition of items
-      // groups: [
-      //   { key: 'todo', name: 'To do', startIndex: 0, count: 2 },
-      //   { key: 'done', name: 'Done', startIndex: 2, count: 0, isCollapsed: true },
-      // ],
-      // showItemIndexInView: false,
-      // isCompactMode: false,
     };
 
-    this._columns = [
-      { key: 'name', name: 'Name', fieldName: 'name', minWidth: 100, isResizable: true },
-    ];
+    // Define columns
+    this._columns = [{
+        key: 'name',
+        name: 'Name',
+        fieldName: 'name',
+        minWidth: 100,
+        isResizable: true
+    }];
   }
 
-  public componentWillUnmount() {
-    if (this.state.showItemIndexInView) {
-      const itemIndexInView = this._root.current!.getStartItemIndexInView();
-      alert('first item index that was in view: ' + itemIndexInView);
-    }
+  private bindThis(){
+    this.handleRenderColumn = this.handleRenderColumn.bind(this);
+    this.handleShowAllClick = this.handleShowAllClick.bind(this);
+    this.handleAddOnClick = this.handleAddOnClick.bind(this);
+    this.handleDeleteTask = this.handleDeleteTask.bind(this);
   }
 
   public render() {
-    const { items, isCompactMode, selectedItems } = this.state;
     const buttonStyles: Partial<IButtonStyles> = {
       icon: {
         color: SharedColors.gray40
@@ -136,61 +95,55 @@ export class TaskManager extends React.Component<ITaskManagerProps, ITaskManager
 
     return (
       <div>
-        {/* <div className={controlWrapperClass}>
-          <DefaultButton onClick={this._addItem} text="Add an item" styles={addItemButtonStyles} />
-          <Toggle
-            label="Compact mode"
-            inlineLabel
-            checked={isCompactMode}
-            onChange={this._onChangeCompactMode}
-            styles={toggleStyles}
-          />
-          <Toggle
-            label="Show index of first item in view when unmounting"
-            inlineLabel
-            checked={this.state.showItemIndexInView}
-            onChange={this._onShowItemIndexInViewChanged}
-            styles={toggleStyles} 
-          />
-        </div> */}
         <div style={{ display: "flex", padding: "10px 10px 0 10px" }}>
           <h3>Tasks</h3>
           <div style={{ marginLeft: "auto" }}>
-            <IconButton iconProps={{ iconName: 'Add' }} title="Add" ariaLabel="Add" styles={buttonStyles} onClick={this._handleAddOnClick} />
-            <IconButton iconProps={{ iconName: 'AllApps' }} title="Show all" ariaLabel="AllApps" styles={buttonStyles} onClick={this._onShowAllClick} />
+            <IconButton iconProps={{ iconName: 'Add' }} title="Add" ariaLabel="Add" styles={buttonStyles} onClick={this.handleAddOnClick} />
+            <IconButton iconProps={{ iconName: 'AllApps' }} title="Show all" ariaLabel="AllApps" styles={buttonStyles} onClick={this.handleShowAllClick} />
           </div>
         </div>
         <DetailsList
           componentRef={this._root}
-          setKey={"set"} // This is required to keep selection, but document lacks on why and it appears to be a known issue: https://github.com/microsoft/fluentui/issues/7817
+          setKey={"set"} // This is required to keep selection, but documentation lacks on why and it appears to be a known issue: https://github.com/microsoft/fluentui/issues/7817
           getKey={(task: ITaskItem) => task.key}
-          items={items().filter(i => i.isActive || (!i.isActive && this.state.showInactive))}
+          items={this.state.getTasks().filter(i => i.isActive || (!i.isActive && this.state.showInactive))}
           columns={this._columns}
           ariaLabelForSelectAllCheckbox="Toggle selection for all items"
           ariaLabelForSelectionColumn="Toggle selection"
           checkButtonAriaLabel="Mark this item as done"
-          onRenderDetailsHeader={this._onRenderDetailsHeader}
+          onRenderDetailsHeader={this.handleRenderDetailsHeader}
           isHeaderVisible={false}
           checkboxVisibility={CheckboxVisibility.always}
-          onRenderItemColumn={this._onRenderColumn}
-          onRenderRow={this._onRenderRow}
-          onRenderCheckbox={this._onRenderCheckbox}
-          onActiveItemChanged={this._onActiveItemChanged}
+          onRenderItemColumn={this.handleRenderColumn}
+          onRenderRow={this.handleRenderRow}
+          onRenderCheckbox={this.handlerRenderCheckbox}
           selection={this._selection}
           selectionPreservedOnEmptyClick={true}
-          compact={isCompactMode}
           selectionMode={SelectionMode.multiple}
         />
       </div>
     );
   }
 
-  private _onActiveItemChanged(item?: any, index?: number | undefined) {
-    // console.log("active item changed");
-    // console.log(item);
-  }
+private _handleOnSelectionChanged(){
 
-  private _handleAddOnClick() {
+    // Isolate checked and unchecked item delta between state and current UI
+    const currentSelection = this._selection.getSelection();
+    const checked = currentSelection.filter(t => !this.state.selectedItems.find(s => s.key === t.key));
+    const unchecked = this.state.selectedItems.filter(t => !currentSelection.find(s => s.key === t.key));
+
+    this.setState({ selectedItems: currentSelection });
+    if (checked.length > 0) {
+      this._context.webAPI.updateRecord("task", checked[0].key as string, { statecode: 1, statuscode: 5 })
+        .catch(ex => console.error(ex));
+    }
+    else if (unchecked.length > 0) {
+      this._context.webAPI.updateRecord("task", unchecked[0].key as string, { statecode: 0, statuscode: 3 })
+        .catch(ex => console.error(ex));
+    }
+}
+
+  private handleAddOnClick() {
 
     // Get page context to pass in to quick create
     // NOTE: There appear to be a mismatch between EntityReference referred in context object and what's defined in XrmDefinitelyTyped. Interestingly only the latter works.
@@ -216,25 +169,15 @@ export class TaskManager extends React.Component<ITaskManagerProps, ITaskManager
       );
   }
 
-  private _onShowAllClick() {
+  private handleShowAllClick() {
     this.setState({ showInactive: !this.state.showInactive });
   }
 
-  private _onRenderRow: IDetailsListProps['onRenderRow'] = props => {
-
-    // Skip of it's an inactive record and showInactive mode is not enabled
-    //if(!props?.item?.isActive && !this.state.showInactive) return null;
-
-    const customStyles: Partial<IDetailsRowStyles> = {
-      root: { alignItems: "center" }
-    };
-    if (props) {
-      return <DetailsRow {...props} styles={customStyles} rowFieldsAs={this.renderRowFields} />;
-    }
-    return null;
+  private handleRenderRow(props?: IDetailsRowProps) {
+      return props ? <DetailsRow {...props} styles={{root: {alignItems: "center"}}} rowFieldsAs={this.handlerRenderRowFields} /> : null;
   };
 
-  private renderRowFields(props: IDetailsRowFieldsProps) {
+  private handlerRenderRowFields(props: IDetailsRowFieldsProps) {
     return (
       // BUG: Not perfect here, there seems to be a single pixel that allows selection
       <span data-selection-disabled={true}>
@@ -242,7 +185,8 @@ export class TaskManager extends React.Component<ITaskManagerProps, ITaskManager
       </span>
     );
   }
-  _onRenderCheckbox(props?: IDetailsListCheckboxProps) {
+
+  private handlerRenderCheckbox(props?: IDetailsListCheckboxProps) {
     return (
       <div style={{ pointerEvents: 'none' }}>
         <Checkbox checked={props?.checked} />
@@ -250,11 +194,11 @@ export class TaskManager extends React.Component<ITaskManagerProps, ITaskManager
     );
   }
 
-  private _onRenderDetailsHeader(props?: IDetailsHeaderProps, _defaultRender?: IRenderFunction<IDetailsHeaderProps>) {
+  private handleRenderDetailsHeader(props?: IDetailsHeaderProps, _defaultRender?: IRenderFunction<IDetailsHeaderProps>) {
     return <DetailsHeader {...(props ?? { columns: undefined, selection: undefined, selectMode: undefined, layoutMode: DetailsListLayoutMode.fixedColumns })} ariaLabelForToggleAllGroupsButton={'Expand collapse groups'} />;
   }
 
-  private _onRenderColumn(item?: ITaskItem, index?: number, column?: IColumn) {
+  private handleRenderColumn(item?: ITaskItem, index?: number, column?: IColumn) {
       return <div className="task-wrapper">
         <div className="task-content">
           <span className="task-title">{item?.subject}</span>
@@ -275,31 +219,21 @@ export class TaskManager extends React.Component<ITaskManagerProps, ITaskManager
       </div>;
   }
 
-  private handleDeleteTask = (taskid?: string): void => {
-
+  private handleDeleteTask(taskid?: string) {
     if (taskid) {
       this._context.webAPI.updateRecord("task", taskid, { statecode: 2, statuscode: 6 })
         .then(r => {
           // Clone array, update deleted item to inactive then update state which will re-render.
-          const clonedItems = [...this.state.items()];
+          const clonedItems = [...this.state.getTasks()];
           const task = clonedItems.find(i => i.key === taskid);
           if (task) {
             task.isActive = false;
           }
-          this.setState({ items: () => clonedItems });
+          this.setState({ getTasks: () => clonedItems });
         })
         .catch(ex => console.error(ex));
     }
   }
-
-
-  private _onShowItemIndexInViewChanged = (event: React.MouseEvent<HTMLElement>, checked?: boolean): void => {
-    this.setState({ showItemIndexInView: checked ?? false });
-  };
-
-  private _onChangeCompactMode = (ev?: React.MouseEvent<HTMLElement>, checked?: boolean): void => {
-    this.setState({ isCompactMode: checked ?? false });
-  };
 }
 
 

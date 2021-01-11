@@ -4,15 +4,13 @@ import { IInputs, IOutputs } from "./generated/ManifestTypes";
 import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
 import { ITaskItem, ITaskManagerProps, TaskManager } from "./TaskManager";
-import { timingSafeEqual } from "crypto";
 import { ITaskManagerBadgeConfigurationItem } from "./ITaskManagerBadgeConfigurationItem";
 import { WebApi } from "./WebApi";
 
 export class TaskManagerComponent implements ComponentFramework.StandardControl<IInputs, IOutputs> {
 
 	public container: HTMLDivElement;
-	private props: ITaskManagerProps;
-	private control: TaskManager;
+	private _props: ITaskManagerProps;
 
 	/**
 	 * Empty constructor.
@@ -30,11 +28,9 @@ export class TaskManagerComponent implements ComponentFramework.StandardControl<
 	 * @param container If a control is marked control-type='standard', it will receive an empty div element within which it can render its content.
 	 */
 	public init(context: ComponentFramework.Context<IInputs>, notifyOutputChanged: () => void, state: ComponentFramework.Dictionary, container: HTMLDivElement) {
-
 		// Add control initialization code
 		this.container = container;
 	}
-
 
 	/**
 	 * Called when any value in the property bag has changed. This includes field values, data-sets, global values such as container height and width, offline status, control metadata values such as label, visible, etc.
@@ -73,8 +69,8 @@ export class TaskManagerComponent implements ComponentFramework.StandardControl<
 			} catch (e) { console.error(e); }
 		}
 
-		this.props = {
-			items: () => this.mapTasks(context.parameters.tasks),
+		this._props = {
+			getTasks: () => this.mapTasks(context.parameters.tasks),
 			context: context,
 			badgeConfig: parsedBadgeConfig
 		}
@@ -82,25 +78,18 @@ export class TaskManagerComponent implements ComponentFramework.StandardControl<
 		ReactDOM.render(
 			React.createElement(
 				TaskManager,
-				this.props
+				this._props
 			),
 			this.container
 		);
 	}
 
-	// private map(badgeConfig: ITaskManagerBadgeConfigurationItem[]) : ITaskManagerBadgeConfigurationItem[] {
-
-	// 	this.props.context.
-
-	// }
-
 	private mapTasks(dataset: ComponentFramework.PropertyTypes.DataSet): ITaskItem[] {
 
 		if (!dataset.records) return [];
 
-
 		const tasks: ITaskItem[] = [];
-		try{
+		try {
 			for (let taskId of dataset.sortedRecordIds) {
 				let task = {
 					key: dataset.records[taskId].getRecordId(),
@@ -110,37 +99,30 @@ export class TaskManagerComponent implements ComponentFramework.StandardControl<
 					statuscode: dataset.records[taskId].getValue("statuscode") as string
 				}
 
-				for(let col of dataset.columns){
+				for (let col of dataset.columns) {
 					(task as any)[col.name] = dataset.records[taskId].getValue(col.name);
 				}
 				tasks.push(task);
-
 			}
-		} catch(e){
+		} catch (e) {
 			console.error(e);
 		}
-
-
-		console.log(tasks);
-
 		return tasks;
 	}
 
-	/** 
-	 * It is called by the framework prior to a control receiving new data. 
+	/**
+	 * It is called by the framework prior to a control receiving new data.
 	 * @returns an object based on nomenclature defined in manifest, expecting object[s] for property marked as “bound” or “output”
 	 */
 	public getOutputs(): IOutputs {
-		console.log("getOutPut");
 		return {};
 	}
 
-	/** 
+	/**
 	 * Called when the control is to be removed from the DOM tree. Controls should use this call for cleanup.
 	 * i.e. cancelling any pending remote calls, removing listeners, etc.
 	 */
 	public destroy(): void {
-		console.log("destroying");
 		// Add code to cleanup control if necessary
 	}
 
