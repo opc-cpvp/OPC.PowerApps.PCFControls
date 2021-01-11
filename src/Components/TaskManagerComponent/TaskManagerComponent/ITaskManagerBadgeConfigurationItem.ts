@@ -1,10 +1,10 @@
 export interface ITaskManagerBadgeConfigurationItem {
     name: string;
     keys: number[];
-    values?: IOptionSetMetadata[]
+    values?: IOptionSetConfiguration[]
 }
 
-export interface IOptionSetMetadata{
+export interface IOptionSetConfiguration{
     key: number;
     label:string;
     color: string;

@@ -24,6 +24,7 @@ import { IconButton } from '@fluentui/react/lib/Button';
 import { SharedColors } from '@fluentui/theme';
 import { IInputs } from "./generated/ManifestTypes";
 import { ITaskManagerBadgeConfigurationItem } from "./ITaskManagerBadgeConfigurationItem";
+import EntityReference = ComponentFramework.EntityReference;
 initializeIcons();
 export interface ITaskItem {
   key: string;
@@ -31,6 +32,7 @@ export interface ITaskItem {
   description: string;
   statuscode: string;
   isActive: boolean;
+  [additionalPropertyName: string] : string | Date | number | number[] | boolean | EntityReference | EntityReference[];
 }
 
 export interface ITaskManagerProps {
@@ -58,7 +60,7 @@ export class TaskManager extends React.Component<ITaskManagerProps, ITaskManager
 
     this._context = props.context;
     this._selection = new Selection({
-      onSelectionChanged: this._handleOnSelectionChanged
+      onSelectionChanged: this.handleOnSelectionChanged
     });
 
     this.state = {
@@ -72,7 +74,7 @@ export class TaskManager extends React.Component<ITaskManagerProps, ITaskManager
     // Define columns
     this._columns = [{
         key: 'name',
-        name: 'Name',
+        name: 'Name', // TODO: i18n
         fieldName: 'name',
         minWidth: 100,
         isResizable: true
@@ -84,6 +86,7 @@ export class TaskManager extends React.Component<ITaskManagerProps, ITaskManager
     this.handleShowAllClick = this.handleShowAllClick.bind(this);
     this.handleAddOnClick = this.handleAddOnClick.bind(this);
     this.handleDeleteTask = this.handleDeleteTask.bind(this);
+    this.handleRenderRow = this.handleRenderRow.bind(this);
   }
 
   public render() {
@@ -125,7 +128,7 @@ export class TaskManager extends React.Component<ITaskManagerProps, ITaskManager
     );
   }
 
-private _handleOnSelectionChanged(){
+private handleOnSelectionChanged(){
 
     // Isolate checked and unchecked item delta between state and current UI
     const currentSelection = this._selection.getSelection();
@@ -174,10 +177,10 @@ private _handleOnSelectionChanged(){
   }
 
   private handleRenderRow(props?: IDetailsRowProps) {
-      return props ? <DetailsRow {...props} styles={{root: {alignItems: "center"}}} rowFieldsAs={this.handlerRenderRowFields} /> : null;
+      return props ? <DetailsRow {...props} styles={{root: {alignItems: "center"}}} rowFieldsAs={this.handleRenderRowFields} /> : null;
   };
 
-  private handlerRenderRowFields(props: IDetailsRowFieldsProps) {
+  private handleRenderRowFields(props: IDetailsRowFieldsProps) {
     return (
       // BUG: Not perfect here, there seems to be a single pixel that allows selection
       <span data-selection-disabled={true}>
@@ -210,12 +213,14 @@ private _handleOnSelectionChanged(){
             // This transforms all badge configurations into <span> elements if the current value matches something in the configuration.
             // If the value was not mapped in the configuration, don't do anything with it.
             if (optionMetadata) {
-              return <span className="badge" style={{ backgroundColor: optionMetadata.color ?? "gray" }}>{optionMetadata?.label}</span>
+              return <span className="badge" style={{ backgroundColor: optionMetadata.color ?? "gray" }} key={item?.key+"badge"+optionMetadata.label}>{optionMetadata.label}</span>
             }
           })}
           <div className="task-description">{item?.description}</div>
         </div>
-        <div className="task-action"><IconButton iconProps={{ iconName: 'Delete' }} title="Delete" ariaLabel="Delete" styles={{icon:{color: SharedColors.red10}}} onClick={() => this.handleDeleteTask(item?.key)} /></div>
+        <div className="task-action">
+          <IconButton iconProps={{ iconName: 'Delete' }} title="Delete" ariaLabel="Delete" styles={{icon:{color: SharedColors.red10}}} onClick={() => this.handleDeleteTask(item?.key)} />
+        </div>
       </div>;
   }
 
