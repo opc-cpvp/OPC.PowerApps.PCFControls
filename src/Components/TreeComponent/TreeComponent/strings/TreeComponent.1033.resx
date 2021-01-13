@@ -152,25 +152,24 @@
     <value>The logical name of the Id attribute for the tree entity</value>
     <comment>Display text for Relationship Name</comment>
   </data>
-</data>
-<data name="relationshipName_Display_Key" xml:space="preserve">
-  <value>Relationship Name</value>
-  <comment>Display text for Relationship Name</comment>
-</data>
-<data name="relationshipName_Desc_Key" xml:space="preserve">
-  <value>Relationship name between the primary entity and the related entity</value>
-  <comment>Display text for Relationship Name description</comment>
-</data>
-<data name="relationshipEntity_Display_Key" xml:space="preserve">
-  <value>Relationship Entity</value>
-  <comment>Display text for Relationship Entity</comment>
-</data>
-<data name="relationshipEntity_Desc_Key" xml:space="preserve">
-  <value>Logical name of the relationship entity</value>
-  <comment>Display text for Relationship Entity description</comment>
-</data>
-<data name="pleaseSelect" xml:space="preserve">
-  <value>Please Select...</value>
-  <comment>Display text to select an item in the tree</comment>
-</data>
+  <data name="relationshipName_Display_Key" xml:space="preserve">
+    <value>Relationship Name</value>
+    <comment>Display text for Relationship Name</comment>
+  </data>
+  <data name="relationshipName_Desc_Key" xml:space="preserve">
+    <value>Relationship name between the primary entity and the related entity</value>
+    <comment>Display text for Relationship Name description</comment>
+  </data>
+  <data name="relationshipEntity_Display_Key" xml:space="preserve">
+    <value>Relationship Entity</value>
+    <comment>Display text for Relationship Entity</comment>
+  </data>
+  <data name="relationshipEntity_Desc_Key" xml:space="preserve">
+    <value>Logical name of the relationship entity</value>
+    <comment>Display text for Relationship Entity description</comment>
+  </data>
+  <data name="pleaseSelect" xml:space="preserve">
+    <value>Please Select...</value>
+    <comment>Display text to select an item in the tree</comment>
+  </data>
 </root>
