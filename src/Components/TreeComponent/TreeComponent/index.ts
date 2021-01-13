@@ -4,12 +4,6 @@ import { IInputs, IOutputs } from "./generated/ManifestTypes";
 import { WebApi, IWebApi } from "./WebApi";
 import { TreeSelectComponent, ITreeSelectProps, TreeSelectNode } from './TreeSelectComponent';
 
-class JsTreeNodeState {
-	opened: boolean;
-	disabled: boolean;
-	selected: boolean;
-}
-
 // Only needed when creating relationships
 interface ITagData {
 	relatedEntity: string,
@@ -20,9 +14,7 @@ interface ITagData {
 export class TreeComponent implements ComponentFramework.StandardControl<IInputs, IOutputs> {
 	private readonly prefix: string = "TAGDATA:";
 
-	//private selectedItems: string[] = [];
-
-	private treeSelectRoot: TreeSelectNode;
+	private treeRoot: TreeSelectNode;
 
 	// Cached context object for the latest updateView
 	private context: ComponentFramework.Context<IInputs>;
@@ -32,11 +24,10 @@ export class TreeComponent implements ComponentFramework.StandardControl<IInputs
 	private mainContainer: HTMLDivElement;
 
 	private relationshipName: string;
-	private treeEntityCollectionName: string; //Needed?
-	private mainEntityCollectionName: string; //Needed?
+	private treeEntityCollectionName: string;
+	private mainEntityCollectionName: string;
 
 	private relationshipEntity: string;
-	private treeEntityName: string;
 	private treeEntityAttribute: string;
 	private idAttribute: string;
 	private nameAttribute: string;
@@ -56,14 +47,10 @@ export class TreeComponent implements ComponentFramework.StandardControl<IInputs
 
 	// Specify available props to change
 	private props: ITreeSelectProps = {
-		//labels: {},
-		//     onChange: this.onChange.bind(this),
-		//     onEmptyInputFocus: this.onEmptyInputFocus.bind(this),
-		//     onResolveSuggestions: this.onResolveSuggestions.bind(this)
+		selectLabel: undefined,
 		treeData: null,
 		selectedItems: [],
 		onChange: this.onChange.bind(this)
-
 	}
 
 	/**
@@ -81,9 +68,9 @@ export class TreeComponent implements ComponentFramework.StandardControl<IInputs
 
 		// Passed control variables
 		if (this.context.parameters.treeEntityAttribute != null)
-			this.treeEntityAttribute = '_' + this.context.parameters.treeEntityAttribute.raw + '_value';
+			this.treeEntityAttribute = `_${this.context.parameters.treeEntityAttribute.raw}_value`;
 
-		this.treeEntityName = this.context.parameters.treeEntityName.raw || "";
+		this.treeEntityCollectionName = this.context.parameters.treeEntityName.raw || ""; // Rename treeEntityName when ready to commit and publish
 		this.idAttribute = this.context.parameters.idAttribute.raw || "";
 		this.nameAttribute = this.context.parameters.nameAttribute.raw || "";
 		this.relationshipEntity = this.context.parameters.relationshipEntity.raw || "";
@@ -92,9 +79,11 @@ export class TreeComponent implements ComponentFramework.StandardControl<IInputs
 		const clientUrl = (<any>this.context).page.getClientUrl();
 		this.webAPI = new WebApi(this.context.webAPI, clientUrl);
 
-		this.treeSelectRoot = new TreeSelectNode();
-		this.treeSelectRoot.key = ""; // Check this out please, this is causing the populating issue
-		this.treeSelectRoot.children = [];
+		this.treeRoot = new TreeSelectNode();
+		this.treeRoot.key = "";
+		this.treeRoot.children = [];
+
+		this.props.selectLabel = this.context.resources.getString("pleaseSelect");
 
 		// Need to track container resize so that control could get the available width. The available height won't be provided even this is true
 		context.mode.trackContainerResize(true);
@@ -104,10 +93,7 @@ export class TreeComponent implements ComponentFramework.StandardControl<IInputs
 		this.mainContainer.classList.add("pcf_container_element");
 		this.mainContainer.classList.add("tree-component");
 
-		// Unique ID is most likely needed to prevent collisions if same component if added twice to a form, but maybe just go for a guid instead
 		const controlId = "tree_" + Math.random().toString(36).substr(2, 9);
-
-		// TODO: Create like container above
 		this.mainContainer.innerHTML = `
 				<div class="pcf_overlay_element" id="${controlId}_overlay"></div>				
 				<div id="${controlId}" class="pcf_main_element test jstree-open">
@@ -121,38 +107,39 @@ export class TreeComponent implements ComponentFramework.StandardControl<IInputs
 
 		const entityTypeName = (<any>this.context).page.entityTypeName;
 		let relationshipOptions = "?$filter=" + entityTypeName + "id eq " + (<any>this.context).page.entityId;
-		let treeEntityOptions = "?$orderby=" + this.nameAttribute + " asc";
 
 		const promiseArray: [
 			ComponentFramework.PropertyHelper.EntityMetadata,
-			ComponentFramework.PropertyHelper.EntityMetadata,
 			Promise<ComponentFramework.WebApi.RetrieveMultipleResponse>,
-			Promise<ComponentFramework.WebApi.RetrieveMultipleResponse>] = [
-
+			Promise<Response>] = [
 				this.context.utils.getEntityMetadata(entityTypeName, []),
-				this.context.utils.getEntityMetadata(this.treeEntityName, []),
 				this.context.webAPI.retrieveMultipleRecords(this.relationshipEntity, relationshipOptions, 5000),
-				this.context.webAPI.retrieveMultipleRecords(this.treeEntityName, treeEntityOptions, 5000)
+				this.webAPI.retrieveRecordsByView(this.treeEntityCollectionName, this.context.parameters.tableGrid.getViewId())
 			];
 
-		await Promise.all(promiseArray).then(results => {
+		await Promise.all(promiseArray).then(async results => {
 			this.mainEntityCollectionName = results[0].EntitySetName;
-			this.treeEntityCollectionName = results[1].EntitySetName;
 
 			// Entities that are selected from the tree
-			let taggedEntities = results[2];
+			let taggedEntities = results[1];
 			for (var i in taggedEntities.entities) {
-				console.log("Tagged entity: ", taggedEntities.entities[i][this.idAttribute]);
 				this.props.selectedItems?.push(taggedEntities.entities[i][this.idAttribute]);
 			}
-			let allEntities = results[3];
 
-			this.items = results[3].entities; // needed for filtering onm the onchange
+			// This works, but isn't pretty, maybe just use some interface instead if possible
+			let entities = JSON.parse(await results[2].text()).value as ComponentFramework.WebApi.Entity[];// clean this
+			const allEntities =  entities
 
-			this.addChildElements(allEntities, this.treeSelectRoot);
-			this.props.treeData = this.treeSelectRoot.children;
+			this.items = entities; // TODO: Check if still needed
 
-			// May not be needed
+			// Sort the items naturally (abc111 would now be placed after abc12 as it contains a bigger number when it would originially be placed first)
+			const collator = new Intl.Collator('en', { numeric: true, sensitivity: 'base' });
+			const sortedEntites = allEntities.sort((a, b) => collator.compare(a.name, b.name));
+
+			this.addChildElements(sortedEntites, this.treeRoot);
+			this.props.treeData = this.treeRoot.children;
+
+			// May not be needed here
 			this.setReadonly();
 
 			// Render the component now that we have all data
@@ -164,10 +151,10 @@ export class TreeComponent implements ComponentFramework.StandardControl<IInputs
 	}
 
 	// TODO: Optimize
-	public addChildElements(entities: ComponentFramework.WebApi.RetrieveMultipleResponse, treeRoot: TreeSelectNode | null) {
+	public addChildElements(entities: ComponentFramework.WebApi.Entity, treeRoot: TreeSelectNode | null) {
 
-		for (var i in entities.entities) {
-			let current = entities.entities[i];
+		for (var i in entities) {
+			let current = entities[i];
 			if (current != null && treeRoot != null) {
 				// Add to tree if root node or tree root is the parent of the current node
 				if (current[this.treeEntityAttribute] == (treeRoot.key || null)) {
@@ -176,10 +163,11 @@ export class TreeComponent implements ComponentFramework.StandardControl<IInputs
 					newNode.key = current[this.idAttribute];
 					newNode.title = current[this.nameAttribute];
 					newNode.children = [];
-					// Multilangual plugin will most likely handle the bilinugal problem, could go with the tag picker route and specify wich field to use if "en" or "fr" etc..
+					
+					// Multilanguage plugin will take car of this when ready, for now, use english
 					newNode.description = current["opc_englishdescription"];
 					newNode.summary = current["opc_englishtitle"];
-					newNode.name = current[this.nameAttribute]; // Same as title but won't be modified to include other content
+					newNode.name = current[this.nameAttribute]; // Same as title but won't be modified to include other content (TODO: Chekc if needed)
 
 					treeRoot.children.push(newNode);
 					this.addChildElements(entities, newNode);
@@ -239,39 +227,20 @@ export class TreeComponent implements ComponentFramework.StandardControl<IInputs
      */
 	private onChange(newItems?: string[]): void {
 		const promises: Promise<Response>[] = [];
-		// TODO: property for entity id
-
-		console.log("custom on change called with:", newItems);
 		const entityExists: boolean = ((<any>this.context).page.entityId !== undefined && (<any>this.context).page.entityId !== "00000000-0000-0000-0000-000000000000");
 
 		// We only need to associate / dissasociate items when the entity exists.
 		if (entityExists) {
 			const parentSetName: string = this.mainEntityCollectionName;
-			console.log("Selected", this.props.selectedItems); // Should work now...
-			console.log("Newly tagged (all currently tagged)", newItems); // Should work now...
-
-			//this.entityMetadata[EntityMetadataProperties.EntitySetName];
 
 			// Associate the added items.
-			// Will need to keep a flat array of the original items to filter everything
 			const itemsAdded = newItems?.filter((item: string): boolean => !this.props.selectedItems?.some(selectedItem => selectedItem === item)) || [];
-			console.log("Items added", itemsAdded);
 			for (let item of itemsAdded) {
-				const childSetName: string = this.treeEntityCollectionName;//  this.relatedEntityMetadata[EntityMetadataProperties.EntitySetName]; // Need metadata
-
-				promises.push(this.webAPI.associateRecord(parentSetName, (<any>this.context).page.entityId, this.relationshipName, childSetName, item));
+				promises.push(this.webAPI.associateRecord(parentSetName, (<any>this.context).page.entityId, this.relationshipName, this.treeEntityCollectionName, item));
 			}
 
 			// Disassociate the removed items.
-			const itemsRemoved = this.props.selectedItems?.filter(selectedItem => {
-
-				let newItemsIncludeCurrentlySelected = !newItems?.includes(selectedItem);
-
-				console.log("Current selected item is in new selected items?", selectedItem, newItemsIncludeCurrentlySelected);
-				return newItemsIncludeCurrentlySelected
-			}
-			) || [];
-			console.log("Items removed", itemsRemoved);
+			const itemsRemoved = this.props.selectedItems?.filter(selectedItem => !newItems?.includes(selectedItem)) || [];
 			for (let item of itemsRemoved) {
 				promises.push(this.webAPI.disassociateRecord(parentSetName, (<any>this.context).page.entityId, this.relationshipName, item));
 			}

@@ -3,6 +3,7 @@ import 'whatwg-fetch';
 export interface IWebApi extends ComponentFramework.WebApi {
     associateRecord(parentSetName: string, parentId: string, relationshipName: string, childSetName: string, childId: string): Promise<Response>;
     disassociateRecord(parentSetName: string, parentId: string, relationshipName: string, childId: string): Promise<Response>;
+    retrieveRecordsByView(entityType: string, viewId: string, options?: string | undefined): Promise<Response>;
 }
 
 export class WebApi implements IWebApi {
@@ -111,5 +112,24 @@ export class WebApi implements IWebApi {
      */
     retrieveRecord(entityType: string, id: string, options?: string | undefined): Promise<ComponentFramework.WebApi.Entity> {
         return this.webApi.retrieveRecord(entityType, id, options);
+    }
+
+    /**
+     * Retrieves records of a view from an entity
+     * @param entityType logical name of the entity type record to retrieve
+     * @param viewId ID of the view we want to use to filter the records
+     * For support options, please refer to https://docs.microsoft.com/en-us/dynamics365/customer-engagement/developer/clientapi/reference/xrm-webapi/retrieverecord
+     * @returns The deferred object for the result of the operation. A JSON object with the retrieved properties and values will be resolved if successful.
+     */
+    retrieveRecordsByView(entityType: string, viewId: string, options?: string | undefined): Promise<Response> {        
+        return window.fetch(`${this.clientUrl}/api/data/v9.1/${entityType}?savedQuery=${viewId}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json; charset=utf-8",
+                "Accept": "application/json",
+                "OData-MaxVersion": "4.0",
+                "OData-Version": "4.0"
+            }
+        }) as unknown as Promise<Response>;
     }
 }

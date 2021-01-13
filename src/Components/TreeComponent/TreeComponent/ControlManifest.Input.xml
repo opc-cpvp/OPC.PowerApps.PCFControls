@@ -1,56 +1,32 @@
 <?xml version="1.0" encoding="utf-62" ?>
 <manifest>
 
-  <control namespace="opc.pcf" constructor="TreeComponent" version="0.0.3" display-name-key="TreeComponent_Display_Key" description-key="TreeComponent_Description_Key" control-type="standard">
+  <control namespace="opc.pcf" constructor="TreeComponent" version="0.0.3" display-name-key="TreeComponent_Display_Key" description-key="TreeComponent_Desc_Key" control-type="standard">
 
     <!-- property node identifies a specific, configurable piece of data that the control expects from CDS -->
-	<data-set name="tableGrid" display-name-key="Table Grid" />
-	
-	<property name="treeEntityName" display-name-key="Tree Entity Name" description-key="Tree Entity Name" of-type="SingleLine.Text" usage="input" required="false" />
-	<property name="treeEntityAttribute" display-name-key="Tree Entity Lookup Attribute" description-key="Tree Entity Lookup Attribute" of-type="SingleLine.Text" usage="input" required="false" />
-	<property name="nameAttribute" display-name-key="Tree Entity Name Attribute" description-key="Tree Entity Name Attribute" of-type="SingleLine.Text" usage="input" required="false" />
-	<property name="idAttribute" display-name-key="Tree Entity ID Attribute" description-key="Tree Entity ID Attribute" of-type="SingleLine.Text" usage="input" required="false" />
-	<property name="relationshipName" display-name-key="Relationship Name" description-key="Relationship Name" of-type="SingleLine.Text" usage="input" required="false" />
-	<property name="relationshipEntity" display-name-key="Relationship Entity" description-key="Relationship Entity" of-type="SingleLine.Text" usage="input" required="false" />
-	
-	<feature-usage>
-       <uses-feature name="WebAPI" required="true" />
-       <uses-feature name="Utility" required="true" />
+    <!-- May change this data set -->
+    <!-- I guess that's just to name it so keep like this for now......-->
+    <data-set name="tableGrid" display-name-key="Table Grid" />
+
+    <property name="treeEntityName" display-name-key="treeEntityName_Display_Key" description-key="treeEntityName_Desc_Key" of-type="SingleLine.Text" usage="input" required="false" />
+    <property name="treeEntityAttribute" display-name-key="treeEntityAttribute_Display_Key" description-key="treeEntityAttribute_Desc_Key" of-type="SingleLine.Text" usage="input" required="false" />
+    <property name="nameAttribute" display-name-key="nameAttribute_Display_key" description-key="nameAttribute_Desc_key" of-type="SingleLine.Text" usage="input" required="false" />
+    <property name="idAttribute" display-name-key="idAttribute_Display_Key" description-key="idAttribute_Desc_Key" of-type="SingleLine.Text" usage="input" required="false" />
+    <property name="relationshipName" display-name-key="relationshipName_Display_Key" description-key="relationshipName_Desc_Key" of-type="SingleLine.Text" usage="input" required="false" />
+    <property name="relationshipEntity" display-name-key="relationshipEntity_Display_Key" description-key="relationshipEntity_Desc_Key" of-type="SingleLine.Text" usage="input" required="false" />
+
+    <feature-usage>
+      <uses-feature name="WebAPI" required="true" />
+      <uses-feature name="Utility" required="true" />
     </feature-usage>
-	<!--
-	<property name="value" display-name-key="Value" description-key="Value" of-type="Multiple" usage="bound" required="true" />
-	
-    <property name="sampleProperty" display-name-key="Tree Relationships" description-key="Tree Relationships" of-type="SingleLine.Text" usage="bound" required="true" />
-	-->
-    <!-- 
-      Property node's of-type attribute can be of-type-group attribute. 
-      Example:
-      <type-group name="numbers">
-        <type>Whole.None</type>
-        <type>Currency</type>
-        <type>FP</type>
-        <type>Decimal</type>
-      </type-group>
-      <property name="sampleProperty" display-name-key="Property_Display_Key" description-key="Property_Desc_Key" of-type-group="numbers" usage="bound" required="true" />
-    -->
     <resources>
       <code path="index.ts" order="1"/>
-      <!-- Not best practices to iport custom library css like this as it might clash with other css but this should be temporary for testing -->
-	  <css path="css/TreeComponent.css" order="2" />
-	  <css path="css/antd.css" order="3" />
-
-
-	  <css path="resources/jstree.style.min.css" order="4" />
-	  <css path="resources/pcfsupport.css" order="5" />
-	  <img path="resources/40px.png" />
-	  <img path="resources/32px.png" />
-	  <img path="resources/throbber.gif" />
-	  
-      
-	  <!--
-      <resx path="strings/TreeRelationships.1033.resx" version="1.0.0" />
-      -->
+      <css path="css/TreeComponent.css" order="2" />
+      <css path="css/antd.css" order="3" />
+      <css path="resources/pcfsupport.css" order="5" />
+      <resx path="strings/TreeComponent.1033.resx" version="1.0.0" />
+      <resx path="strings/TreeComponent.1036.resx" version="1.0.0" />
     </resources>
-	
+
   </control>
 </manifest>
