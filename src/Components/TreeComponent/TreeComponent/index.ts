@@ -31,6 +31,7 @@ export class TreeComponent implements ComponentFramework.StandardControl<IInputs
 	private treeEntityAttribute: string;
 	private idAttribute: string;
 	private nameAttribute: string;
+	private treeNameAttribute: string;
 	private treeComponentContainer: HTMLDivElement;
 
 	// Flat list of tree items
@@ -73,6 +74,7 @@ export class TreeComponent implements ComponentFramework.StandardControl<IInputs
 		this.treeEntityCollectionName = this.context.parameters.treeEntityName.raw || ""; // Rename treeEntityName when ready to commit and publish
 		this.idAttribute = this.context.parameters.idAttribute.raw || "";
 		this.nameAttribute = this.context.parameters.nameAttribute.raw || "";
+		this.treeNameAttribute = this.context.parameters.treeNameAttribute.raw || "";
 		this.relationshipEntity = this.context.parameters.relationshipEntity.raw || "";
 		this.relationshipName = this.context.parameters.relationshipName.raw || "";
 
@@ -166,8 +168,9 @@ export class TreeComponent implements ComponentFramework.StandardControl<IInputs
 					
 					// Multilanguage plugin will take car of this when ready, for now, use english
 					newNode.description = current["opc_englishdescription"];
-					newNode.summary = current["opc_englishtitle"];
-					newNode.name = current[this.nameAttribute]; // Same as title but won't be modified to include other content (TODO: Chekc if needed)
+					newNode.inputTitle = current[this.nameAttribute];
+					newNode.name =  current[this.treeNameAttribute];
+					newNode.checkable = current["ischeckable"];
 
 					treeRoot.children.push(newNode);
 					this.addChildElements(entities, newNode);

@@ -5,12 +5,14 @@ const { SHOW_CHILD } = TreeSelect;
 
 export class TreeSelectNode {
   title: React.ReactNode | null
+  inputTitle: string
   name: string
   key: string
   isLeaf: boolean
   children: TreeSelectNode[]
   summary: string
   description: string
+  checkable: boolean
 }
 
 export interface ITreeSelectProps {
@@ -59,9 +61,7 @@ export class TreeSelectComponent extends React.Component<ITreeSelectProps, ITree
     const includesIgnoreCase = (value1: string, value2: string) =>
       (value1 && value2) ? value1.toLowerCase().includes(value2.toLowerCase()) : false;
 
-    return includesIgnoreCase(treeNode.summary, inputValue) ||
-      includesIgnoreCase(treeNode.description, inputValue) ||
-      includesIgnoreCase(treeNode.name, inputValue);
+    return includesIgnoreCase(treeNode.description, inputValue) || includesIgnoreCase(treeNode.name, inputValue);
   }
 
   public render(): JSX.Element {
@@ -74,6 +74,7 @@ export class TreeSelectComponent extends React.Component<ITreeSelectProps, ITree
         showCheckedStrategy={SHOW_CHILD}
         placeholder={this.props.selectLabel}
         filterTreeNode={this.filter}
+        treeNodeLabelProp="inputTitle"
         style={{
           width: '100%',
         }} />
