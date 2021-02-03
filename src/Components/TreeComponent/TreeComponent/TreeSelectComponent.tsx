@@ -14,6 +14,8 @@ export class TreeSelectNode {
   description: string
   checkable: boolean
   parentKey: string
+
+  // TODO: Future feature for hover data?
 }
 
 export interface ITreeSelectProps {
@@ -57,12 +59,12 @@ export class TreeSelectComponent extends React.Component<ITreeSelectProps, ITree
         if (currentNode.parentKey == (treeRoot.key || null)) {
           treeRoot.children.push(currentNode);
 
-         
+
           // TODO: Create new entity columns for only marginal note and append here (configure to add "extra title")
           // Can actually make the hover stuff work here I think too, coukd be usuful to show the full marginal note and maybe even descriptions if really wanted
-          currentNode.title = <div><i>Test</i></div>; // Display as html, we want this
-          currentNode.name = "<div><i>Test</i></div>"; // Display as plain string
-          currentNode.inputTitle = "<div><i>Test</i></div>";
+          currentNode.title = <div>{currentNode.title} | <em>Extra title details</em></div>; // Display as html, we want this
+          //currentNode.name = <div><i>Test</i></div>"; // Display as plain string
+          //currentNode.inputTitle = "<div><i>Test</i></div>";
 
           this.buildTreeData(treeNodes, currentNode);
         }

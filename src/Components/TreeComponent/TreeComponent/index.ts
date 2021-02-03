@@ -31,7 +31,8 @@ export class TreeSelectComponent<TInputs, TOutputs> extends TreeSelectBaseCompon
 	 * @param container If a control is marked control-type='starndard', it will receive an empty div element within which it can render its content.
 	 */
 	public async init(context: ComponentFramework.Context<IInputs>, notifyOutputChanged: () => void, state: ComponentFramework.Dictionary, container:HTMLDivElement): Promise<void> {
-		
+		console.log("in init..");
+
 		// Passed control variables
 		if (this.context.parameters.treeEntityAttribute != null)
 			this.treeEntityAttribute = `_${this.context.parameters.treeEntityAttribute.raw}_value`;
