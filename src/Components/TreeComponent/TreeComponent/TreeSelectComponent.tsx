@@ -13,32 +13,74 @@ export class TreeSelectNode {
   summary: string
   description: string
   checkable: boolean
+  parentKey: string
 }
 
 export interface ITreeSelectProps {
   selectLabel: string | undefined;
   selectedItems?: string[];
   onChange(selectedItems?: string[]): void;
-  treeData: any; // Can't seem to find the real type, keep any for now
+  treeData: TreeSelectNode[]; // Can't seem to find the real type, keep any for now
 }
 
 export interface ITreeSelectState extends React.ComponentState { // Check if extending props is the way to go, but don't state for all props so probably not
   selectedItems?: string[];
+  treeData?: any; // The modified tree nodes given by the props
 }
 
 export class TreeSelectComponent extends React.Component<ITreeSelectProps, ITreeSelectState> {
   constructor(props: ITreeSelectProps) {
     super(props);
 
+    let rootNode = new TreeSelectNode();
+    rootNode.key = "";
+    rootNode.children = [];
+
+    this.buildTreeData(props.treeData, rootNode);
+
     this.state = {
-      selectedItems: props.selectedItems
+      selectedItems: props.selectedItems,
+      treeData: rootNode.children
     };
+
+    console.log(this.state.treeData);
+  }
+
+
+  // Create the tree from the flat array
+  public buildTreeData(treeNodes: TreeSelectNode[], treeRoot: TreeSelectNode | null) {
+    console.log("Rebuilding tree");
+    for (var node in treeNodes) {
+      let currentNode = treeNodes[node];
+      if (node != null && treeRoot != null) {
+        // Add to tree if root node or tree root is the parent of the current node
+        if (currentNode.parentKey == (treeRoot.key || null)) {
+          treeRoot.children.push(currentNode);
+
+         
+          // TODO: Create new entity columns for only marginal note and append here (configure to add "extra title")
+          // Can actually make the hover stuff work here I think too, coukd be usuful to show the full marginal note and maybe even descriptions if really wanted
+          currentNode.title = <div><i>Test</i></div>; // Display as html, we want this
+          currentNode.name = "<div><i>Test</i></div>"; // Display as plain string
+          currentNode.inputTitle = "<div><i>Test</i></div>";
+
+          this.buildTreeData(treeNodes, currentNode);
+        }
+      }
+    }
   }
 
   // TODO: Deprecated, use componentDidUpdate instead (but needs tweaks) https://reactjs.org/docs/react-component.html#componentdidupdate
   public componentWillReceiveProps(newProps: ITreeSelectProps): void {
+    let rootNode = new TreeSelectNode();
+    rootNode.key = "";
+    rootNode.children = [];
+
+    this.buildTreeData(newProps.treeData, rootNode);
+
     this.setState({
-      selectedItems: newProps.selectedItems
+      selectedItems: newProps.selectedItems,
+      treeData: rootNode.children
     });
   }
 
@@ -67,7 +109,7 @@ export class TreeSelectComponent extends React.Component<ITreeSelectProps, ITree
   public render(): JSX.Element {
     return (
       <TreeSelect
-        treeData={this.props.treeData}
+        treeData={this.state.treeData}
         value={this.state.selectedItems}
         onChange={this.onChange}
         treeCheckable={true}

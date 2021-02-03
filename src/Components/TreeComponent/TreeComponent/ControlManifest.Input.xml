@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-62" ?>
 <manifest>
 
-  <control namespace="opc.pcf" constructor="TreeComponent" version="0.0.3" display-name-key="TreeComponent_Display_Key" description-key="TreeComponent_Desc_Key" control-type="standard">
+  <control namespace="opc.pcf" constructor="TreeSelectComponent" version="0.0.3" display-name-key="TreeComponent_Display_Key" description-key="TreeComponent_Desc_Key" control-type="standard">
 
     <!-- property node identifies a specific, configurable piece of data that the control expects from CDS -->
     <!-- May change this data set -->
