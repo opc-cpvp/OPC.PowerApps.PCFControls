@@ -40,7 +40,11 @@ export class TreeComponent<TInputs, TOutputs> extends TreeBaseComponent<IInputs,
 		this.nameAttribute = context.parameters.nameAttribute.raw || "";
 		this.relationshipEntity = context.parameters.relationshipEntity.raw || "";
 		this.relationshipName = context.parameters.relationshipName.raw || "";
-		
+		this.maxNameDisplayLength = context.parameters.maxNameDisplayLength.raw || -1;
+		this.descriptionAttribute = context.parameters.descriptionAttribute.raw || "";
+		this.extraTitleDetailsAttribute = context.parameters.extraTitleDetailsAttribute.raw || "";
+		this.isCheckableAttribute = context.parameters.isCheckableAttribute.raw || "";
+
 		super.init(context, notifyOutputChanged, state, container);
 	}
 

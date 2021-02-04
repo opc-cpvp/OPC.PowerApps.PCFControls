@@ -23,6 +23,7 @@ export interface ITreeSelectProps {
   selectedItems?: string[];
   onChange(selectedItems?: string[]): void;
   treeData: TreeSelectNode[]; // Can't seem to find the real type, keep any for now
+  maxNameDisplayLength: number;
 }
 
 export interface ITreeSelectState extends React.ComponentState { // Check if extending props is the way to go, but don't state for all props so probably not
@@ -48,8 +49,8 @@ export class TreeComponent extends React.Component<ITreeSelectProps, ITreeSelect
     };
   }
 
-
   // Create the tree from the flat array
+  //TODO: if possible, either check if there's a way o add parentless children (they have a prent id but the parent is not present in the list) or configure the pcf some more to skip headings if chosen
   public buildTreeData(treeNodes: TreeSelectNode[], treeRoot: TreeSelectNode | null) {
     for (var node in treeNodes) {
       let currentNode = treeNodes[node];
@@ -58,9 +59,6 @@ export class TreeComponent extends React.Component<ITreeSelectProps, ITreeSelect
         if (currentNode.parentKey == (treeRoot.key || null)) {
           treeRoot.children.push(currentNode);
 
-
-          // TODO: Create new entity columns for only marginal note and append here (configure to add "extra title")
-          // Can actually make the hover stuff work here I think too, coukd be usuful to show the full marginal note and maybe even descriptions if really wanted
           if (currentNode.titleDetails) {
             currentNode.title = <div>{currentNode.name} | <em>{currentNode.titleDetails}</em></div>;
           } else {
@@ -68,9 +66,11 @@ export class TreeComponent extends React.Component<ITreeSelectProps, ITreeSelect
           }
 
           currentNode.inputTitle = currentNode.name;
-          // Display as html, we want this
-          //currentNode.name = <div><i>Test</i></div>"; // Display as plain string
-          //currentNode.inputTitle = "<div><i>Test</i></div>";
+
+          // If a max display length is set and the max reached, truncate the title
+          if (this.props.maxNameDisplayLength > -1 && currentNode.title.toString().length > this.props.maxNameDisplayLength) {
+            currentNode.title = currentNode.title.toString().substr(0, this.props.maxNameDisplayLength - 1) + "...";
+          }
 
           this.buildTreeData(treeNodes, currentNode);
         }
@@ -110,7 +110,7 @@ export class TreeComponent extends React.Component<ITreeSelectProps, ITreeSelect
   filter = (inputValue: string, treeNode: any): boolean => {
     const includesIgnoreCase = (value1: string, value2: string) =>
       (value1 && value2) ? value1.toLowerCase().includes(value2.toLowerCase()) : false;
-      
+
     return includesIgnoreCase(treeNode.description, inputValue) || includesIgnoreCase(treeNode.name, inputValue);
   }
 

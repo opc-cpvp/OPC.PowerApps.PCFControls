@@ -28,6 +28,10 @@ export abstract class TreeBaseComponent<TInputs, TOutputs> implements ComponentF
     public treeEntityAttribute: string;
     public idAttribute: string;
     public nameAttribute: string;
+    public descriptionAttribute: string;
+    public extraTitleDetailsAttribute: string;
+    public maxNameDisplayLength: number;
+    public isCheckableAttribute: string;
 
     public selectedItems?: string[] = [];
 
@@ -45,7 +49,8 @@ export abstract class TreeBaseComponent<TInputs, TOutputs> implements ComponentF
         selectLabel: undefined,
         treeData: [],
         selectedItems: [],
-        onChange: this.onChange.bind(this)
+        onChange: this.onChange.bind(this),
+        maxNameDisplayLength: -1
     }
 
 	/**
@@ -107,12 +112,10 @@ export abstract class TreeBaseComponent<TInputs, TOutputs> implements ComponentF
                 console.log(taggedEntities.entities[i][this.idAttribute]);
                 this.selectedItems?.push(taggedEntities.entities[i][this.idAttribute]);
             }
-            console.log(this.selectedItems);
             this.props.selectedItems = this.selectedItems;
-            console.log("Super init selected items:", this.props.selectedItems);
 
             // This works, but isn't pretty, maybe just use some interface instead if possible
-            let entities = JSON.parse(await results[2].text()).value as ComponentFramework.WebApi.Entity[];// clean this
+            let entities = JSON.parse(await results[2].text()).value as ComponentFramework.WebApi.Entity[];
             const allEntities = entities
 
             // Sort the items naturally (abc111 would now be placed after abc12 as it contains a bigger number when it would originially be placed first)
@@ -123,8 +126,6 @@ export abstract class TreeBaseComponent<TInputs, TOutputs> implements ComponentF
             let treeNodes = this.createTreeNodes(sortedEntites);
 
             this.props.treeData = treeNodes;
-
-            //console.log("Index tree data", this.props.treeData);
 
             // May not be needed here
             this.setReadonly();
@@ -150,10 +151,12 @@ export abstract class TreeBaseComponent<TInputs, TOutputs> implements ComponentF
             newNode.title = entity[this.nameAttribute];
             newNode.children = [];
 
-            newNode.description = entity["opc_descriptionenglish"]; // TODO: This will be an optional Configuratin field
+            newNode.description = entity[this.descriptionAttribute];
             newNode.name = entity[this.nameAttribute];
-            newNode.checkable = entity["opc_ischeckable"];
-            newNode.titleDetails = entity["opc_marginalnoteenglish"]; // TODO: This will be an optional confuration field
+            newNode.titleDetails = entity[this.extraTitleDetailsAttribute];
+
+            // No field specified defaults to true
+            newNode.checkable = this.isCheckableAttribute ? entity[this.isCheckableAttribute] : true;
 
             treeNodes.push(newNode);
         }

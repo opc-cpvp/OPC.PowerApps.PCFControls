@@ -128,14 +128,6 @@
     <value>Allow users to select multiple hierchical items imbedded inside a tree</value>
     <comment>Display text for TreeComponent description</comment>
   </data>
-  <data name="treeEntityName_Display_Key" xml:space="preserve">
-    <value>Tree Entity Name</value>
-    <comment>Display text for tree entity logical name</comment>
-  </data>
-  <data name="treeEntityName_Desc_Key" xml:space="preserve">
-    <value>The name of the entity to be used</value>
-    <comment>Description text for tree entity logical name</comment>
-  </data>
   <data name="treeParentEntityAttribute_Display_Key" xml:space="preserve">
     <value>Tree parent attribute</value>
     <comment>Display text for tree entity parent attribute logical name</comment>
@@ -143,6 +135,46 @@
   <data name="treeParentEntityAttribute_Desc_Key" xml:space="preserve">
     <value>The logical name of the lookup to the parent of the entity</value>
     <comment>Description text for tree entity parent attribute logical name</comment>
+  </data>
+  <data name="nameAttribute_Display_Key" xml:space="preserve">
+    <value>Tree Name attribute</value>
+    <comment>Display text for the name of the record</comment>
+  </data>
+  <data name="nameAttribute_Desc_Key" xml:space="preserve">
+    <value>The logical name of the Name attribute for the tree entity</value>
+    <comment>Display text for Name Attribute</comment>
+  </data>
+  <data name="descriptionAttribute_Display_Key" xml:space="preserve">
+    <value>Tree Description attribute</value>
+    <comment>Display text for the description of the record</comment>
+  </data>
+  <data name="descriptionAttribute_Desc_Key" xml:space="preserve">
+    <value>The logical name of the Description attribute for the tree entity</value>
+    <comment>Description text for description Attribute</comment>
+  </data>
+  <data name="extraTitleDetailsAttribute_Display_Key" xml:space="preserve">
+    <value>Tree Extra Title Details attribute</value>
+    <comment>Display text for the extra title details of the record</comment>
+  </data>
+  <data name="extraTitleDetailsAttribute_Desc_Key" xml:space="preserve">
+    <value>The logical name of the Extra Title Details attribute for the tree entity</value>
+    <comment>Description text for Extra Title Details Attribute</comment>
+  </data>
+  <data name="isCheckableAttribute_Display_Key" xml:space="preserve">
+    <value>Tree Is Checkable attribute</value>
+    <comment>Display text for the Is Checkable attribute</comment>
+  </data>
+  <data name="isCheckableAttribute_Desc_Key" xml:space="preserve">
+    <value>The logical name of the Is Checkable attribute for the tree entity</value>
+    <comment>Description text for the Is Checkable Attribute</comment>
+  </data>
+  <data name="maxNameDisplayLength_Display_Key" xml:space="preserve">
+    <value>Tree Max Name Display Length</value>
+    <comment>Display text for the Max Name Display Length</comment>
+  </data>
+  <data name="maxNameDisplayLength_Desc_Key" xml:space="preserve">
+    <value>The max lengh of the name you will see in the drop down of the tree</value>
+    <comment>Description text for the Max Name Display Length</comment>
   </data>
   <data name="idAttribute_Display_Key" xml:space="preserve">
     <value>Tree Id attribute</value>
