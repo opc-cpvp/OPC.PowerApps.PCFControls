@@ -1,5 +1,5 @@
 import { IInputs, IOutputs } from "./generated/ManifestTypes";
-import { TreeSelectBaseComponent } from "./TreeSelectBaseComponent";
+import { TreeBaseComponent } from "./TreeBaseComponent";
 
 /**
  * Interface used to define output.
@@ -12,7 +12,7 @@ interface ITagData {
 
 // TODO: May need to go with tag picker grid container index instead
 
-export class TreeSelectComponent<TInputs, TOutputs> extends TreeSelectBaseComponent<IInputs, IOutputs> {
+export class TreeComponent<TInputs, TOutputs> extends TreeBaseComponent<IInputs, IOutputs> {
 	private readonly prefix: string = "TAGDATA:";
 
 	/**
@@ -30,21 +30,17 @@ export class TreeSelectComponent<TInputs, TOutputs> extends TreeSelectBaseCompon
 	 * @param state A piece of data that persists in one session for a single user. Can be set at any point in a controls life cycle by calling 'setControlState' in the Mode interface.
 	 * @param container If a control is marked control-type='starndard', it will receive an empty div element within which it can render its content.
 	 */
-	public async init(context: ComponentFramework.Context<IInputs>, notifyOutputChanged: () => void, state: ComponentFramework.Dictionary, container:HTMLDivElement): Promise<void> {
-		console.log("in init..");
-
+	public async init(context: ComponentFramework.Context<IInputs>, notifyOutputChanged: () => void, state: ComponentFramework.Dictionary, container: HTMLDivElement): Promise<void> {
 		// Passed control variables
-		if (this.context.parameters.treeEntityAttribute != null)
-			this.treeEntityAttribute = `_${this.context.parameters.treeEntityAttribute.raw}_value`;
+		if (context.parameters.treeEntityAttribute != null)
+			this.treeEntityAttribute = `_${context.parameters.treeEntityAttribute.raw}_value`;
 
-		this.treeEntityCollectionName = this.context.parameters.treeEntityName.raw || ""; // Rename treeEntityName when ready to commit and publish
-		this.idAttribute = this.context.parameters.idAttribute.raw || "";
-		this.nameAttribute = this.context.parameters.nameAttribute.raw || "";
-		this.treeNameAttribute = this.context.parameters.treeNameAttribute.raw || "";
-		this.relationshipEntity = this.context.parameters.relationshipEntity.raw || "";
-		this.relationshipName = this.context.parameters.relationshipName.raw || "";
-
-
+		this.treeEntityCollectionName = context.parameters.treeEntityName.raw || ""; // Rename treeEntityName when ready to commit and publish
+		this.idAttribute = context.parameters.idAttribute.raw || "";
+		this.nameAttribute = context.parameters.nameAttribute.raw || "";
+		this.relationshipEntity = context.parameters.relationshipEntity.raw || "";
+		this.relationshipName = context.parameters.relationshipName.raw || "";
+		
 		super.init(context, notifyOutputChanged, state, container);
 	}
 

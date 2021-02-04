@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-62" ?>
 <manifest>
 
-  <control namespace="opc.pcf" constructor="TreeSelectComponent" version="0.0.4" display-name-key="TreeComponent_Display_Key" description-key="TreeComponent_Desc_Key" control-type="standard">
+  <control namespace="opc.pcf" constructor="TreeComponent" version="0.0.5" display-name-key="TreeComponent_Display_Key" description-key="TreeComponent_Desc_Key" control-type="standard">
 
     <!-- property node identifies a specific, configurable piece of data that the control expects from CDS -->
     <!-- May change this data set -->
@@ -11,10 +11,10 @@
     <property name="treeEntityName" display-name-key="treeEntityName_Display_Key" description-key="treeEntityName_Desc_Key" of-type="SingleLine.Text" usage="input" required="false" />
     <property name="treeEntityAttribute" display-name-key="treeParentEntityAttribute_Display_Key" description-key="treeParentEntityAttribute_Desc_Key" of-type="SingleLine.Text" usage="input" required="false" />
     <property name="nameAttribute" display-name-key="nameAttribute_Display_key" description-key="nameAttribute_Desc_key" of-type="SingleLine.Text" usage="input" required="false" />
-    <property name="treeNameAttribute" display-name-key="treeNameAttribute_Display_key" description-key="treeNameAttribute_Desc_key" of-type="SingleLine.Text" usage="input" required="false" />
     <property name="idAttribute" display-name-key="idAttribute_Display_Key" description-key="idAttribute_Desc_Key" of-type="SingleLine.Text" usage="input" required="false" />
     <property name="relationshipName" display-name-key="relationshipName_Display_Key" description-key="relationshipName_Desc_Key" of-type="SingleLine.Text" usage="input" required="false" />
     <property name="relationshipEntity" display-name-key="relationshipEntity_Display_Key" description-key="relationshipEntity_Desc_Key" of-type="SingleLine.Text" usage="input" required="false" />
+    <property name="maxNameDisplayLength" display-name-key="maxNameDisplayLength_Display_Key" description-key="maxNameDisplayLength_Desc_Key" of-type="SingleLine.Text" usage="input" required="false" />
 
     <feature-usage>
       <uses-feature name="WebAPI" required="true" />

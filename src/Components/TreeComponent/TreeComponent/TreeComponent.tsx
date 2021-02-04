@@ -14,7 +14,7 @@ export class TreeSelectNode {
   description: string
   checkable: boolean
   parentKey: string
-
+  titleDetails: string
   // TODO: Future feature for hover data?
 }
 
@@ -30,7 +30,7 @@ export interface ITreeSelectState extends React.ComponentState { // Check if ext
   treeData?: any; // The modified tree nodes given by the props
 }
 
-export class TreeSelectComponent extends React.Component<ITreeSelectProps, ITreeSelectState> {
+export class TreeComponent extends React.Component<ITreeSelectProps, ITreeSelectState> {
   constructor(props: ITreeSelectProps) {
     super(props);
 
@@ -40,18 +40,17 @@ export class TreeSelectComponent extends React.Component<ITreeSelectProps, ITree
 
     this.buildTreeData(props.treeData, rootNode);
 
+    console.log(props.selectedItems);
+
     this.state = {
       selectedItems: props.selectedItems,
       treeData: rootNode.children
     };
-
-    console.log(this.state.treeData);
   }
 
 
   // Create the tree from the flat array
   public buildTreeData(treeNodes: TreeSelectNode[], treeRoot: TreeSelectNode | null) {
-    console.log("Rebuilding tree");
     for (var node in treeNodes) {
       let currentNode = treeNodes[node];
       if (node != null && treeRoot != null) {
@@ -62,7 +61,14 @@ export class TreeSelectComponent extends React.Component<ITreeSelectProps, ITree
 
           // TODO: Create new entity columns for only marginal note and append here (configure to add "extra title")
           // Can actually make the hover stuff work here I think too, coukd be usuful to show the full marginal note and maybe even descriptions if really wanted
-          currentNode.title = <div>{currentNode.title} | <em>Extra title details</em></div>; // Display as html, we want this
+          if (currentNode.titleDetails) {
+            currentNode.title = <div>{currentNode.name} | <em>{currentNode.titleDetails}</em></div>;
+          } else {
+            currentNode.title = currentNode.name;
+          }
+
+          currentNode.inputTitle = currentNode.name;
+          // Display as html, we want this
           //currentNode.name = <div><i>Test</i></div>"; // Display as plain string
           //currentNode.inputTitle = "<div><i>Test</i></div>";
 
@@ -79,7 +85,7 @@ export class TreeSelectComponent extends React.Component<ITreeSelectProps, ITree
     rootNode.children = [];
 
     this.buildTreeData(newProps.treeData, rootNode);
-
+    console.log(newProps.selectedItems);
     this.setState({
       selectedItems: newProps.selectedItems,
       treeData: rootNode.children
@@ -104,7 +110,7 @@ export class TreeSelectComponent extends React.Component<ITreeSelectProps, ITree
   filter = (inputValue: string, treeNode: any): boolean => {
     const includesIgnoreCase = (value1: string, value2: string) =>
       (value1 && value2) ? value1.toLowerCase().includes(value2.toLowerCase()) : false;
-
+      
     return includesIgnoreCase(treeNode.description, inputValue) || includesIgnoreCase(treeNode.name, inputValue);
   }
 

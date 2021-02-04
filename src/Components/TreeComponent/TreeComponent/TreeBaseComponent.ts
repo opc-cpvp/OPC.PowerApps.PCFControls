@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { IInputs, IOutputs } from "./generated/ManifestTypes";
 import { WebApi, IWebApi } from "./WebApi";
-import { TreeSelectComponent, ITreeSelectProps, TreeSelectNode } from './TreeSelectComponent';
+import { TreeComponent, ITreeSelectProps, TreeSelectNode } from './TreeComponent';
 
 // Only needed when creating relationships
 interface ITagData {
@@ -11,7 +11,7 @@ interface ITagData {
     tags: string[]
 }
 
-export abstract class TreeSelectBaseComponent<TInputs, TOutputs> implements ComponentFramework.StandardControl<IInputs, IOutputs> {
+export abstract class TreeBaseComponent<TInputs, TOutputs> implements ComponentFramework.StandardControl<IInputs, IOutputs> {
     // Cached context object for the latest updateView
     public context: ComponentFramework.Context<IInputs>;
     private notifyOutputChanged: () => void;
@@ -28,9 +28,8 @@ export abstract class TreeSelectBaseComponent<TInputs, TOutputs> implements Comp
     public treeEntityAttribute: string;
     public idAttribute: string;
     public nameAttribute: string;
-    public treeNameAttribute: string;
 
-    public selectedItems?: string[];
+    public selectedItems?: string[] = [];
 
     private webAPI: IWebApi;
 
@@ -58,7 +57,6 @@ export abstract class TreeSelectBaseComponent<TInputs, TOutputs> implements Comp
 	 * @param container If a control is marked control-type='starndard', it will receive an empty div element within which it can render its content.
 	 */
     public async init(context: ComponentFramework.Context<IInputs>, notifyOutputChanged: () => void, state: ComponentFramework.Dictionary, container: HTMLDivElement): Promise<void> {
-
         this.context = context;
         this.notifyOutputChanged = notifyOutputChanged;
 
@@ -106,9 +104,12 @@ export abstract class TreeSelectBaseComponent<TInputs, TOutputs> implements Comp
             // Entities that are selected from the tree
             let taggedEntities = results[1];
             for (var i in taggedEntities.entities) {
+                console.log(taggedEntities.entities[i][this.idAttribute]);
                 this.selectedItems?.push(taggedEntities.entities[i][this.idAttribute]);
-                this.props.selectedItems = this.selectedItems;
             }
+            console.log(this.selectedItems);
+            this.props.selectedItems = this.selectedItems;
+            console.log("Super init selected items:", this.props.selectedItems);
 
             // This works, but isn't pretty, maybe just use some interface instead if possible
             let entities = JSON.parse(await results[2].text()).value as ComponentFramework.WebApi.Entity[];// clean this
@@ -123,7 +124,7 @@ export abstract class TreeSelectBaseComponent<TInputs, TOutputs> implements Comp
 
             this.props.treeData = treeNodes;
 
-            console.log("Index tree data", this.props.treeData);
+            //console.log("Index tree data", this.props.treeData);
 
             // May not be needed here
             this.setReadonly();
@@ -149,12 +150,10 @@ export abstract class TreeSelectBaseComponent<TInputs, TOutputs> implements Comp
             newNode.title = entity[this.nameAttribute];
             newNode.children = [];
 
-            // TODO: One or two of these will change to do the "extra detail" aggregation for marginal note
-            // Multilanguage plugin will take car of this when ready, for now, use english
-            newNode.description = entity["opc_englishdescription"];
-            newNode.inputTitle = entity[this.treeNameAttribute]; // THis should be "name" not tree name... something is inversed..
+            newNode.description = entity["opc_descriptionenglish"]; // TODO: This will be an optional Configuratin field
             newNode.name = entity[this.nameAttribute];
             newNode.checkable = entity["opc_ischeckable"];
+            newNode.titleDetails = entity["opc_marginalnoteenglish"]; // TODO: This will be an optional confuration field
 
             treeNodes.push(newNode);
         }
@@ -173,7 +172,7 @@ export abstract class TreeSelectBaseComponent<TInputs, TOutputs> implements Comp
     public updateView(context: ComponentFramework.Context<IInputs>): void {
         ReactDOM.render(
             React.createElement(
-                TreeSelectComponent,
+                TreeComponent,
                 this.props,
             ),
             this.treeComponentContainer
@@ -204,13 +203,13 @@ export abstract class TreeSelectBaseComponent<TInputs, TOutputs> implements Comp
             const parentSetName: string = this.mainEntityCollectionName;
 
             // Associate the added items.
-            const itemsAdded = newItems?.filter((item: string): boolean => !this.props.selectedItems?.some(selectedItem => selectedItem === item)) || [];
+            const itemsAdded = newItems?.filter((item: string): boolean => !this.selectedItems?.some(selectedItem => selectedItem === item)) || [];
             for (let item of itemsAdded) {
                 promises.push(this.webAPI.associateRecord(parentSetName, (<any>this.context).page.entityId, this.relationshipName, this.treeEntityCollectionName, item));
             }
 
             // Disassociate the removed items.
-            const itemsRemoved = this.props.selectedItems?.filter(selectedItem => !newItems?.includes(selectedItem)) || [];
+            const itemsRemoved = this.selectedItems?.filter(selectedItem => !newItems?.includes(selectedItem)) || [];
             for (let item of itemsRemoved) {
                 promises.push(this.webAPI.disassociateRecord(parentSetName, (<any>this.context).page.entityId, this.relationshipName, item));
             }
