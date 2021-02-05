@@ -135,6 +135,14 @@
   <data name="treeParentEntityAttribute_Desc_Key" xml:space="preserve">
     <value>The logical name of the lookup to the parent of the entity</value>
     <comment>Description text for tree entity parent attribute logical name</comment>
+  </data>  
+  <data name="treeEntityName_Display_Key" xml:space="preserve">
+    <value>Tree Entity Name</value>
+    <comment>Display text for the name of the tree entity</comment>
+  </data>
+  <data name="treeEntityName_Desc_Key" xml:space="preserve">
+    <value>The logical name of the tree entity</value>
+    <comment>Description text for Tree Entity Name</comment>
   </data>
   <data name="nameAttribute_Display_Key" xml:space="preserve">
     <value>Tree Name attribute</value>
@@ -142,8 +150,8 @@
   </data>
   <data name="nameAttribute_Desc_Key" xml:space="preserve">
     <value>The logical name of the Name attribute for the tree entity</value>
-    <comment>Display text for Name Attribute</comment>
-  </data>
+    <comment>Description text for Name Attribute</comment>
+  </data>  
   <data name="descriptionAttribute_Display_Key" xml:space="preserve">
     <value>Tree Description attribute</value>
     <comment>Display text for the description of the record</comment>

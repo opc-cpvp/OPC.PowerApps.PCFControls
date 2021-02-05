@@ -4,20 +4,14 @@ import { IInputs, IOutputs } from "./generated/ManifestTypes";
 import { WebApi, IWebApi } from "./WebApi";
 import { TreeComponent, ITreeSelectProps, TreeSelectNode } from './TreeComponent';
 
-// Only needed when creating relationships
-interface ITagData {
-    relatedEntity: string,
-    relationshipName: string,
-    tags: string[]
-}
+type TreeDataRequests = [Promise<ComponentFramework.PropertyHelper.EntityMetadata>, Promise<ComponentFramework.WebApi.RetrieveMultipleResponse>, Promise<Response>]
+type TreeDataResponses = [ComponentFramework.PropertyHelper.EntityMetadata, ComponentFramework.WebApi.RetrieveMultipleResponse, Response]
 
 export abstract class TreeBaseComponent<TInputs, TOutputs> implements ComponentFramework.StandardControl<IInputs, IOutputs> {
     // Cached context object for the latest updateView
     public context: ComponentFramework.Context<IInputs>;
     private notifyOutputChanged: () => void;
 
-    // Div element created as part of this control's main container. TODO: Will probably remove or change in some way
-    private mainContainer: HTMLDivElement;
     private treeComponentContainer: HTMLDivElement;
 
     private mainEntityCollectionName: string;
@@ -65,107 +59,97 @@ export abstract class TreeBaseComponent<TInputs, TOutputs> implements ComponentF
         this.context = context;
         this.notifyOutputChanged = notifyOutputChanged;
 
-        const clientUrl = (<any>this.context).page.getClientUrl();
+        const clientUrl = (this.context as any).page.getClientUrl();
         this.webAPI = new WebApi(this.context.webAPI, clientUrl);
 
         this.props.selectLabel = this.context.resources.getString("pleaseSelect");
+        this.props.maxNameDisplayLength = this.maxNameDisplayLength;
 
         // Need to track container resize so that control could get the available width. The available height won't be provided even this is true
         context.mode.trackContainerResize(true);
 
-        // TODO: Clean this up if possible
-        // Create main table container div. 
-        this.mainContainer = document.createElement("div");
-        this.mainContainer.classList.add("pcf_container_element");
-        this.mainContainer.classList.add("tree-component");
+        container.classList.add("pcf_container_element");
+        container.classList.add("tree-component");
+        this.treeComponentContainer = container;
 
-        const controlId = "tree_" + Math.random().toString(36).substr(2, 9);
-        this.mainContainer.innerHTML = `
-				<div class="pcf_overlay_element" id="${controlId}_overlay"></div>				
-				<div id="${controlId}" class="pcf_main_element test jstree-open">
-					Loading...
-				</div>
-		`;
+        // Request options
+        const entityTypeName = (this.context as any).page.entityTypeName;
+        let relationshipOptions = "?$filter=" + entityTypeName + "id eq " + (this.context as any).page.entityId;
 
-        container.appendChild(this.mainContainer);
+        const promiseArray: TreeDataRequests = [
+            this.context.utils.getEntityMetadata(entityTypeName, []),
+            this.context.webAPI.retrieveMultipleRecords(this.relationshipEntity, relationshipOptions, 5000),
+            this.webAPI.retrieveRecordsByView(this.treeEntityCollectionName, this.context.parameters.tableGrid.getViewId())
+        ];
 
-        this.treeComponentContainer = document.getElementById(controlId) as HTMLDivElement;
-
-        const entityTypeName = (<any>this.context).page.entityTypeName;
-        let relationshipOptions = "?$filter=" + entityTypeName + "id eq " + (<any>this.context).page.entityId;
-
-        const promiseArray: [
-            ComponentFramework.PropertyHelper.EntityMetadata,
-            Promise<ComponentFramework.WebApi.RetrieveMultipleResponse>,
-            Promise<Response>] = [
-                this.context.utils.getEntityMetadata(entityTypeName, []),
-                this.context.webAPI.retrieveMultipleRecords(this.relationshipEntity, relationshipOptions, 5000),
-                this.webAPI.retrieveRecordsByView(this.treeEntityCollectionName, this.context.parameters.tableGrid.getViewId())
-            ];
-
-        await Promise.all(promiseArray).then(async results => {
-            this.mainEntityCollectionName = results[0].EntitySetName;
-
-            // Entities that are selected from the tree
-            let taggedEntities = results[1];
-            for (var i in taggedEntities.entities) {
-                console.log(taggedEntities.entities[i][this.idAttribute]);
-                this.selectedItems?.push(taggedEntities.entities[i][this.idAttribute]);
-            }
-            this.props.selectedItems = this.selectedItems;
-
-            // This works, but isn't pretty, maybe just use some interface instead if possible
-            let entities = JSON.parse(await results[2].text()).value as ComponentFramework.WebApi.Entity[];
-            const allEntities = entities
-
-            // Sort the items naturally (abc111 would now be placed after abc12 as it contains a bigger number when it would originially be placed first)
-            const collator = new Intl.Collator('en', { numeric: true, sensitivity: 'base' });
-            const sortedEntites = allEntities.sort((a, b) => collator.compare(a.name, b.name));
-
-            // Not optomized, may just pass straight to component instead.....
-            let treeNodes = this.createTreeNodes(sortedEntites);
-
-            this.props.treeData = treeNodes;
-
-            // May not be needed here
-            this.setReadonly();
-
-            // Render the component now that we have all data
-            this.updateView(context);
-
-        }).catch(e => {
-            console.error("An error occured starting up the pcf", e);
-        });
+        await Promise.all(promiseArray).
+            then(x => this.processTreeDataResponses(x))
+            .catch(e => {
+                console.error("An error occured starting up the pcf", e);
+            });
     }
 
-    public createTreeNodes(entities: ComponentFramework.WebApi.Entity): TreeSelectNode[] {
-        let treeNodes: TreeSelectNode[] = [];
+    private async processTreeDataResponses(results: TreeDataResponses): Promise<void> {
+        this.mainEntityCollectionName = results[0].EntitySetName;
 
-        for (var i in entities) {
-
-            let entity = entities[i];
-
-            let newNode = new TreeSelectNode();
-            newNode.key = entity[this.idAttribute];
-            newNode.parentKey = entity[this.treeEntityAttribute];
-            newNode.title = entity[this.nameAttribute];
-            newNode.children = [];
-
-            newNode.description = entity[this.descriptionAttribute];
-            newNode.name = entity[this.nameAttribute];
-            newNode.titleDetails = entity[this.extraTitleDetailsAttribute];
-
-            // No field specified defaults to true
-            newNode.checkable = this.isCheckableAttribute ? entity[this.isCheckableAttribute] : true;
-
-            treeNodes.push(newNode);
+        // Entities that are selected from the tree
+        let selectedEntities = results[1];
+        for (var i in selectedEntities.entities) {
+            console.log(selectedEntities.entities[i][this.idAttribute]);
+            this.selectedItems?.push(selectedEntities.entities[i][this.idAttribute]);
         }
+        this.props.selectedItems = this.selectedItems;
 
-        return treeNodes;
+        let entities = JSON.parse(await results[2].text()).value as ComponentFramework.WebApi.Entity[];
+
+        // Sort the items naturally (abc111 would now be placed after abc12 as it contains a bigger number when it would originially be placed first)
+        const collator = new Intl.Collator('en', { numeric: true, sensitivity: 'base' });
+        const sortedEntites = entities.sort((a, b) => collator.compare(a[this.nameAttribute], b[this.nameAttribute]));
+
+        // Prepare root node to fill with the entities we fetched
+        let rootNode = new TreeSelectNode();
+        rootNode.key = "";
+        rootNode.children = [];
+
+        this.buildTreeData(sortedEntites, rootNode);
+        this.props.treeData = rootNode.children;
+
+        // Render the component now that we have all data
+        this.updateView(this.context);
     }
 
-    public setReadonly(): void {
-        (<HTMLElement>this.mainContainer.firstElementChild).style.display = this.context.mode.isControlDisabled == false ? "none" : "block";
+    private buildTreeData(entities: ComponentFramework.WebApi.Entity, treeRoot: TreeSelectNode | null) {
+        for (var node in entities) {
+            let entity = entities[node];
+            if (node != null && treeRoot != null) {
+                // Add to tree if root node or tree root is the parent of the current node
+                if (entity[this.treeEntityAttribute] == (treeRoot.key || null)) {
+
+                    let newNode = new TreeSelectNode();
+                    newNode.key = entity[this.idAttribute];
+                    newNode.parentKey = entity[this.treeEntityAttribute];
+                    newNode.title = entity[this.nameAttribute];
+                    newNode.children = [];
+
+                    newNode.description = entity[this.descriptionAttribute];
+                    newNode.name = entity[this.nameAttribute];
+                    newNode.titleDetails = entity[this.extraTitleDetailsAttribute];
+
+                    newNode.checkable = this.isCheckableAttribute ? entity[this.isCheckableAttribute] : true;
+
+                    if (newNode.titleDetails) {
+                        newNode.title = <div>{newNode.name} | <em>{newNode.titleDetails}</em></div>;
+                    } else {
+                        newNode.title = newNode.name;
+                    }
+
+                    newNode.inputTitle = newNode.name;
+
+                    treeRoot.children.push(newNode);
+                    this.buildTreeData(entities, newNode);
+                }
+            }
+        }
     }
 
 	/**
@@ -182,7 +166,6 @@ export abstract class TreeBaseComponent<TInputs, TOutputs> implements ComponentF
         );
 
         this.context = context;
-        this.setReadonly();
     }
 
 	/** 
@@ -199,7 +182,7 @@ export abstract class TreeBaseComponent<TInputs, TOutputs> implements ComponentF
      */
     private onChange(newItems?: string[]): void {
         const promises: Promise<Response>[] = [];
-        const entityExists: boolean = ((<any>this.context).page.entityId !== undefined && (<any>this.context).page.entityId !== "00000000-0000-0000-0000-000000000000");
+        const entityExists: boolean = ((this.context as any).page.entityId !== undefined && (this.context as any).page.entityId !== "00000000-0000-0000-0000-000000000000");
 
         // We only need to associate / dissasociate items when the entity exists.
         if (entityExists) {
@@ -208,13 +191,13 @@ export abstract class TreeBaseComponent<TInputs, TOutputs> implements ComponentF
             // Associate the added items.
             const itemsAdded = newItems?.filter((item: string): boolean => !this.selectedItems?.some(selectedItem => selectedItem === item)) || [];
             for (let item of itemsAdded) {
-                promises.push(this.webAPI.associateRecord(parentSetName, (<any>this.context).page.entityId, this.relationshipName, this.treeEntityCollectionName, item));
+                promises.push(this.webAPI.associateRecord(parentSetName, (this.context as any).page.entityId, this.relationshipName, this.treeEntityCollectionName, item));
             }
 
             // Disassociate the removed items.
             const itemsRemoved = this.selectedItems?.filter(selectedItem => !newItems?.includes(selectedItem)) || [];
             for (let item of itemsRemoved) {
-                promises.push(this.webAPI.disassociateRecord(parentSetName, (<any>this.context).page.entityId, this.relationshipName, item));
+                promises.push(this.webAPI.disassociateRecord(parentSetName, (this.context as any).page.entityId, this.relationshipName, item));
             }
         }
 

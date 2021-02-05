@@ -35,6 +35,8 @@ export class TreeComponent<TInputs, TOutputs> extends TreeBaseComponent<IInputs,
 		if (context.parameters.treeEntityAttribute != null)
 			this.treeEntityAttribute = `_${context.parameters.treeEntityAttribute.raw}_value`;
 
+		console.log(context.parameters.maxNameDisplayLength.raw);
+
 		this.treeEntityCollectionName = context.parameters.treeEntityName.raw || ""; // Rename treeEntityName when ready to commit and publish
 		this.idAttribute = context.parameters.idAttribute.raw || "";
 		this.nameAttribute = context.parameters.nameAttribute.raw || "";
@@ -44,6 +46,8 @@ export class TreeComponent<TInputs, TOutputs> extends TreeBaseComponent<IInputs,
 		this.descriptionAttribute = context.parameters.descriptionAttribute.raw || "";
 		this.extraTitleDetailsAttribute = context.parameters.extraTitleDetailsAttribute.raw || "";
 		this.isCheckableAttribute = context.parameters.isCheckableAttribute.raw || "";
+
+		console.log(this.maxNameDisplayLength);
 
 		super.init(context, notifyOutputChanged, state, container);
 	}
