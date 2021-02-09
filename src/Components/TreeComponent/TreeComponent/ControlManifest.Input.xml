@@ -10,7 +10,7 @@
 
     <property name="treeEntityCollectionName" display-name-key="treeEntityCollectionName_Display_Key" description-key="treeEntityCollectionName_Desc_Key" of-type="SingleLine.Text" usage="input" required="true" />
     <property name="treeEntityAttribute" display-name-key="treeParentEntityAttribute_Display_Key" description-key="treeParentEntityAttribute_Desc_Key" of-type="SingleLine.Text" usage="input" required="true" />
-    <property name="nameAttribute" display-name-key="nameAttribute2_Display_key" description-key="nameAttribute2_Desc_key" of-type="SingleLine.Text" usage="input" required="true" />
+    <property name="nameAttribute" display-name-key="treeNameAttribute_Display_key" description-key="treeNameAttribute_Desc_key" of-type="SingleLine.Text" usage="input" required="true" />
     <property name="idAttribute" display-name-key="idAttribute_Display_Key" description-key="idAttribute_Desc_Key" of-type="SingleLine.Text" usage="input" required="true" />
     <property name="relationshipName" display-name-key="relationshipName_Display_Key" description-key="relationshipName_Desc_Key" of-type="SingleLine.Text" usage="input" required="true" />
     <property name="relationshipEntity" display-name-key="relationshipEntity_Display_Key" description-key="relationshipEntity_Desc_Key" of-type="SingleLine.Text" usage="input" required="true" />

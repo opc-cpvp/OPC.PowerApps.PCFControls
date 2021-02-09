@@ -144,11 +144,11 @@
     <value>The logical name of the collection of the tree entity</value>
     <comment>Description text for Tree Entity Collection Name</comment>
   </data>
-  <data name="nameAttribute_Display_Key" xml:space="preserve">
+  <data name="treeNameAttribute_Display_key" xml:space="preserve">
     <value>Tree Name attribute</value>
     <comment>Display text for the name of the record</comment>
   </data>
-  <data name="nameAttribute_Desc_Key" xml:space="preserve">
+  <data name="treeNameAttribute_Desc_key" xml:space="preserve">
     <value>The logical name of the Name attribute for the tree entity</value>
     <comment>Description text for Name Attribute</comment>
   </data>
