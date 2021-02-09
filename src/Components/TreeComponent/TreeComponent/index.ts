@@ -37,7 +37,7 @@ export class TreeComponent<TInputs, TOutputs> extends TreeBaseComponent<IInputs,
 
 		console.log(context.parameters.maxNameDisplayLength.raw);
 
-		this.treeEntityCollectionName = context.parameters.treeEntityCollectionName.raw || ""; // Rename treeEntityName when ready to commit and publish
+		this.treeEntityCollectionName = context.parameters.treeEntityCollectionName.raw || "";
 		this.idAttribute = context.parameters.idAttribute.raw || "";
 		this.nameAttribute = context.parameters.nameAttribute.raw || "";
 		this.relationshipEntity = context.parameters.relationshipEntity.raw || "";

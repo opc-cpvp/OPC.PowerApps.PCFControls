@@ -130,6 +130,6 @@ export class WebApi implements IWebApi {
                 "OData-MaxVersion": "4.0",
                 "OData-Version": "4.0"
             }
-        }) as unknown as Promise<Response>;
+        });
     }
 }

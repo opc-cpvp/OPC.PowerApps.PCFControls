@@ -128,7 +128,6 @@ export abstract class TreeBaseComponent<TInputs, TOutputs> implements ComponentF
                     let newNode = new TreeSelectNode();
                     newNode.key = entity[this.idAttribute];
                     newNode.parentKey = entity[this.treeEntityAttribute];
-                    newNode.title = entity[this.nameAttribute];
                     newNode.children = [];
 
                     newNode.description = entity[this.descriptionAttribute];

@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { TreeSelect } from 'antd/lib';
-import Truncate from 'react-truncate';
 
 const { SHOW_CHILD } = TreeSelect;
 
@@ -16,7 +15,6 @@ export class TreeSelectNode {
   checkable: boolean
   parentKey: string
   titleDetails: string
-  // TODO: Future feature for hover data?
 }
 
 export interface ITreeSelectProps {
