@@ -38,12 +38,10 @@ export class TreeComponent extends React.Component<ITreeSelectProps, ITreeSelect
     };
   }
 
-  public componentDidUpdate(prevProps: any) {
-    if (this.props.selectedItems !== prevProps.selectedItems) {
-      this.setState({
-        selectedItems: this.props.selectedItems,
-      });
-    }
+  static getDerivedStateFromProps(nextProps: ITreeSelectProps, _prevState: ITreeSelectState) {
+    return {
+      selectedItems: nextProps.selectedItems
+    };
   }
 
   onChange = (selectedItems: string[]): void => {

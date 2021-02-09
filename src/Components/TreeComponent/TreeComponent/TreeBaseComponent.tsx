@@ -120,7 +120,7 @@ export abstract class TreeBaseComponent<TInputs, TOutputs> implements ComponentF
     private buildTreeData(entities: ComponentFramework.WebApi.Entity, treeRoot: TreeSelectNode | null) {
         for (var node in entities) {
             let entity = entities[node];
-            if (node != null && treeRoot != null) {
+            if (entity != null && treeRoot != null) {
                 // Add to tree if root node or tree root is the parent of the current node
                 if (entity[this.treeEntityAttribute] == (treeRoot.key || null)) {
 
