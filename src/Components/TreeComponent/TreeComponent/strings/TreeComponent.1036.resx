@@ -130,13 +130,13 @@
     <value>Permettre aux utilisateurs de sélectionner plusieurs éléments hiérachiques intégrés dans un arbre</value>
     <comment>Texte d'affichage pour la description des composants de l'arbre</comment>
   </data>
-  <data name="treeEntityName_Display_Key" xml:space="preserve">
+  <data name="treeEntityCollectionName_Display_Key" xml:space="preserve">
     <value>Nom de l'entité de l'arbre</value>
-    <comment>Texte d'affichage pour le nom logique de l'entité</comment>
+    <comment>Texte d'affichage pour le nom logique de la collection de l'entité</comment>
   </data>
-  <data name="treeEntityName_Desc_Key" xml:space="preserve">
-    <value>Le nom de l'entité à utiliser</value>
-    <comment>Texte de description pour le nom logique de l'entité</comment>
+  <data name="treeEntityCollectionName_Desc_Key" xml:space="preserve">
+    <value>Le nom de la collection de l'entité à utiliser</value>
+    <comment>Texte de description pour le nom logique de la collection de l'entité</comment>
   </data>
   <data name="treeParentEntityAttribute_Display_Key" xml:space="preserve">
     <value>Attribut du parent de l'arbre</value>
