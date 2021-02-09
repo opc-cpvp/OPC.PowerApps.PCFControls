@@ -95,7 +95,6 @@ export abstract class TreeBaseComponent<TInputs, TOutputs> implements ComponentF
         // Entities that are selected from the tree
         let selectedEntities = results[1];
         for (var i in selectedEntities.entities) {
-            console.log(selectedEntities.entities[i][this.idAttribute]);
             this.selectedItems?.push(selectedEntities.entities[i][this.idAttribute]);
         }
         this.props.selectedItems = this.selectedItems;
