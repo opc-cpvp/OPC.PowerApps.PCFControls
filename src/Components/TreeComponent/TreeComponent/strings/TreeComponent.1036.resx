@@ -146,14 +146,6 @@
     <value>Le nom logique du parent de l'entité</value>
     <comment>Texte de description pour le nom logique de l'attribut parent de l'entité</comment>
   </data>
-  <data name="treeEntityName_Display_Key" xml:space="preserve">
-    <value>Nom de l'entité arbre</value>
-    <comment>Texte d'affichage pour nom de l'entité arbre</comment>
-  </data>
-  <data name="treeEntityName_Desc_Key" xml:space="preserve">
-    <value>Le nom logique de l'entité arbre</value>
-    <comment>Texte de description pour nom de l'entité arbre</comment>
-  </data>
   <data name="nameAttribute_Display_Key" xml:space="preserve">
     <value>Attribute Nom de l'arbre</value>
     <comment>Texte d'affichage pour le l'attribut nom de l'arbre</comment>
