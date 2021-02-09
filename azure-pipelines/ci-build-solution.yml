@@ -34,13 +34,7 @@ name: $[format('{0}.{1}{2}', variables['Version.MajorMinor'], variables['Version
 steps:
 - task: WaelHamze.xrm-ci-framework-build-tasks.MSCRMToolInstaller.MSCRMToolInstaller@12
   displayName: 'Power DevOps Tool Installer'
-
-- task: Npm@1
-  displayName: 'npm install - Shared Project'
-  inputs:
-    workingDir: src/Components/Shared
-    verbose: false
-
+  
 - task: Npm@1
   displayName: 'npm install - TagPickerComponent'
   inputs:
