@@ -212,4 +212,8 @@
     <value>Please Select...</value>
     <comment>Display text to select an item in the tree</comment>
   </data>
+  <data name="createRecord" xml:space="preserve">
+    <value>Create the record first to have access</value>
+    <comment>Display text telling to create the record before you can use the PCF</comment>
+  </data>
 </root>

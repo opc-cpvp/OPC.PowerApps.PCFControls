@@ -4,8 +4,8 @@ import { IInputs, IOutputs } from "./generated/ManifestTypes";
 import { WebApi, IWebApi } from "./WebApi";
 import { TreeComponent, ITreeSelectProps, TreeSelectNode } from './TreeComponent';
 
-type TreeDataRequests = [Promise<ComponentFramework.PropertyHelper.EntityMetadata>, Promise<ComponentFramework.WebApi.RetrieveMultipleResponse>, Promise<Response>]
-type TreeDataResponses = [ComponentFramework.PropertyHelper.EntityMetadata, ComponentFramework.WebApi.RetrieveMultipleResponse, Response]
+type TreeDataRequests = [Promise<ComponentFramework.PropertyHelper.EntityMetadata>, Promise<Response>]
+type TreeDataResponses = [ComponentFramework.PropertyHelper.EntityMetadata, Response]
 
 export abstract class TreeBaseComponent<TInputs, TOutputs> implements ComponentFramework.StandardControl<IInputs, IOutputs> {
     // Cached context object for the latest updateView
@@ -40,11 +40,13 @@ export abstract class TreeBaseComponent<TInputs, TOutputs> implements ComponentF
 
     // Specify available props to change
     private props: ITreeSelectProps = {
-        selectLabel: undefined,
+        selectLabelText: undefined,
+        createRecordText: undefined,
         treeData: [],
         selectedItems: [],
         onChange: this.onChange.bind(this),
-        maxNameDisplayLength: -1
+        maxNameDisplayLength: -1,
+        entityExists: false
     }
 
 	/**
@@ -62,7 +64,8 @@ export abstract class TreeBaseComponent<TInputs, TOutputs> implements ComponentF
         const clientUrl = (this.context as any).page.getClientUrl();
         this.webAPI = new WebApi(this.context.webAPI, clientUrl);
 
-        this.props.selectLabel = this.context.resources.getString("pleaseSelect");
+        this.props.selectLabelText = this.context.resources.getString("pleaseSelect");
+        this.props.createRecordText = this.context.resources.getString("createRecord");
         this.props.maxNameDisplayLength = this.maxNameDisplayLength;
 
         // Need to track container resize so that control could get the available width. The available height won't be provided even this is true
@@ -72,13 +75,17 @@ export abstract class TreeBaseComponent<TInputs, TOutputs> implements ComponentF
         container.classList.add("tree-component");
         this.treeComponentContainer = container;
 
-        // Request options
         const entityTypeName = (this.context as any).page.entityTypeName;
-        let relationshipOptions = "?$filter=" + entityTypeName + "id eq " + (this.context as any).page.entityId;
+
+        // Get selected records if the record already exists
+        if ((this.context as any).page.entityId !== undefined) {
+            let relationshipOptions = "?$filter=" + entityTypeName + "id eq " + (this.context as any).page.entityId;
+            this.context.webAPI.retrieveMultipleRecords(this.relationshipEntity, relationshipOptions, 5000)
+                .then(x => this.processSelectedRecordsResponse(x))
+        }
 
         const promiseArray: TreeDataRequests = [
             this.context.utils.getEntityMetadata(entityTypeName, []),
-            this.context.webAPI.retrieveMultipleRecords(this.relationshipEntity, relationshipOptions, 5000),
             this.webAPI.retrieveRecordsByView(this.treeEntityCollectionName, this.context.parameters.tableGrid.getViewId())
         ];
 
@@ -89,17 +96,21 @@ export abstract class TreeBaseComponent<TInputs, TOutputs> implements ComponentF
             });
     }
 
-    private async processTreeDataResponses(results: TreeDataResponses): Promise<void> {
-        this.mainEntityCollectionName = results[0].EntitySetName;
-
-        // Entities that are selected from the tree
-        let selectedEntities = results[1];
+    private processSelectedRecordsResponse(result: ComponentFramework.WebApi.RetrieveMultipleResponse): void {
+        let selectedEntities = result;
         for (var i in selectedEntities.entities) {
             this.selectedItems?.push(selectedEntities.entities[i][this.idAttribute]);
         }
         this.props.selectedItems = this.selectedItems;
+        this.updateView(this.context);
+    }
 
-        let entities = JSON.parse(await results[2].text()).value as ComponentFramework.WebApi.Entity[];
+    private async processTreeDataResponses(results: TreeDataResponses): Promise<void> {
+        this.mainEntityCollectionName = results[0].EntitySetName;
+
+        let recordData = await results[1].text();
+
+        let entities = JSON.parse(recordData).value as ComponentFramework.WebApi.Entity[];
 
         // Sort the items naturally (abc111 would now be placed after abc12 as it contains a bigger number when it would originially be placed first)
         const collator = new Intl.Collator('en', { numeric: true, sensitivity: 'base' });
@@ -155,6 +166,8 @@ export abstract class TreeBaseComponent<TInputs, TOutputs> implements ComponentF
 	 * @param context The entire property bag available to control via Context Object; It contains values as set up by the customizer mapped to names defined in the manifest, as well as utility functions
 	 */
     public updateView(context: ComponentFramework.Context<IInputs>): void {
+        this.props.entityExists = ((context as any).page.entityId && (context as any).page.entityId !== "00000000-0000-0000-0000-000000000000");
+
         ReactDOM.render(
             React.createElement(
                 TreeComponent,
@@ -180,7 +193,7 @@ export abstract class TreeBaseComponent<TInputs, TOutputs> implements ComponentF
      */
     private onChange(newItems?: string[]): void {
         const promises: Promise<Response>[] = [];
-        const entityExists: boolean = ((this.context as any).page.entityId !== undefined && (this.context as any).page.entityId !== "00000000-0000-0000-0000-000000000000");
+        const entityExists: boolean = ((this.context as any).page.entityId && (this.context as any).page.entityId !== "00000000-0000-0000-0000-000000000000");
 
         // We only need to associate / dissasociate items when the entity exists.
         if (entityExists) {
@@ -200,12 +213,14 @@ export abstract class TreeBaseComponent<TInputs, TOutputs> implements ComponentF
         }
 
         Promise.all(promises).then(
-            _ => {
+            _result => {
                 this.props.selectedItems = this.selectedItems = newItems || [];
 
                 if (!entityExists)
                     this.notifyOutputChanged();
             }
-        );
+        ).catch(e => {
+            console.error("Error updating relationships", e);
+        });
     }
 }

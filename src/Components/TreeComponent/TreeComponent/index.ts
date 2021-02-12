@@ -58,7 +58,7 @@ export class TreeComponent<TInputs, TOutputs> extends TreeBaseComponent<IInputs,
 			relationshipName: this.relationshipName,
 			tags: this.selectedItems || []
 		};
-
+		
 		return {
 			tagData: `${this.prefix}${JSON.stringify(selectedItems)}`
 		};

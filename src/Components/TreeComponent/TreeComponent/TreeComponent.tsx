@@ -18,11 +18,13 @@ export class TreeSelectNode {
 }
 
 export interface ITreeSelectProps {
-  selectLabel: string | undefined;
+  selectLabelText: string | undefined;
+  createRecordText: string | undefined;
   selectedItems?: string[];
   onChange(selectedItems?: string[]): void;
   treeData: TreeSelectNode[];
   maxNameDisplayLength: number;
+  entityExists: boolean;
 }
 
 export interface ITreeSelectState extends React.ComponentState {
@@ -38,15 +40,23 @@ export class TreeComponent extends React.Component<ITreeSelectProps, ITreeSelect
     };
   }
 
-  static getDerivedStateFromProps(nextProps: ITreeSelectProps, _prevState: ITreeSelectState) {
-    return {
-      selectedItems: nextProps.selectedItems
-    };
+  onChange = (selectedItems: string[]): void => {
+    this.setState({ selectedItems: selectedItems });
+    this.props.onChange(selectedItems);
   }
 
-  onChange = (selectedItems: string[]): void => {
-    this.setState({ selectedItems });
-    this.props.onChange(selectedItems);
+  public componentDidUpdate(prevProps: any) {
+    if (this.props.selectedItems !== prevProps.selectedItems) {
+      this.setState((_status, newProps) => ({
+        selectedItems: newProps.selectedItems
+      }));
+    }
+
+    if (this.props.entityExists !== prevProps.entityExists) {
+      this.setState((_status, newProps) => ({
+        entityExists: newProps.entityExists
+      }));
+    }
   }
 
   filter = (inputValue: string, treeNode: any): boolean => {
@@ -59,6 +69,9 @@ export class TreeComponent extends React.Component<ITreeSelectProps, ITreeSelect
   }
 
   public render(): JSX.Element {
+
+    if (!this.props.entityExists) return <p>{this.props.createRecordText}</p>;
+
     return (
       <TreeSelect
         treeData={this.props.treeData}
@@ -66,7 +79,7 @@ export class TreeComponent extends React.Component<ITreeSelectProps, ITreeSelect
         onChange={this.onChange}
         treeCheckable={true}
         showCheckedStrategy={SHOW_CHILD}
-        placeholder={this.props.selectLabel}
+        placeholder={this.props.selectLabelText}
         filterTreeNode={this.filter}
         treeDefaultExpandAll={true}
         treeNodeLabelProp="inputTitle"

@@ -214,4 +214,8 @@
     <value>Selectionner...</value>
     <comment>Texte d'affichage pour faire la selection d'un item dans l'arbre</comment>
   </data>
+  <data name="createRecord" xml:space="preserve">
+    <value>Créez le fichier pour y avoir accès</value>
+    <comment>Texte d'affichage pour dire de créer le fichier pour utiliser le PCF</comment>
+  </data>
 </root>
