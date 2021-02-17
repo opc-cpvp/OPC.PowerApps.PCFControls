@@ -51,12 +51,6 @@ export class TreeComponent extends React.Component<ITreeSelectProps, ITreeSelect
         selectedItems: newProps.selectedItems
       }));
     }
-
-    if (this.props.entityExists !== prevProps.entityExists) {
-      this.setState((_status, newProps) => ({
-        entityExists: newProps.entityExists
-      }));
-    }
   }
 
   filter = (inputValue: string, treeNode: any): boolean => {
