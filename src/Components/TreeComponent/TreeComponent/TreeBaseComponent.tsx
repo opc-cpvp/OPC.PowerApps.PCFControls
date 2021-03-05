@@ -97,10 +97,8 @@ export abstract class TreeBaseComponent<TInputs, TOutputs> implements ComponentF
     }
 
     private processSelectedRecordsResponse(result: ComponentFramework.WebApi.RetrieveMultipleResponse): void {
-        let selectedEntities = result;
-        for (var i in selectedEntities.entities) {
-            this.selectedItems?.push(selectedEntities.entities[i][this.idAttribute]);
-        }
+        this.selectedItems?.push(...result.entities.map(e => e[this.idAttribute]));
+
         this.props.selectedItems = this.selectedItems;
         this.updateView(this.context);
     }
@@ -128,10 +126,9 @@ export abstract class TreeBaseComponent<TInputs, TOutputs> implements ComponentF
         this.updateView(this.context);
     }
 
-    private buildTreeData(entities: ComponentFramework.WebApi.Entity, treeRoot: TreeSelectNode | null) {
-        for (var node in entities) {
-            let entity = entities[node];
-            if (entity != null && treeRoot != null) {
+    private buildTreeData(entities: ComponentFramework.WebApi.Entity[], treeRoot: TreeSelectNode | null) {
+        for (let entity of entities) {
+            if (treeRoot != null) {
                 // Add to tree if root node or tree root is the parent of the current node
                 if (entity[this.treeEntityAttribute] == (treeRoot.key || null)) {
 
