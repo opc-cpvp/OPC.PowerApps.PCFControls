@@ -4,8 +4,7 @@ import { IInputs, IOutputs } from "./generated/ManifestTypes";
 import { WebApi, IWebApi } from "./WebApi";
 import { TreeComponent, ITreeSelectProps, TreeSelectNode } from './TreeComponent';
 
-type TreeDataRequests = [Promise<ComponentFramework.PropertyHelper.EntityMetadata>, Promise<Response>]
-type TreeDataResponses = [ComponentFramework.PropertyHelper.EntityMetadata, Response]
+type TreeDataResponses = [ComponentFramework.PropertyHelper.EntityMetadata, Response, ComponentFramework.WebApi.RetrieveMultipleResponse | undefined];
 
 export abstract class TreeBaseComponent<TInputs, TOutputs> implements ComponentFramework.StandardControl<IInputs, IOutputs> {
     // Cached context object for the latest updateView
@@ -77,38 +76,30 @@ export abstract class TreeBaseComponent<TInputs, TOutputs> implements ComponentF
 
         const entityTypeName = (this.context as any).page.entityTypeName;
 
+        let retrieveMultipleRecordsRequest: Promise<ComponentFramework.WebApi.RetrieveMultipleResponse | undefined> = Promise.resolve(undefined);
+
         // Get selected records if the record already exists
         if ((this.context as any).page.entityId !== undefined) {
+            // TODO: May need additional testing to make sur entityTypeName will always stay the same
             let relationshipOptions = "?$filter=" + entityTypeName + "id eq " + (this.context as any).page.entityId;
-            this.context.webAPI.retrieveMultipleRecords(this.relationshipEntity, relationshipOptions, 5000)
-                .then(x => this.processSelectedRecordsResponse(x))
+            retrieveMultipleRecordsRequest = this.context.webAPI.retrieveMultipleRecords(this.relationshipEntity, relationshipOptions, 5000);
         }
 
-        const promiseArray: TreeDataRequests = [
-            this.context.utils.getEntityMetadata(entityTypeName, []),
-            this.webAPI.retrieveRecordsByView(this.treeEntityCollectionName, this.context.parameters.tableGrid.getViewId())
-        ];
+        let getMetaDataRequest = this.context.utils.getEntityMetadata(entityTypeName, []);
+        let getRecordsByViewRequest = this.webAPI.retrieveRecordsByView(this.treeEntityCollectionName, this.context.parameters.tableGrid.getViewId());
 
-        await Promise.all(promiseArray).
+        // Due to some typescript bug, a tuple can't currently be used for Promise.All as types are not infered properly. Using an array and casting to const seems to infer them properly.
+        await Promise.all([getMetaDataRequest, getRecordsByViewRequest, retrieveMultipleRecordsRequest] as const).
             then(x => this.processTreeDataResponses(x))
             .catch(e => {
                 console.error("An error occured starting up the pcf", e);
             });
     }
 
-    private processSelectedRecordsResponse(result: ComponentFramework.WebApi.RetrieveMultipleResponse): void {
-        let selectedEntities = result;
-        for (var i in selectedEntities.entities) {
-            this.selectedItems?.push(selectedEntities.entities[i][this.idAttribute]);
-        }
-        this.props.selectedItems = this.selectedItems;
-        this.updateView(this.context);
-    }
-
     private async processTreeDataResponses(results: TreeDataResponses): Promise<void> {
-        this.mainEntityCollectionName = results[0].EntitySetName;
+        this.mainEntityCollectionName = results[0]?.EntitySetName;
 
-        let recordData = await results[1].text();
+        let recordData = await results[1]?.text();
 
         let entities = JSON.parse(recordData).value as ComponentFramework.WebApi.Entity[];
 
@@ -124,14 +115,19 @@ export abstract class TreeBaseComponent<TInputs, TOutputs> implements ComponentF
         this.buildTreeData(sortedEntites, rootNode);
         this.props.treeData = rootNode.children;
 
+        // Set the selected records if the request has been made
+        if (results[2] != undefined) {
+            this.selectedItems?.push(...results[2].entities?.map(e => e[this.idAttribute]));
+            this.props.selectedItems = this.selectedItems;
+        }
+
         // Render the component now that we have all data
         this.updateView(this.context);
     }
 
-    private buildTreeData(entities: ComponentFramework.WebApi.Entity, treeRoot: TreeSelectNode | null) {
-        for (var node in entities) {
-            let entity = entities[node];
-            if (entity != null && treeRoot != null) {
+    private buildTreeData(entities: ComponentFramework.WebApi.Entity[], treeRoot: TreeSelectNode | null) {
+        for (let entity of entities) {
+            if (treeRoot != null) {
                 // Add to tree if root node or tree root is the parent of the current node
                 if (entity[this.treeEntityAttribute] == (treeRoot.key || null)) {
 
