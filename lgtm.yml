@@ -10,3 +10,4 @@ extraction:
       include:
         - "src/Components/TagPickerComponent"
         - "src/Components/TagPickerGridComponent"
+        - "src/Components/TreeComponent"

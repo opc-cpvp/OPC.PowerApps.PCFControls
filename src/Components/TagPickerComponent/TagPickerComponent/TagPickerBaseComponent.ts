@@ -76,7 +76,6 @@ export abstract class TagPickerBaseComponent<TInputs, TOutputs> implements Compo
         this.context = context;
         this.notifyOutputChanged = notifyOutputChanged;
         this.container = container;
-
         const clientUrl = (<any>this.context).page.getClientUrl();
         this.webAPI = new WebApi(this.context.webAPI, clientUrl);
 

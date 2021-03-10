@@ -1,8 +1,8 @@
 import 'whatwg-fetch';
 
 export interface IWebApi extends ComponentFramework.WebApi {
-    associateRecord(parentSetName:string, parentId:string, relationshipName: string, childSetName: string, childId: string): Promise<Response>;
-    disassociateRecord(parentSetName:string, parentId:string, relationshipName: string, childId: string): Promise<Response>;
+    associateRecord(parentSetName: string, parentId: string, relationshipName: string, childSetName: string, childId: string): Promise<Response>;
+    disassociateRecord(parentSetName: string, parentId: string, relationshipName: string, childId: string): Promise<Response>;
 }
 
 export class WebApi implements IWebApi {
@@ -23,7 +23,7 @@ export class WebApi implements IWebApi {
      * @param childId ID of the child record.
      */
     associateRecord(parentSetName: string, parentId: string, relationshipName: string, childSetName: string, childId: string): Promise<Response> {
-        const payload = { "@odata.id" : `${this.clientUrl}/api/data/v9.1/${parentSetName}(${parentId})` };
+        const payload = { "@odata.id": `${this.clientUrl}/api/data/v9.1/${parentSetName}(${parentId})` };
 
         // https://docs.microsoft.com/en-us/powerapps/developer/common-data-service/webapi/associate-disassociate-entities-using-web-api
         return window.fetch(`${this.clientUrl}/api/data/v9.1/${childSetName}(${childId})/${relationshipName}/$ref`, {
