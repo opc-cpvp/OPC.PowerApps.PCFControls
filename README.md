@@ -10,6 +10,7 @@ Collection of PowerApps PCF Controls.
 Controls:
 - [Tag Picker Component](#tag-picker-component)
 - [Tag Picker Grid Component](#tag-picker-grid-component)
+- [Tree Component](#tree-component)
 
 Plugins:
 - TagRegistrationPlugin
@@ -97,6 +98,32 @@ The purpose of this control is to allow user to associate / disassociate records
 |**Relationship Name**|Relationship name between the primary entity and the related entity|X||
 |**Relationship Entity**|Logical name of the relationship entity|X||
 |**Label Text**|Field label that will be displayed on the form. It currently accepts the following formats: `Label` or `en=Label\|fr=Étiquette`|X||
+
+## Tree Component
+
+[![dependencies Status](https://david-dm.org/opc-cpvp/OPC.PowerApps.PCFControls/status.svg?path=src/Components/TreeComponent)](https://david-dm.org/opc-cpvp/OPC.PowerApps.PCFControls?path=src/Components/TreeComponent) [![devDependencies Status](https://david-dm.org/opc-cpvp/OPC.PowerApps.PCFControls/dev-status.svg?path=src/Components/TreeComponent)](https://david-dm.org/opc-cpvp/OPC.PowerApps.PCFControls?path=src/Components/TreeComponent&type=dev)
+
+### Preview
+
+![TreeComponent Preview](https://raw.githubusercontent.com/opc-cpvp/OPC.PowerApps.PCFControls/features/tree-component/img/treeselect.gif)
+
+The purpose of this control is to allow user to associate / disassociate hierarchical records for a many-to-many relationship in the form of a tree.
+
+### Configuration
+
+|Parameter|Description|Required|Bound to an attribute|
+|---------|-----------|:----:|:---:|
+|**Tree Entity Collection Name**|Plural name of the related entity|X||
+|**Tree Entity Attribute**|The parent record attribute for the tree entity|X||
+|**Name Attribute**|The attribute that will be used to display text of the node in the tree|X||
+|**Id Attribute**|The attribute for the ID of the tree record|X||
+|**Relationship Name**|Relationship name between the primary entity and the related entity|X||
+|**Relationship Entity**|Logical name of the relationship entity|X||
+|**Description Attribute**|The description attribute of the tree record, currently only used to aid searching|||
+|**Extra Title Details Attribute**|The attribute of the tree entity that will add extra details to the display text of the node in the tree |||
+|**Is Checkable Attribute**|The checkable attribute of the tree entity, determines whether a node can be checked in the tree  |||
+|**Max Name Display Length (Work in Progress)**|The max amount of characters the text of the node will be displayed in the tree |||
+
 
 ## Versioning
 
