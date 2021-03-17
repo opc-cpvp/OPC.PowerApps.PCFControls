@@ -101,8 +101,8 @@ export class TaskManager extends React.Component<ITaskManagerProps, ITaskManager
         <div style={{ display: "flex", padding: "10px 10px 0 10px" }}>
           <h3>Tasks</h3>
           <div style={{ marginLeft: "auto" }}>
-            <IconButton iconProps={{ iconName: 'Add' }} title="Add" ariaLabel="Add" styles={buttonStyles} onClick={this.handleAddOnClick} />
-            <IconButton iconProps={{ iconName: 'AllApps' }} title="Show all" ariaLabel="AllApps" styles={buttonStyles} onClick={this.handleShowAllClick} />
+            <IconButton iconProps={{ iconName: 'Add' }} title={this._context.resources.getString("label_addtask")} ariaLabel={this._context.resources.getString("label_addtask")} styles={buttonStyles} onClick={this.handleAddOnClick} />
+            <IconButton iconProps={{ iconName: 'AllApps' }} title={this._context.resources.getString("label_toggletaskvisibility")} ariaLabel={this._context.resources.getString("label_toggletaskvisibility")} styles={buttonStyles} onClick={this.handleShowAllClick} />
           </div>
         </div>
         <DetailsList
@@ -111,9 +111,9 @@ export class TaskManager extends React.Component<ITaskManagerProps, ITaskManager
           getKey={(task: ITaskItem) => task.key}
           items={this.state.getTasks().filter(i => i.isActive || (!i.isActive && this.state.showInactive))}
           columns={this._columns}
-          ariaLabelForSelectAllCheckbox="Toggle selection for all items"
-          ariaLabelForSelectionColumn="Toggle selection"
-          checkButtonAriaLabel="Mark this item as done"
+          //ariaLabelForSelectAllCheckbox="Toggle selection for all items"
+          ariaLabelForSelectionColumn={this._context.resources.getString("label_toggletaskcompleted")}
+          checkButtonAriaLabel={this._context.resources.getString("label_toggletaskcompleted")}
           onRenderDetailsHeader={this.handleRenderDetailsHeader}
           isHeaderVisible={false}
           checkboxVisibility={CheckboxVisibility.always}
@@ -219,7 +219,7 @@ private handleOnSelectionChanged(){
           <div className="task-description">{item?.description}</div>
         </div>
         <div className="task-action">
-          <IconButton iconProps={{ iconName: 'Delete' }} title="Delete" ariaLabel="Delete" styles={{icon:{color: SharedColors.red10}}} onClick={() => this.handleDeleteTask(item?.key)} />
+          <IconButton iconProps={{ iconName: 'Delete' }} title={this._context.resources.getString("label_canceltask")} ariaLabel={this._context.resources.getString("label_canceltask")} styles={{icon:{color: SharedColors.red10}}} onClick={() => this.handleDeleteTask(item?.key)} />
         </div>
       </div>;
   }
