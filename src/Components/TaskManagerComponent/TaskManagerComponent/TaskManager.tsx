@@ -134,7 +134,9 @@ private handleOnSelectionChanged(){
     const currentSelection = this._selection.getSelection();
     const checked = currentSelection.filter(t => !this.state.selectedItems.find(s => s.key === t.key));
     const unchecked = this.state.selectedItems.filter(t => !currentSelection.find(s => s.key === t.key));
-
+    // this.setState((prevState, props) => {
+    //   return { count: prevState.count + 1 }
+    // });
     this.setState({ selectedItems: currentSelection });
     if (checked.length > 0) {
       this._context.webAPI.updateRecord("task", checked[0].key as string, { statecode: 1, statuscode: 5 })
@@ -173,6 +175,9 @@ private handleOnSelectionChanged(){
   }
 
   private handleShowAllClick() {
+    // this.setState((prevState, props) => {
+    //   return { count: prevState.count + 1 }
+    // });
     this.setState({ showInactive: !this.state.showInactive });
   }
 
@@ -234,6 +239,9 @@ private handleOnSelectionChanged(){
           if (task) {
             task.isActive = false;
           }
+          // this.setState((prevState, props) => {
+          //   return { count: prevState.count + 1 }
+          // });
           this.setState({ getTasks: () => clonedItems });
         })
         .catch(ex => console.error(ex));

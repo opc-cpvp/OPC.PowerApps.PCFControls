@@ -65,7 +65,13 @@
     <value>Badge Configuration</value>
   </data>
   <data name="badgeConfig_Desc_Key" xml:space="preserve">
-    <value>Badge configuration represented in JSON</value>
+    <value>Badge configuration represented in JSON. See documentation on github for format.</value>
+  </data>
+  <data name="tasks_Display_Key" xml:space="preserve">
+    <value>Tasks</value>
+  </data>
+  <data name="tasks_Desc_Key" xml:space="preserve">
+    <value>Title for the list of tasks</value>
   </data>
   <data name="label_addtask" xml:space="preserve">
     <value>Add task</value>
