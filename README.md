@@ -105,7 +105,7 @@ The purpose of this control is to allow user to associate / disassociate records
 
 ### Preview
 
-![TreeComponent Preview](https://raw.githubusercontent.com/opc-cpvp/OPC.PowerApps.PCFControls/features/tree-component/img/treeselect.gif)
+![TreeComponent Preview](https://github.com/opc-cpvp/OPC.PowerApps.PCFControls/blob/master/img/treeselect.gif?raw=true)
 
 The purpose of this control is to allow user to associate / disassociate hierarchical records for a many-to-many relationship in the form of a tree.
 
