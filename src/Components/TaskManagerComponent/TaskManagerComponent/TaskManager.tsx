@@ -32,11 +32,11 @@ export interface ITaskItem {
   description: string;
   statuscode: string;
   isActive: boolean;
-  [additionalPropertyName: string] : string | Date | number | number[] | boolean | EntityReference | EntityReference[];
+  [additionalPropertyName: string]: string | Date | number | number[] | boolean | EntityReference | EntityReference[];
 }
 
 export interface ITaskManagerProps {
-  getTasks: () => ITaskItem[];
+  tasks: ITaskItem[];
   badgeConfig: ITaskManagerBadgeConfigurationItem[];
   context: ComponentFramework.Context<IInputs>;
 }
@@ -64,7 +64,7 @@ export class TaskManager extends React.Component<ITaskManagerProps, ITaskManager
     });
 
     this.state = {
-      getTasks: props.getTasks,
+      tasks: props.tasks,
       context: props.context,
       showInactive: false,
       selectedItems: this._selection.getSelection(),
@@ -73,20 +73,31 @@ export class TaskManager extends React.Component<ITaskManagerProps, ITaskManager
 
     // Define columns
     this._columns = [{
-        key: 'name',
-        name: 'Name', // TODO: i18n
-        fieldName: 'name',
-        minWidth: 100,
-        isResizable: true
+      key: 'name',
+      name: 'Name', // TODO: i18n
+      fieldName: 'name',
+      minWidth: 100,
+      isResizable: true
     }];
   }
 
-  private bindThis(){
+  public componentDidUpdate(prevProps: ITaskManagerProps) {
+    // If props are different its means changes are not tracked in the state
+    if (this.props.tasks !== prevProps.tasks) {
+      this.setState((prevState, newProps) => {
+        return { tasks: newProps.tasks };
+      });
+    }
+  }
+
+
+  private bindThis() {
     this.handleRenderColumn = this.handleRenderColumn.bind(this);
     this.handleShowAllClick = this.handleShowAllClick.bind(this);
     this.handleAddOnClick = this.handleAddOnClick.bind(this);
     this.handleDeleteTask = this.handleDeleteTask.bind(this);
     this.handleRenderRow = this.handleRenderRow.bind(this);
+    this.handleOnSelectionChanged = this.handleOnSelectionChanged.bind(this);
   }
 
   public render() {
@@ -109,9 +120,8 @@ export class TaskManager extends React.Component<ITaskManagerProps, ITaskManager
           componentRef={this._root}
           setKey={"set"} // This is required to keep selection, but documentation lacks on why and it appears to be a known issue: https://github.com/microsoft/fluentui/issues/7817
           getKey={(task: ITaskItem) => task.key}
-          items={this.state.getTasks().filter(i => i.isActive || (!i.isActive && this.state.showInactive))}
+          items={this.state.tasks.filter(i => i.isActive || (!i.isActive && this.state.showInactive))}
           columns={this._columns}
-          //ariaLabelForSelectAllCheckbox="Toggle selection for all items"
           ariaLabelForSelectionColumn={this._context.resources.getString("label_toggletaskcompleted")}
           checkButtonAriaLabel={this._context.resources.getString("label_toggletaskcompleted")}
           onRenderDetailsHeader={this.handleRenderDetailsHeader}
@@ -119,7 +129,7 @@ export class TaskManager extends React.Component<ITaskManagerProps, ITaskManager
           checkboxVisibility={CheckboxVisibility.always}
           onRenderItemColumn={this.handleRenderColumn}
           onRenderRow={this.handleRenderRow}
-          onRenderCheckbox={this.handlerRenderCheckbox}
+          onRenderCheckbox={this.handleRenderCheckbox}
           selection={this._selection}
           selectionPreservedOnEmptyClick={true}
           selectionMode={SelectionMode.multiple}
@@ -128,25 +138,28 @@ export class TaskManager extends React.Component<ITaskManagerProps, ITaskManager
     );
   }
 
-private handleOnSelectionChanged(){
+  private handleOnSelectionChanged() {
+    try {
+      // Isolate checked and unchecked item delta between state and current UI
+      const currentSelection = this._selection.getSelection();
+      const checked = currentSelection.filter(t => !this.state.selectedItems.find(s => s.key === t.key));
+      const unchecked = this.state.selectedItems.filter(t => !currentSelection.find(s => s.key === t.key));
 
-    // Isolate checked and unchecked item delta between state and current UI
-    const currentSelection = this._selection.getSelection();
-    const checked = currentSelection.filter(t => !this.state.selectedItems.find(s => s.key === t.key));
-    const unchecked = this.state.selectedItems.filter(t => !currentSelection.find(s => s.key === t.key));
-    // this.setState((prevState, props) => {
-    //   return { count: prevState.count + 1 }
-    // });
-    this.setState({ selectedItems: currentSelection });
-    if (checked.length > 0) {
-      this._context.webAPI.updateRecord("task", checked[0].key as string, { statecode: 1, statuscode: 5 })
-        .catch(ex => console.error(ex));
-    }
-    else if (unchecked.length > 0) {
-      this._context.webAPI.updateRecord("task", unchecked[0].key as string, { statecode: 0, statuscode: 3 })
-        .catch(ex => console.error(ex));
-    }
-}
+      // BUG: Potential issue as we dependant on this.state rather than prevState for current selection
+      this.setState((prevState, props) => {
+        return { selectedItems: currentSelection }
+      });
+
+      if (checked.length > 0) {
+        this._context.webAPI.updateRecord("task", checked[0].key as string, { statecode: 1, statuscode: 5 })
+          .catch(ex => console.error(ex));
+      }
+      else if (unchecked.length > 0) {
+        this._context.webAPI.updateRecord("task", unchecked[0].key as string, { statecode: 0, statuscode: 3 })
+          .catch(ex => console.error(ex));
+      }
+    } catch (e) { console.error(e); }
+  }
 
   private handleAddOnClick() {
 
@@ -166,7 +179,7 @@ private handleOnSelectionChanged(){
     }, undefined)
       .then(
         task => {
-          this._context?.factory.requestRender();
+          // Component should magically refresh
         },
         rejected => {
           console.error(rejected);
@@ -175,14 +188,13 @@ private handleOnSelectionChanged(){
   }
 
   private handleShowAllClick() {
-    // this.setState((prevState, props) => {
-    //   return { count: prevState.count + 1 }
-    // });
-    this.setState({ showInactive: !this.state.showInactive });
+    this.setState((prevState, props) => {
+      return { showInactive: !prevState.showInactive }
+    });
   }
 
   private handleRenderRow(props?: IDetailsRowProps) {
-      return props ? <DetailsRow {...props} styles={{root: {alignItems: "center"}}} rowFieldsAs={this.handleRenderRowFields} /> : null;
+    return props ? <DetailsRow {...props} styles={{ root: { alignItems: "center" } }} rowFieldsAs={this.handleRenderRowFields} /> : null;
   };
 
   private handleRenderRowFields(props: IDetailsRowFieldsProps) {
@@ -194,7 +206,7 @@ private handleOnSelectionChanged(){
     );
   }
 
-  private handlerRenderCheckbox(props?: IDetailsListCheckboxProps) {
+  private handleRenderCheckbox(props?: IDetailsListCheckboxProps) {
     return (
       <div style={{ pointerEvents: 'none' }}>
         <Checkbox checked={props?.checked} />
@@ -207,46 +219,44 @@ private handleOnSelectionChanged(){
   }
 
   private handleRenderColumn(item?: ITaskItem, index?: number, column?: IColumn) {
-      return <div className="task-wrapper">
-        <div className="task-content">
-          <span className="task-title">{item?.subject}</span>
-          {this.props.badgeConfig?.map((badgeConfigItem) => {
-            // Cast as any to access property value from variable name which represent the attribute name
-            const optionKey = (item as any)[badgeConfigItem.name];
-            const optionMetadata = badgeConfigItem.values?.find(v => v.key == optionKey);
+    return <div className="task-wrapper">
+      <div className="task-content">
+        <span className="task-title">{item?.subject}</span>
+        {this.props.badgeConfig?.map((badgeConfigItem) => {
+          // Cast as any to access property value from variable name which represent the attribute name
+          const optionKey = (item as any)[badgeConfigItem.name];
+          const optionMetadata = badgeConfigItem.values?.find(v => v.key == optionKey);
 
-            // This transforms all badge configurations into <span> elements if the current value matches something in the configuration.
-            // If the value was not mapped in the configuration, don't do anything with it.
-            if (optionMetadata) {
-              return <span className="badge" style={{ backgroundColor: optionMetadata.color ?? "gray" }} key={item?.key+"badge"+optionMetadata.label}>{optionMetadata.label}</span>
-            }
-          })}
-          <div className="task-description">{item?.description}</div>
-        </div>
-        <div className="task-action">
-          <IconButton iconProps={{ iconName: 'Delete' }} title={this._context.resources.getString("label_canceltask")} ariaLabel={this._context.resources.getString("label_canceltask")} styles={{icon:{color: SharedColors.red10}}} onClick={() => this.handleDeleteTask(item?.key)} />
-        </div>
-      </div>;
+          // This transforms all badge configurations into <span> elements if the current value matches something in the configuration.
+          // If the value was not mapped in the configuration, don't do anything with it.
+          if (optionMetadata) {
+            return <span className="badge" style={{ backgroundColor: optionMetadata.color ?? "gray" }} key={item?.key + "badge" + optionMetadata.label}>{optionMetadata.label}</span>
+          }
+        })}
+        <div className="task-description">{item?.description}</div>
+      </div>
+      <div className="task-action">
+        {item?.isActive && <IconButton iconProps={{ iconName: 'Delete' }} title={this._context.resources.getString("label_canceltask")} ariaLabel={this._context.resources.getString("label_canceltask")} styles={{ icon: { color: SharedColors.red10 } }} onClick={() => this.handleDeleteTask(item?.key)} />}
+      </div>
+    </div>;
+    //RemoveFromTrash
   }
 
   private handleDeleteTask(taskid?: string) {
     if (taskid) {
       this._context.webAPI.updateRecord("task", taskid, { statecode: 2, statuscode: 6 })
         .then(r => {
-          // Clone array, update deleted item to inactive then update state which will re-render.
-          const clonedItems = [...this.state.getTasks()];
-          const task = clonedItems.find(i => i.key === taskid);
-          if (task) {
-            task.isActive = false;
-          }
-          // this.setState((prevState, props) => {
-          //   return { count: prevState.count + 1 }
-          // });
-          this.setState({ getTasks: () => clonedItems });
+          this.setState((prevState, props) => {
+            // Clone array, update deleted item to inactive then update state which will re-render.
+            const clonedItems = [...prevState.tasks];
+            const task = clonedItems.find(i => i.key === taskid);
+            if (task) {
+              task.isActive = false;
+            }
+            return { tasks: clonedItems }
+          });
         })
         .catch(ex => console.error(ex));
     }
   }
 }
-
-

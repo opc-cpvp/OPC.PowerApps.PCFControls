@@ -40,7 +40,7 @@ export class TaskManagerComponent implements ComponentFramework.StandardControl<
 	public async updateView(context: ComponentFramework.Context<IInputs>): Promise<void> {
 
 		this._props = {
-			getTasks: () => this.mapTasks(context.parameters.tasks),
+			tasks: this.mapTasks(context.parameters.tasks),
 			context: context,
 			badgeConfig: await this.loadBadgeConfiguration(context)
 		}
@@ -103,7 +103,6 @@ export class TaskManagerComponent implements ComponentFramework.StandardControl<
 
 		const tasks: ITaskItem[] = [];
 		try {
-
 			let task: ITaskItem;
 			for (const taskId of dataset.sortedRecordIds) {
 				// Map main properties
