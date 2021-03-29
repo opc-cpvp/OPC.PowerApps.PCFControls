@@ -61,6 +61,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="TaskManagerComponent_Name_Key" xml:space="preserve">
+    <value>Module de gestion de tâches</value>
+  </data>
+  <data name="TaskManagerComponent_Desc_Key" xml:space="preserve">
+    <value>Module servant à gérer une liste de l'entité tâche de base</value>
+  </data>
   <data name="badgeConfig_Display_Key" xml:space="preserve">
     <value>Configuration des badges</value>
   </data>
@@ -75,6 +81,9 @@
   </data>
   <data name="label_addtask" xml:space="preserve">
     <value>Ajouter une tâche</value>
+  </data>
+  <data name="label_name" xml:space="preserve">
+    <value>Nom</value>
   </data>
   <data name="label_canceltask" xml:space="preserve">
     <value>Annuler la tâche</value>

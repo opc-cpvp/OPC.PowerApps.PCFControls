@@ -74,7 +74,7 @@ export class TaskManager extends React.Component<ITaskManagerProps, ITaskManager
     // Define columns
     this._columns = [{
       key: 'name',
-      name: 'Name', // TODO: i18n
+      name: this._context.resources.getString("label_name"),
       fieldName: 'name',
       minWidth: 100,
       isResizable: true
@@ -82,7 +82,7 @@ export class TaskManager extends React.Component<ITaskManagerProps, ITaskManager
   }
 
   public componentDidUpdate(prevProps: ITaskManagerProps) {
-    // If props are different its means changes are not tracked in the state
+    // If props are different it means changes are not tracked in the state
     if (this.props.tasks !== prevProps.tasks) {
       this.setState((prevState, newProps) => {
         return { tasks: newProps.tasks };
@@ -110,7 +110,7 @@ export class TaskManager extends React.Component<ITaskManagerProps, ITaskManager
     return (
       <div>
         <div style={{ display: "flex", padding: "10px 10px 0 10px" }}>
-          <h3>Tasks</h3>
+          <h3>{this._context.resources.getString("tasks_Display_Key")}</h3>
           <div style={{ marginLeft: "auto" }}>
             <IconButton iconProps={{ iconName: 'Add' }} title={this._context.resources.getString("label_addtask")} ariaLabel={this._context.resources.getString("label_addtask")} styles={buttonStyles} onClick={this.handleAddOnClick} />
             <IconButton iconProps={{ iconName: 'AllApps' }} title={this._context.resources.getString("label_toggletaskvisibility")} ariaLabel={this._context.resources.getString("label_toggletaskvisibility")} styles={buttonStyles} onClick={this.handleShowAllClick} />
@@ -178,7 +178,7 @@ export class TaskManager extends React.Component<ITaskManagerProps, ITaskManager
       createFromEntity: entityRef
     }, undefined)
       .then(
-        task => {
+        taskRef => {
           // Component should magically refresh
         },
         rejected => {

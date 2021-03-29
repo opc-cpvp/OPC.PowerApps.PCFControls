@@ -61,6 +61,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="TaskManagerComponent_Name_Key" xml:space="preserve">
+    <value>Task Manager Component</value>
+  </data>
+  <data name="TaskManagerComponent_Desc_Key" xml:space="preserve">
+    <value>Component to manage out of the box task entity list</value>
+  </data>
   <data name="badgeConfig_Display_Key" xml:space="preserve">
     <value>Badge Configuration</value>
   </data>
@@ -75,6 +81,9 @@
   </data>
   <data name="label_addtask" xml:space="preserve">
     <value>Add task</value>
+  </data>
+  <data name="label_name" xml:space="preserve">
+    <value>Name</value>
   </data>
   <data name="label_canceltask" xml:space="preserve">
     <value>Cancel task</value>
