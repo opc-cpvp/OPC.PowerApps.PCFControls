@@ -41,7 +41,8 @@ export interface ITaskManagerProps {
   context: ComponentFramework.Context<IInputs>;
 }
 
-export interface ITaskManagerState extends React.ComponentState, ITaskManagerProps {
+export interface ITaskManagerState extends React.ComponentState {
+  tasks: ITaskItem[];
   selectedItems: IObjectWithKey[];
   showInactive: boolean;
 }
@@ -65,10 +66,8 @@ export class TaskManager extends React.Component<ITaskManagerProps, ITaskManager
 
     this.state = {
       tasks: props.tasks,
-      context: props.context,
-      showInactive: false,
       selectedItems: this._selection.getSelection(),
-      badgeConfig: props.badgeConfig
+      showInactive: false,
     };
 
     // Define columns

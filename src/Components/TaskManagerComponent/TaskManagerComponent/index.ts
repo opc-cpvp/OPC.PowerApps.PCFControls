@@ -79,7 +79,7 @@ export class TaskManagerComponent implements ComponentFramework.StandardControl<
 					return { key: optBadge.Value, label: optBadge.Label.UserLocalizedLabel.Label, color: optBadge.Color };
 				});
 
-			} catch (e) { 
+			} catch (e) {
 				console.error("Error occured while loading the badge configuration.", e);
 			}
 		}
