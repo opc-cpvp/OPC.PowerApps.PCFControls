@@ -2,6 +2,10 @@
     text-decoration: line-through;
 }
 
+.inactive-task .ms-Checkbox {
+    visibility: hidden;
+}
+
 .badge {
     display: inline-block;
     padding: .25em .4em;

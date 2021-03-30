@@ -25,12 +25,13 @@ import { SharedColors } from '@fluentui/theme';
 import { IInputs } from "./generated/ManifestTypes";
 import { ITaskManagerBadgeConfigurationItem } from "./ITaskManagerBadgeConfigurationItem";
 import EntityReference = ComponentFramework.EntityReference;
+import { STATUS_CODES } from "http";
 initializeIcons();
 export interface ITaskItem {
   key: string;
   subject: string;
   description: string;
-  statuscode: string;
+  statuscode: number;
   isActive: boolean;
   [additionalPropertyName: string]: string | Date | number | number[] | boolean | EntityReference | EntityReference[];
 }
@@ -45,6 +46,12 @@ export interface ITaskManagerState extends React.ComponentState {
   tasks: ITaskItem[];
   selectedItems: IObjectWithKey[];
   showInactive: boolean;
+}
+
+export enum TaskStatus {
+  InProgress = 3,
+  Completed = 5,
+  Canceled = 6
 }
 
 export class TaskManager extends React.Component<ITaskManagerProps, ITaskManagerState>{
@@ -144,17 +151,16 @@ export class TaskManager extends React.Component<ITaskManagerProps, ITaskManager
       const checked = currentSelection.filter(t => !this.state.selectedItems.find(s => s.key === t.key));
       const unchecked = this.state.selectedItems.filter(t => !currentSelection.find(s => s.key === t.key));
 
-      // BUG: Potential issue as we dependant on this.state rather than prevState for current selection
       this.setState((prevState, props) => {
-        return { selectedItems: currentSelection }
+        return { selectedItems: this._selection.getSelection() }
       });
 
       if (checked.length > 0) {
-        this._context.webAPI.updateRecord("task", checked[0].key as string, { statecode: 1, statuscode: 5 })
+        this._context.webAPI.updateRecord("task", checked[0].key as string, { statecode: 1, statuscode: TaskStatus.Completed })
           .catch(ex => console.error(ex));
       }
       else if (unchecked.length > 0) {
-        this._context.webAPI.updateRecord("task", unchecked[0].key as string, { statecode: 0, statuscode: 3 })
+        this._context.webAPI.updateRecord("task", unchecked[0].key as string, { statecode: 0, statuscode: TaskStatus.InProgress })
           .catch(ex => console.error(ex));
       }
     } catch (e) { console.error(e); }
@@ -193,6 +199,10 @@ export class TaskManager extends React.Component<ITaskManagerProps, ITaskManager
   }
 
   private handleRenderRow(props?: IDetailsRowProps) {
+    // If rendering an inactive task do not show checkbox
+    if(props && !(props.item as ITaskItem).isActive){
+      props.checkboxCellClassName = "inactive-task";
+    }
     return props ? <DetailsRow {...props} styles={{ root: { alignItems: "center" } }} rowFieldsAs={this.handleRenderRowFields} /> : null;
   };
 
@@ -243,7 +253,7 @@ export class TaskManager extends React.Component<ITaskManagerProps, ITaskManager
 
   private handleDeleteTask(taskid?: string) {
     if (taskid) {
-      this._context.webAPI.updateRecord("task", taskid, { statecode: 2, statuscode: 6 })
+      this._context.webAPI.updateRecord("task", taskid, { statecode: 2, statuscode: TaskStatus.Canceled })
         .then(r => {
           this.setState((prevState, props) => {
             // Clone array, update deleted item to inactive then update state which will re-render.
@@ -251,6 +261,7 @@ export class TaskManager extends React.Component<ITaskManagerProps, ITaskManager
             const task = clonedItems.find(i => i.key === taskid);
             if (task) {
               task.isActive = false;
+              task.statuscode = 6;
             }
             return { tasks: clonedItems }
           });

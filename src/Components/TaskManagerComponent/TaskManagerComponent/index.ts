@@ -111,7 +111,7 @@ export class TaskManagerComponent implements ComponentFramework.StandardControl<
 					isActive: dataset.records[taskId].getValue("statecode") == 0 ? true : false,
 					subject: dataset.records[taskId].getValue("subject") as string,
 					description: dataset.records[taskId].getValue("description") as string,
-					statuscode: dataset.records[taskId].getValue("statuscode") as string
+					statuscode: dataset.records[taskId].getValue("statuscode") as number
 				}
 
 				// Map any additional column as indexed properties
