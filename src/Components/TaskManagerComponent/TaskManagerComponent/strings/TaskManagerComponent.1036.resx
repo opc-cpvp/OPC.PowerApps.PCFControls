@@ -73,8 +73,8 @@
   <data name="badgeConfig_Desc_Key" xml:space="preserve">
     <value>Configuration des badges représentée en JSON. Voir documentation sur Github pour plus de détails</value>
   </data>
-  <data name="tasks_Display_Key" xml:space="preserve">
-    <value>Tâches</value>
+  <data name="tasks_Title_key" xml:space="preserve">
+    <value>Titre des tâches</value>
   </data>
   <data name="tasks_Desc_Key" xml:space="preserve">
     <value>Titre pour la liste de tâches</value>

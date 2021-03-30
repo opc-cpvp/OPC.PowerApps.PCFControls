@@ -11,6 +11,7 @@ Controls:
 - [Tag Picker Component](#tag-picker-component)
 - [Tag Picker Grid Component](#tag-picker-grid-component)
 - [Tree Component](#tree-component)
+- [Task Manager Component](#task-manager-component)
 
 Plugins:
 - TagRegistrationPlugin
@@ -123,6 +124,23 @@ The purpose of this control is to allow user to associate / disassociate hierarc
 |**Extra Title Details Attribute**|The attribute of the tree entity that will add extra details to the display text of the node in the tree |||
 |**Is Checkable Attribute**|The checkable attribute of the tree entity, determines whether a node can be checked in the tree  |||
 |**Max Name Display Length (Work in Progress)**|The max amount of characters the text of the node will be displayed in the tree |||
+
+## Task Manager Component
+
+[![dependencies Status](https://david-dm.org/opc-cpvp/OPC.PowerApps.PCFControls/status.svg?path=src/Components/TaskManagerComponent)](https://david-dm.org/opc-cpvp/OPC.PowerApps.PCFControls?path=src/Components/TaskManagerComponent) [![devDependencies Status](https://david-dm.org/opc-cpvp/OPC.PowerApps.PCFControls/dev-status.svg?path=src/Components/TaskManagerComponent)](https://david-dm.org/opc-cpvp/OPC.PowerApps.PCFControls?path=src/Components/TaskManagerComponent&type=dev)
+
+### Preview
+
+![TaskManagerComponent Preview](https://github.com/opc-cpvp/OPC.PowerApps.PCFControls/blob/master/img/taskmanagercomponent.gif?raw=true)
+
+The purpose of this control is provide a better user experience to manage tasks associated to a given entity.
+
+### Configuration
+
+|Parameter|Description|Required|Bound to an attribute|
+|---------|-----------|:----:|:---:|
+|**Tasks Title**|Title that will appear above the tasks list in following format: `en=Label\|fr=Étiquette`|||
+|**Badge Configuration**|Configuration of colored badges in JSON in following format: `[ { "name": "*optionset_field1*", "keys": [ 5, 6 ] }, { "name": "*optionset_field2*", "keys": [1,2,3,4] } ]`. Code will lookup the optionset metadata for colors and translations|||
 
 
 ## Versioning

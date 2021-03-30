@@ -18,13 +18,13 @@
       -->
     </external-service-usage>
     <!-- dataset node represents a set of entity records on CDS; allow more than one datasets -->
-    <data-set name="tasks" display-name-key="tasks_Display_Key">
+    <data-set name="tasks" display-name-key="tasks_Title_key">
       <!-- 'property-set' node represents a unique, configurable property that each record in the dataset must provide. -->
       <!-- UNCOMMENT TO ADD PROPERTY-SET NODE
       <property-set name="samplePropertySet" display-name-key="Property_Display_Key" description-key="Property_Desc_Key" of-type="SingleLine.Text" usage="bound" required="true" />
       -->
     </data-set>
-    <property name="badgeConfig" display-name-key="badgeConfig_Display_Key" description-key="badgeConfig_Desc_Key" of-type="SingleLine.Text" usage="input" required="true" />
+    <property name="badgeConfig" display-name-key="badgeConfig_Display_Key" description-key="badgeConfig_Desc_Key" of-type="SingleLine.Text" usage="input" required="false" />
     <resources>
       <code path="index.ts" order="1"/>
       <css path="css/TaskManagerComponent.css" order="1" />

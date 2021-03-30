@@ -116,7 +116,7 @@ export class TaskManager extends React.Component<ITaskManagerProps, ITaskManager
     return (
       <div>
         <div style={{ display: "flex", padding: "10px 10px 0 10px" }}>
-          <h3>{this._context.resources.getString("tasks_Display_Key")}</h3>
+          <h3>{this._context.resources.getString("tasks_Title_key")}</h3>
           <div style={{ marginLeft: "auto" }}>
             <IconButton iconProps={{ iconName: 'Add' }} title={this._context.resources.getString("label_addtask")} ariaLabel={this._context.resources.getString("label_addtask")} styles={buttonStyles} onClick={this.handleAddOnClick} />
             <IconButton iconProps={{ iconName: 'AllApps' }} title={this._context.resources.getString("label_toggletaskvisibility")} ariaLabel={this._context.resources.getString("label_toggletaskvisibility")} styles={buttonStyles} onClick={this.handleShowAllClick} />
