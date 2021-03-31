@@ -1,12 +1,9 @@
 import React = require("react");
 import ReactDOM = require("react-dom");
 import { IInputs, IOutputs } from "./generated/ManifestTypes";
-import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
-type DataSet = ComponentFramework.PropertyTypes.DataSet;
 import { ITaskItem, ITaskManagerProps, TaskManager } from "./TaskManager";
 import { ITaskManagerBadgeConfigurationItem } from "./ITaskManagerBadgeConfigurationItem";
 import { WebApi } from "./WebApi";
-import { exception } from "console";
 import { Utils } from "./Utils";
 
 export class TaskManagerComponent implements ComponentFramework.StandardControl<IInputs, IOutputs> {

@@ -24,7 +24,7 @@
       <property-set name="samplePropertySet" display-name-key="Property_Display_Key" description-key="Property_Desc_Key" of-type="SingleLine.Text" usage="bound" required="true" />
       -->
     </data-set>
-    <property name="badgeConfig" display-name-key="badgeConfig_Display_Key" description-key="badgeConfig_Desc_Key" of-type="SingleLine.TextArea" usage="input" required="false" />
+    <property name="badgeConfig" display-name-key="badgeConfig_Display_Key" description-key="badgeConfig_Desc_Key" of-type="SingleLine.Text" usage="input" required="false" />
     <property name="panelTitle" display-name-key="panelTitle_Display_Key" description-key="panelTitle_Desc_Key" of-type="SingleLine.Text" usage="input" required="true" />
     <resources>
       <code path="index.ts" order="1"/>
