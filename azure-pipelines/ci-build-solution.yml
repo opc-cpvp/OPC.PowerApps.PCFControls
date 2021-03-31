@@ -52,27 +52,7 @@ steps:
 - task: sergeyzwezdin.magic-chunks.magic.chunks.MagicChunks@2
   displayName: 'Set TagPickerComponent Version'
   inputs:
-    sourcePath: src/Components/TagPickerComponent/TagPickerComponent/ControlManifest.Input.xml
-    fileType: Xml
-    transformations: |
-     {
-       "manifest/control/@version": "$(Version.MajorMinor).$(Version.Patch)"
-     }
-
-- task: sergeyzwezdin.magic-chunks.magic.chunks.MagicChunks@2
-  displayName: 'Set TagPickerGridComponent Version'
-  inputs:
-    sourcePath: src/Components/TagPickerGridComponent/TagPickerGridComponent/ControlManifest.Input.xml
-    fileType: Xml
-    transformations: |
-     {
-       "manifest/control/@version": "$(Version.MajorMinor).$(Version.Patch)"
-     }
-
-- task: sergeyzwezdin.magic-chunks.magic.chunks.MagicChunks@2
-  displayName: 'Set TaskManager Version'
-  inputs:
-    sourcePath: src/Components/TaskManagerComponent/TaskManagerComponent/ControlManifest.Input.xml
+    sourcePath: "**/ControlManifest.Input.xml"
     fileType: Xml
     transformations: |
      {
