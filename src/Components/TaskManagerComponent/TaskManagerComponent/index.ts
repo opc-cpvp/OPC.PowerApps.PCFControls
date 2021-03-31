@@ -7,6 +7,7 @@ import { ITaskItem, ITaskManagerProps, TaskManager } from "./TaskManager";
 import { ITaskManagerBadgeConfigurationItem } from "./ITaskManagerBadgeConfigurationItem";
 import { WebApi } from "./WebApi";
 import { exception } from "console";
+import { Utils } from "./Utils";
 
 export class TaskManagerComponent implements ComponentFramework.StandardControl<IInputs, IOutputs> {
 
@@ -41,6 +42,7 @@ export class TaskManagerComponent implements ComponentFramework.StandardControl<
 
 		this._props = {
 			tasks: this.mapTasks(context.parameters.tasks),
+			panelTitle: Utils.extractMultilingualText(context.parameters.panelTitle.raw || "", context.userSettings.languageId),
 			context: context,
 			badgeConfig: await this.loadBadgeConfiguration(context)
 		}

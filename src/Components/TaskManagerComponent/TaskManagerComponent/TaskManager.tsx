@@ -38,6 +38,7 @@ export interface ITaskItem {
 
 export interface ITaskManagerProps {
   tasks: ITaskItem[];
+  panelTitle?: string;
   badgeConfig: ITaskManagerBadgeConfigurationItem[];
   context: ComponentFramework.Context<IInputs>;
 }
@@ -261,7 +262,7 @@ export class TaskManager extends React.Component<ITaskManagerProps, ITaskManager
             const task = clonedItems.find(i => i.key === taskid);
             if (task) {
               task.isActive = false;
-              task.statuscode = 6;
+              task.statuscode = TaskStatus.Canceled;
             }
             return { tasks: clonedItems }
           });

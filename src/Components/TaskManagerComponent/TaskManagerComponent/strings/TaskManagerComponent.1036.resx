@@ -77,7 +77,13 @@
     <value>Titre des tâches</value>
   </data>
   <data name="tasks_Desc_Key" xml:space="preserve">
-    <value>Titre pour la liste de tâches</value>
+    <value>Vue utilisée pour afficher la liste de tâches. Les champs obligatoires suivant doivent être inclus dans la vue; statecode, statuscode, subject, description.</value>
+  </data>
+  <data name="panelTitle_Display_Key" xml:space="preserve">
+    <value>Titre du panneau</value>
+  </data>
+  <data name="panelTitle_Desc_Key" xml:space="preserve">
+    <value>Texte d'affichage pour le titre du panneau, voir page github pour les formats de localizations.</value>
   </data>
   <data name="label_addtask" xml:space="preserve">
     <value>Ajouter une tâche</value>

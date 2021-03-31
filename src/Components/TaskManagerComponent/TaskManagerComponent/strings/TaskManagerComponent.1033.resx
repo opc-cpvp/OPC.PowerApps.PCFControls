@@ -74,10 +74,16 @@
     <value>Badge configuration represented in JSON. See documentation on github for format.</value>
   </data>
   <data name="tasks_Title_key" xml:space="preserve">
-    <value>Title for tasks lists</value>
+    <value>View</value>
   </data>
   <data name="tasks_Desc_Key" xml:space="preserve">
-    <value>Title for the list of tasks</value>
+    <value>View used for the list of tasks. The following mandatory fields must be included in the view; statecode, statuscode, subject, description.</value>
+  </data>
+  <data name="panelTitle_Display_Key" xml:space="preserve">
+    <value>Panel title</value>
+  </data>
+  <data name="panelTitle_Desc_Key" xml:space="preserve">
+    <value>Display text for panel, see github page for localized format.</value>
   </data>
   <data name="label_addtask" xml:space="preserve">
     <value>Add task</value>
