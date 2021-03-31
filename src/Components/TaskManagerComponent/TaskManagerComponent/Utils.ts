@@ -1,7 +1,4 @@
-export enum Culture {
-    en = 1033,
-    fr = 1036
-}
+import { Culture } from "./enums";
 
 export class Utils {
  /**

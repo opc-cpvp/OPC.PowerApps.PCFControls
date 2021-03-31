@@ -1,10 +1,10 @@
 import React = require("react");
 import ReactDOM = require("react-dom");
 import { IInputs, IOutputs } from "./generated/ManifestTypes";
-import { ITaskItem, ITaskManagerProps, TaskManager } from "./TaskManager";
-import { ITaskManagerBadgeConfigurationItem } from "./ITaskManagerBadgeConfigurationItem";
+import { TaskManager } from "./TaskManager";
 import { WebApi } from "./WebApi";
 import { Utils } from "./Utils";
+import { ITaskItem, ITaskManagerBadgeConfigurationItem, ITaskManagerProps } from "./interfaces";
 
 export class TaskManagerComponent implements ComponentFramework.StandardControl<IInputs, IOutputs> {
 
@@ -140,5 +140,4 @@ export class TaskManagerComponent implements ComponentFramework.StandardControl<
 	public destroy(): void {
 		// Add code to cleanup control if necessary
 	}
-
 }

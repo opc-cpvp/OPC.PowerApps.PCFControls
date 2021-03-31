@@ -16,44 +16,15 @@ import {
   IDetailsRowFieldsProps,
   Selection,
   IDetailsListCheckboxProps,
-  IObjectWithKey,
-  IDetailsRowProps,
+  IDetailsRowProps
 } from 'office-ui-fabric-react';
 import { initializeIcons } from '@uifabric/icons';
 import { IconButton } from '@fluentui/react/lib/Button';
 import { SharedColors } from '@fluentui/theme';
 import { IInputs } from "./generated/ManifestTypes";
-import { ITaskManagerBadgeConfigurationItem } from "./ITaskManagerBadgeConfigurationItem";
-import EntityReference = ComponentFramework.EntityReference;
-import { STATUS_CODES } from "http";
+import { ITaskItem, ITaskManagerProps, ITaskManagerState } from "./interfaces";
+import { TaskStatus } from "./enums";
 initializeIcons();
-export interface ITaskItem {
-  key: string;
-  subject: string;
-  description: string;
-  statuscode: number;
-  isActive: boolean;
-  [additionalPropertyName: string]: string | Date | number | number[] | boolean | EntityReference | EntityReference[];
-}
-
-export interface ITaskManagerProps {
-  tasks: ITaskItem[];
-  panelTitle: string;
-  badgeConfig: ITaskManagerBadgeConfigurationItem[];
-  context: ComponentFramework.Context<IInputs>;
-}
-
-export interface ITaskManagerState extends React.ComponentState {
-  tasks: ITaskItem[];
-  selectedItems: IObjectWithKey[];
-  showInactive: boolean;
-}
-
-export enum TaskStatus {
-  InProgress = 3,
-  Completed = 5,
-  Canceled = 6
-}
 
 export class TaskManager extends React.Component<ITaskManagerProps, ITaskManagerState>{
   private _root = React.createRef<IDetailsList>();
