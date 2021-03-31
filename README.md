@@ -66,7 +66,7 @@ msbuild /p:Configuration=Release /restore
 
 ### Preview
 
-![TagPickerComponent Preview](https://github.com/opc-cpvp/OPC.PowerApps.PCFControls/blob/master/img/tagpickercomponent.gif?raw=true)
+![TagPickerComponent Preview](img/tagpickercomponent.gif?raw=true)
 
 ### Purpose
 
@@ -87,7 +87,7 @@ The purpose of this control is to allow user to associate / disassociate records
 
 ### Preview
 
-![TagPickerGridComponent Preview](https://github.com/opc-cpvp/OPC.PowerApps.PCFControls/blob/master/img/tagpickergridcomponent.gif?raw=true)
+![TagPickerGridComponent Preview](img/tagpickergridcomponent.gif?raw=true)
 
 The purpose of this control is to allow user to associate / disassociate records for a many-to-many relationship in the form of tags.
 
@@ -106,7 +106,7 @@ The purpose of this control is to allow user to associate / disassociate records
 
 ### Preview
 
-![TreeComponent Preview](https://raw.githubusercontent.com/opc-cpvp/OPC.PowerApps.PCFControls/features/tree-component/img/treeselect.gif)
+![TreeComponent Preview](img/treeselect.gif)
 
 The purpose of this control is to allow user to associate / disassociate hierarchical records for a many-to-many relationship in the form of a tree.
 
@@ -139,8 +139,9 @@ The purpose of this control is provide a better user experience to manage tasks 
 
 |Parameter|Description|Required|Bound to an attribute|
 |---------|-----------|:----:|:---:|
-|**Tasks Title**|Title that will appear above the tasks list in following format: `en=Label\|fr=Étiquette`|||
+|**View**|View used for the list of tasks. The following mandatory fields must be included in the view; *statecode, statuscode, subject, description*.|||
 |**Badge Configuration**|Configuration of colored badges in JSON in following format: `[ { "name": "*optionset_field1*", "keys": [ 5, 6 ] }, { "name": "*optionset_field2*", "keys": [1,2,3,4] } ]`. Code will lookup the optionset metadata for colors and translations|||
+|**Panel Title**|Title that will appear above the tasks list in following format: `en=Label\|fr=Étiquette`|X||
 
 
 ## Versioning
