@@ -131,7 +131,7 @@ The purpose of this control is to allow user to associate / disassociate hierarc
 
 ### Preview
 
-![TaskManagerComponent Preview](https://github.com/opc-cpvp/OPC.PowerApps.PCFControls/blob/master/img/taskmanagercomponent.gif?raw=true)
+![TaskManagerComponent Preview](img/taskmanagercomponent.gif?raw=true)
 
 The purpose of this control is provide a better user experience to manage tasks associated to a given entity.
 
