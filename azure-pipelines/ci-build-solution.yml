@@ -49,6 +49,18 @@ steps:
     unpackedFilesFolder: src/Solution
     versionNumber: '$(Version.MajorMinor).$(Version.Patch)'
 
+- task: MagicChunks@2
+  inputs:
+    sourcePath: 'ControlManifest.Input.xml'
+    sourcePathRecurse: true
+    fileType: 'Xml'
+    targetPathType: 'source'
+    transformationType: 'json'
+    transformations: |
+      {
+        "manifest/control/@version": "$(Version.MajorMinor).$(Version.Patch)"
+      }
+
 - task: MSBuild@1
   displayName: 'Build solution **/*.cdsproj'
   inputs:
