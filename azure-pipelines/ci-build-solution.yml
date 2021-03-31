@@ -50,6 +50,7 @@ steps:
     versionNumber: '$(Version.MajorMinor).$(Version.Patch)'
 
 - task: MagicChunks@2
+  displayName: 'Set TagPickerComponent Version'
   inputs:
     sourcePath: 'ControlManifest.Input.xml'
     sourcePathRecurse: true
