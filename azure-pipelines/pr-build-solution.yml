@@ -55,13 +55,26 @@ steps:
       {
         "manifest/control/@version": "$(Version.MajorMinor).$(Version.Patch)"
       }
+- task: NuGetCommand@2
+  displayName: 'Restore .sln'
+  inputs:
+    command: 'restore'
+    restoreSolution: '**/*.sln'
+    feedsToUse: 'select'
+    
+- task: NuGetCommand@2
+  displayName: 'Restore .cdsproj'
+  inputs:
+    command: 'restore'
+    restoreSolution: '**/*.cdsproj'
+    feedsToUse: 'select'
 
 - task: MSBuild@1
   displayName: 'Build solution **/*.cdsproj'
   inputs:
     solution: '**/*.cdsproj'
     configuration: '$(BuildConfiguration)'
-    msbuildArguments: /restore
+    msbuildArguments: '/restore'
 
 - task: MSBuild@1
   displayName: 'Build solution **/*.sln'
@@ -69,7 +82,7 @@ steps:
     solution: '**/*.sln'
     platform: '$(BuildPlatform)'
     configuration: '$(BuildConfiguration)'
-    msbuildArguments: /restore
+    msbuildArguments: '/restore'
 
 - task: VSTest@2
   displayName: 'Test Assemblies'
