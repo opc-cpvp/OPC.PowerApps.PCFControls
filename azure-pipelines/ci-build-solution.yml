@@ -64,7 +64,6 @@ steps:
 
 - task: NuGetCommand@2
   displayName: 'Restore .sln'
-  enabled: false
   inputs:
     command: 'restore'
     restoreSolution: '**/*.sln'
@@ -72,7 +71,6 @@ steps:
     
 - task: NuGetCommand@2
   displayName: 'Restore .cdsproj'
-  enabled: false
   inputs:
     command: 'restore'
     restoreSolution: '**/*.cdsproj'
