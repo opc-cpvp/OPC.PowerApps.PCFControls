@@ -32,8 +32,11 @@ variables:
 name: $[format('{0}.{1}{2}', variables['Version.MajorMinor'], variables['Version.Patch'], variables['Version.PreRelease'])]
 
 steps:
-- task: WaelHamze.xrm-ci-framework-build-tasks.MSCRMToolInstaller.MSCRMToolInstaller@12
+- task: MSCRMToolInstaller@12
   displayName: 'Power DevOps Tool Installer'
+  inputs:
+    nugetFeed: 'official'
+    psFeed: 'official'
   
 - task: Npm@1
   displayName: 'npm install - TagPickerComponent'
@@ -53,7 +56,7 @@ steps:
     workingDir: src/Components/TreeComponent
     verbose: false
 
-- task: WaelHamze.xrm-ci-framework-build-tasks.MSCRMSetVersion.MSCRMSetVersion@12
+- task: MSCRMSetVersion@12
   displayName: 'Set PowerApps Solution Version'
   inputs:
     target: xml
