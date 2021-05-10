@@ -36,7 +36,6 @@ export class TaskManagerComponent implements ComponentFramework.StandardControl<
 	 * @param context The entire property bag available to control via Context Object; It contains values as set up by the customizer mapped to names defined in the manifest, as well as utility functions
 	 */
 	public async updateView(context: ComponentFramework.Context<IInputs>): Promise<void> {
-
 		this._props = {
 			tasks: this.mapTasks(context.parameters.tasks),
 			panelTitle: Utils.extractMultilingualText(context.parameters.panelTitle.raw || "", context.userSettings.languageId),
