@@ -27,6 +27,11 @@ These instructions will get you a copy of the project up and running on your loc
 ### Prerequisites
 
 Follow the instructions as per the [documentation](https://docs.microsoft.com/en-us/powerapps/developer/component-framework/create-custom-controls-using-pcf) in order to configure your environment for PCF development.
+You will need to disable the telemetry option for the Power Apps CLI by running the following command:
+
+```
+pac telemetry disable
+```
 
 ### Building a Component
 
@@ -40,13 +45,18 @@ Note: You must run `npm install` before building the component for the first tim
 
 ### Running a Component
 
-Navigate to the root folder of the component you wish to build and run the following commands:
+Navigate to the root folder of the component you wish to run and run the following commands:
 
 ```
 npm run start
 ```
 
 Note: You must run `npm install` before running the component for the first time.
+
+### Testing an existing Component
+
+After building your component, use fiddler's autoresponder to replace the content of the web resource with the content you have just built.
+It should be located in the "out" folder under the component's folder. The file should be called bundle.js.
 
 ### Building the Plugin
 
