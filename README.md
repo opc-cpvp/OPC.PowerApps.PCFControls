@@ -11,6 +11,7 @@ Controls:
 - [Tag Picker Component](#tag-picker-component)
 - [Tag Picker Grid Component](#tag-picker-grid-component)
 - [Tree Component](#tree-component)
+- [Task Manager Component](#task-manager-component)
 
 Plugins:
 - TagRegistrationPlugin
@@ -26,6 +27,11 @@ These instructions will get you a copy of the project up and running on your loc
 ### Prerequisites
 
 Follow the instructions as per the [documentation](https://docs.microsoft.com/en-us/powerapps/developer/component-framework/create-custom-controls-using-pcf) in order to configure your environment for PCF development.
+You will need to disable the telemetry option for the Power Apps CLI by running the following command:
+
+```
+pac telemetry disable
+```
 
 ### Building a Component
 
@@ -39,13 +45,18 @@ Note: You must run `npm install` before building the component for the first tim
 
 ### Running a Component
 
-Navigate to the root folder of the component you wish to build and run the following commands:
+Navigate to the root folder of the component you wish to run and run the following commands:
 
 ```
 npm run start
 ```
 
 Note: You must run `npm install` before running the component for the first time.
+
+### Testing an existing Component
+
+After building your component, use fiddler's autoresponder to replace the content of the web resource with the content you have just built.
+It should be located in the "out" folder under the component's folder. The file should be called bundle.js.
 
 ### Building the Plugin
 
@@ -65,7 +76,7 @@ msbuild /p:Configuration=Release /restore
 
 ### Preview
 
-![TagPickerComponent Preview](https://github.com/opc-cpvp/OPC.PowerApps.PCFControls/blob/master/img/tagpickercomponent.gif?raw=true)
+![TagPickerComponent Preview](img/tagpickercomponent.gif?raw=true)
 
 ### Purpose
 
@@ -86,7 +97,7 @@ The purpose of this control is to allow user to associate / disassociate records
 
 ### Preview
 
-![TagPickerGridComponent Preview](https://github.com/opc-cpvp/OPC.PowerApps.PCFControls/blob/master/img/tagpickergridcomponent.gif?raw=true)
+![TagPickerGridComponent Preview](img/tagpickergridcomponent.gif?raw=true)
 
 The purpose of this control is to allow user to associate / disassociate records for a many-to-many relationship in the form of tags.
 
@@ -105,7 +116,7 @@ The purpose of this control is to allow user to associate / disassociate records
 
 ### Preview
 
-![TreeComponent Preview](https://github.com/opc-cpvp/OPC.PowerApps.PCFControls/blob/master/img/treeselect.gif?raw=true)
+![TreeComponent Preview](img/treeselect.gif)
 
 The purpose of this control is to allow user to associate / disassociate hierarchical records for a many-to-many relationship in the form of a tree.
 
@@ -123,6 +134,24 @@ The purpose of this control is to allow user to associate / disassociate hierarc
 |**Extra Title Details Attribute**|The attribute of the tree entity that will add extra details to the display text of the node in the tree |||
 |**Is Checkable Attribute**|The checkable attribute of the tree entity, determines whether a node can be checked in the tree  |||
 |**Max Name Display Length (Work in Progress)**|The max amount of characters the text of the node will be displayed in the tree |||
+
+## Task Manager Component
+
+[![dependencies Status](https://david-dm.org/opc-cpvp/OPC.PowerApps.PCFControls/status.svg?path=src/Components/TaskManagerComponent)](https://david-dm.org/opc-cpvp/OPC.PowerApps.PCFControls?path=src/Components/TaskManagerComponent) [![devDependencies Status](https://david-dm.org/opc-cpvp/OPC.PowerApps.PCFControls/dev-status.svg?path=src/Components/TaskManagerComponent)](https://david-dm.org/opc-cpvp/OPC.PowerApps.PCFControls?path=src/Components/TaskManagerComponent&type=dev)
+
+### Preview
+
+![TaskManagerComponent Preview](img/taskmanagercomponent.gif?raw=true)
+
+The purpose of this control is provide a better user experience to manage tasks associated to a given entity.
+
+### Configuration
+
+|Parameter|Description|Required|Bound to an attribute|
+|---------|-----------|:----:|:---:|
+|**View**|View used for the list of tasks. The following mandatory fields must be included in the view; *statecode, statuscode, subject, description*.|||
+|**Badge Configuration**|Configuration of colored badges in JSON in following format: `[ { "name": "*optionset_field1*", "keys": [ 5, 6 ] }, { "name": "*optionset_field2*", "keys": [1,2,3,4] } ]`. Code will lookup the optionset metadata for colors and translations|||
+|**Panel Title**|Title that will appear above the tasks list in following format: `en=Label\|fr=Étiquette`|X||
 
 
 ## Versioning
