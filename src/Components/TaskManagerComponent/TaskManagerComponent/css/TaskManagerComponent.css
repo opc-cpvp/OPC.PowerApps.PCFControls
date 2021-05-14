@@ -1,0 +1,41 @@
+.is-selected .ms-DetailsRow-fields {
+    text-decoration: line-through;
+}
+
+.inactive-task .ms-Checkbox {
+    visibility: hidden;
+}
+
+.badge {
+    display: inline-block;
+    padding: .25em .4em;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    padding-right: .6em;
+    padding-left: .6em;
+    border-radius: 10rem;
+    margin-left: .5rem;
+    color: #fff;
+}
+
+.badge.badge-red {
+    color:#fff;
+    background-color:#dc3545;
+}
+.badge.badge-gray {
+    color:#fff;
+    background-color:gray;
+}
+.badge.badge-green {
+    color:#fff;
+    background-color:green;
+}
+
+.task-wrapper { display: flex; }
+.task-title { }
+.task-description { font-size: smaller;}
+.task-action { margin-left: auto; }
