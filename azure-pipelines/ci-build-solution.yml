@@ -34,24 +34,13 @@ name: $[format('{0}.{1}{2}', variables['Version.MajorMinor'], variables['Version
 steps:
 - task: WaelHamze.xrm-ci-framework-build-tasks.MSCRMToolInstaller.MSCRMToolInstaller@12
   displayName: 'Power DevOps Tool Installer'
-  
-- task: Npm@1
-  displayName: 'npm install - TagPickerComponent'
-  inputs:
-    workingDir: src/Components/TagPickerComponent
-    verbose: false
 
-- task: Npm@1
-  displayName: 'npm install - TagPickerGridComponent'
+- task: PowerShell@2
+  displayName: 'Install dependencies for all PCF Components'
   inputs:
-    workingDir: src/Components/TagPickerGridComponent
-    verbose: false
-    
-- task: Npm@1
-  displayName: 'npm install - TreeComponent'
-  inputs:
-    workingDir: src/Components/TreeComponent
-    verbose: false
+    targetType: 'inline'
+    script: ls | foreach  { cd $_.FullName | npm i }
+    workingDirectory: 'src/Components'
 
 - task: WaelHamze.xrm-ci-framework-build-tasks.MSCRMSetVersion.MSCRMSetVersion@12
   displayName: 'Set PowerApps Solution Version'
@@ -60,42 +49,39 @@ steps:
     unpackedFilesFolder: src/Solution
     versionNumber: '$(Version.MajorMinor).$(Version.Patch)'
 
-- task: sergeyzwezdin.magic-chunks.magic.chunks.MagicChunks@2
-  displayName: 'Set TagPickerComponent Version'
+- task: MagicChunks@2
+  displayName: 'Set All Components Versions'
   inputs:
-    sourcePath: src/Components/TagPickerComponent/TagPickerComponent/ControlManifest.Input.xml
-    fileType: Xml
+    sourcePath: 'ControlManifest.Input.xml'
+    sourcePathRecurse: true
+    fileType: 'Xml'
+    targetPathType: 'source'
+    transformationType: 'json'
     transformations: |
-     {
-       "manifest/control/@version": "$(Version.MajorMinor).$(Version.Patch)"
-     }
+      {
+        "manifest/control/@version": "$(Version.MajorMinor).$(Version.Patch)"
+      }
 
-- task: sergeyzwezdin.magic-chunks.magic.chunks.MagicChunks@2
-  displayName: 'Set TagPickerGridComponent Version'
+- task: NuGetCommand@2
+  displayName: 'Restore .sln'
   inputs:
-    sourcePath: src/Components/TagPickerGridComponent/TagPickerGridComponent/ControlManifest.Input.xml
-    fileType: Xml
-    transformations: |
-     {
-       "manifest/control/@version": "$(Version.MajorMinor).$(Version.Patch)"
-     }
-
-- task: sergeyzwezdin.magic-chunks.magic.chunks.MagicChunks@2
-  displayName: 'Set TreeComponent Version'
+    command: 'restore'
+    restoreSolution: '**/*.sln'
+    feedsToUse: 'select'
+    
+- task: NuGetCommand@2
+  displayName: 'Restore .cdsproj'
   inputs:
-    sourcePath: src/Components/TreeComponent/TreeComponent/ControlManifest.Input.xml
-    fileType: Xml
-    transformations: |
-     {
-       "manifest/control/@version": "$(Version.MajorMinor).$(Version.Patch)"
-     }
+    command: 'restore'
+    restoreSolution: '**/*.cdsproj'
+    feedsToUse: 'select'
 
 - task: MSBuild@1
   displayName: 'Build solution **/*.cdsproj'
   inputs:
     solution: '**/*.cdsproj'
     configuration: '$(BuildConfiguration)'
-    msbuildArguments: /restore
+    msbuildArguments: '/restore'
 
 - task: MSBuild@1
   displayName: 'Build solution **/*.sln'
@@ -103,7 +89,7 @@ steps:
     solution: '**/*.sln'
     platform: '$(BuildPlatform)'
     configuration: '$(BuildConfiguration)'
-    msbuildArguments: /restore
+    msbuildArguments: '/restore'
 
 - task: VSTest@2
   displayName: 'Test Assemblies'
