@@ -9,7 +9,7 @@
     "start": "pcf-scripts start"
   },
   "dependencies": {
-    "@types/node": "^10.12.18",
+    "@types/node": "^16.0.0",
     "@types/powerapps-component-framework": "^1.2.0",
     "office-ui-fabric-react": "^7.145.0",
     "react": "^16.8.6",
