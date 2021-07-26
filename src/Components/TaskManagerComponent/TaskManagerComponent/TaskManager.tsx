@@ -173,7 +173,8 @@ export class TaskManager extends React.Component<ITaskManagerProps, ITaskManager
     private handleRenderRow(props?: IDetailsRowProps) {
         // If rendering an inactive task do not show checkbox
         if(props && !(props.item as ITaskItem).isActive){
-            props.checkboxCellClassName = "inactive-task";
+            props.checkboxVisibility = CheckboxVisibility.hidden;
+            return <DetailsRow data-selection-disabled={true} {...props} styles={{ root: { alignItems: "center" } }} rowFieldsAs={this.handleRenderRowFields} />
         }
         return props ? <DetailsRow {...props} styles={{ root: { alignItems: "center" } }} rowFieldsAs={this.handleRenderRowFields} /> : null;
     };

@@ -2,8 +2,8 @@
     text-decoration: line-through;
 }
 
-.inactive-task .ms-Checkbox {
-    visibility: hidden;
+.ms-DetailsRow > span:first-child {
+    margin-left: 4em;
 }
 
 .badge {
