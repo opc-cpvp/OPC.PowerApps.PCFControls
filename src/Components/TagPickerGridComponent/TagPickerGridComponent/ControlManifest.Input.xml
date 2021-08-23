@@ -12,6 +12,8 @@
     <property name="relationshipName" display-name-key="relationshipName_Display_Key" description-key="relationshipName_Desc_Key" of-type="SingleLine.Text" usage="input" required="true" />
     <property name="relationshipEntity" display-name-key="relationshipEntity_Display_Key" description-key="relationshipEntity_Desc_Key" of-type="SingleLine.Text" usage="input" required="true" />
     <property name="labelText" display-name-key="labelText_Display_Key" description-key="labelText_Desc_Key" of-type="SingleLine.Text" usage="input" required="true" />
+    <property name="filter" display-name-key="filter_Display_Key" description-key="filter_Desc_Key" of-type="SingleLine.Text" usage="input" required="false" />
+
     <resources>
       <code path="index.ts" order="1"/>
       <css path="css/TagPickerGridComponent.css" order="1" />

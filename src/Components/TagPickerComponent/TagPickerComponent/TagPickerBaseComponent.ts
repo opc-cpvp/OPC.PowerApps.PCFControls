@@ -14,6 +14,11 @@ export abstract class TagPickerBaseComponent<TInputs, TOutputs> implements Compo
     public relationshipName: string;
 
     /**
+    * Extra Filtering to be configured when fetching tags 
+    */
+    public filter: string;
+
+    /**
      * Selected items cache.
      */
     public selectedItems: ITag[];
@@ -200,7 +205,7 @@ export abstract class TagPickerBaseComponent<TInputs, TOutputs> implements Compo
         let options = `?$select=${this.idAttribute},${this.nameAttribute}&$orderby=${this.nameAttribute} asc`;
 
         if (filter)
-            options = `${options}&$filter=contains(${this.nameAttribute},'${filter}')`;
+            options = `${options}&$filter=contains(${this.nameAttribute},'${filter}') and ${this.filter}`;
 
         return this.webAPI.retrieveMultipleRecords(this.relatedEntity, options).then(
             results => {

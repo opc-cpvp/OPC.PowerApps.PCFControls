@@ -102,7 +102,7 @@ export abstract class TreeBaseComponent<TInputs, TOutputs> implements ComponentF
         let recordData = await results[1]?.text();
 
         let entities = JSON.parse(recordData).value as ComponentFramework.WebApi.Entity[];
-
+        console.log(entities);
         // Sort the items naturally (abc111 would now be placed after abc12 as it contains a bigger number when it would originially be placed first)
         const collator = new Intl.Collator('en', { numeric: true, sensitivity: 'base' });
         const sortedEntites = entities.sort((a, b) => collator.compare(a[this.nameAttribute], b[this.nameAttribute]));
@@ -137,7 +137,8 @@ export abstract class TreeBaseComponent<TInputs, TOutputs> implements ComponentF
                     newNode.children = [];
 
                     newNode.description = entity[this.descriptionAttribute];
-                    newNode.name = entity[this.nameAttribute];
+                    //console.log("Testing name stuff:", entity[this.nameAttribute]);
+                    newNode.name = entity["opc_name"];
                     newNode.titleDetails = entity[this.extraTitleDetailsAttribute];
 
                     newNode.checkable = this.isCheckableAttribute ? entity[this.isCheckableAttribute] : true;
