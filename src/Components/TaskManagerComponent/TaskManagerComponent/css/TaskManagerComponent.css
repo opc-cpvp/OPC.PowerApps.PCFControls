@@ -2,8 +2,9 @@
     text-decoration: line-through;
 }
 
-.inactive-task .ms-Checkbox {
-    visibility: hidden;
+/* When first-child, it means that checkbox is not rendered therefore its an inactive task */
+.ms-DetailsRow > span:first-child {
+    margin-left: 4em;
 }
 
 .badge {
