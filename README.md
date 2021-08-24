@@ -90,6 +90,7 @@ The purpose of this control is to allow user to associate / disassociate records
 |**Related Entity**|Logical name of the related entity|X||
 |**Relationship Name**|Relationship name between the primary entity and the related entity|X||
 |**Relationship Entity**|Logical name of the relationship entity|X||
+|**View ID**|View ID used to add filtering/rules when seacrhing for tags|||
 
 ## Tag Picker Grid Component
 
@@ -109,6 +110,7 @@ The purpose of this control is to allow user to associate / disassociate records
 |**Relationship Name**|Relationship name between the primary entity and the related entity|X||
 |**Relationship Entity**|Logical name of the relationship entity|X||
 |**Label Text**|Field label that will be displayed on the form. It currently accepts the following formats: `Label` or `en=Label\|fr=Étiquette`|X||
+|**View ID**|View ID used to add filtering/rules when seacrhing for tags|||
 
 ## Tree Component
 
