@@ -161,13 +161,13 @@
     <value>Field label that will be displayed on the form</value>
     <comment>Display text for Label Text description</comment>
   </data>
-  <data name="filter_Display_Key" xml:space="preserve">
-    <value>OData Filter</value>
-    <comment>Display text for OData Filter</comment>
+  <data name="viewId_Display_Key" xml:space="preserve">
+    <value>View ID</value>
+    <comment>Display text for View ID</comment>
   </data>
-  <data name="filter_Desc_Key" xml:space="preserve">
-    <value>OData Filter used to add additional filtering to the fetched tags</value>
-    <comment>Display text for OData Filter</comment>
+  <data name="viewId_Desc_Key" xml:space="preserve">
+    <value>View ID to use when fetching tags</value>
+    <comment>Display text for View ID</comment>
   </data>
   <data name="remove" xml:space="preserve">
     <value>Remove</value>

@@ -18,7 +18,7 @@ export abstract class TagPickerBaseComponent<TInputs, TOutputs> implements Compo
      /**
     * Extra Filtering to be configured when fetching tags 
     */
-    public filter: string;
+    public viewId: string;
     
     /**
      * Selected items cache.
@@ -242,21 +242,39 @@ export abstract class TagPickerBaseComponent<TInputs, TOutputs> implements Compo
      * @param filter Text used to filter suggestions.
      */
     private searchTags(filter?: string, selectedItems?: ITag[]): Promise<ITag[]> {
-        let options = `?$select=${this.idAttribute},${this.nameAttribute}&$orderby=${this.nameAttribute} asc`;
+        // TODO: Cleanup, testing only for now
+        if (this.viewId) {
+            return this.webAPI.retrieveRecordsByView(this.relatedEntity, this.viewId).then(
+                results => {
+                    return results.text().then(responseText => {
+                        let entities = JSON.parse(responseText).value as ComponentFramework.WebApi.Entity[];
+                        if (entities.length < 1)
+                            return [];
+    
+                        return entities
+                        .map(item => ({ key: item[this.idAttribute], name: item[this.nameAttribute] }))
+                        .filter(tag => !this.listContainsTagList(tag, selectedItems) && (filter ? tag.name.includes(filter) : true));
+                    });                   
+                }
+            );
+        } else {
+            let options = `?$select=${this.idAttribute},${this.nameAttribute}&$orderby=${this.nameAttribute} asc`;
 
-        if (filter)
-            options = `${options}&$filter=contains(${this.nameAttribute},'${filter}') and (${this.filter})`;
-
-        return this.webAPI.retrieveMultipleRecords(this.relatedEntity, options).then(
-            results => {
-                if (results.entities.length < 1)
-                    return [];
-
-                return results.entities
-                .map(item => ({ key: item[this.idAttribute], name: item[this.nameAttribute] }))
-                .filter(tag => !this.listContainsTagList(tag, selectedItems));
+            if (filter) {
+                options = `${options}&$filter=contains(${this.nameAttribute},'${filter}')`;
             }
-        );
+
+            return this.webAPI.retrieveMultipleRecords(this.relatedEntity, options).then(
+                results => {
+                    if (results.entities.length < 1)
+                        return [];
+
+                    return results.entities
+                    .map(item => ({ key: item[this.idAttribute], name: item[this.nameAttribute] }))
+                    .filter(tag => !this.listContainsTagList(tag, selectedItems));
+                }
+            );
+        }
     }
 
     /**
@@ -268,8 +286,7 @@ export abstract class TagPickerBaseComponent<TInputs, TOutputs> implements Compo
         const entityExists: boolean = (this.entityId !== undefined && this.entityId !== "00000000-0000-0000-0000-000000000000");
 
         // We only need to associate / dissasociate items when the entity exists.
-        if (entityExists)
-        {
+        if (entityExists) {
             const parentSetName: string = this.entityMetadata[EntityMetadataProperties.EntitySetName];
 
             // Associate the added items.
