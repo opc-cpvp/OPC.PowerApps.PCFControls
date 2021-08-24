@@ -15,9 +15,9 @@ export abstract class TagPickerBaseComponent<TInputs, TOutputs> implements Compo
     public relationshipEntity: string;
     public relationshipName: string;
 
-     /**
-    * Extra Filtering to be configured when fetching tags 
-    */
+    /**
+     * Extra Filtering and Rules can be created through a view and be used when searching 
+     */
     public viewId: string;
     
     /**
@@ -239,12 +239,12 @@ export abstract class TagPickerBaseComponent<TInputs, TOutputs> implements Compo
     /**
      * Searches the related entity for a given filter.
      * Returns all the tags if no filter was given.
+     * Extra filtering and rules can be applied if a View ID has been given through the control configuration
      * @param filter Text used to filter suggestions.
      */
     private searchTags(filter?: string, selectedItems?: ITag[]): Promise<ITag[]> {
-        // TODO: Cleanup, testing only for now
         if (this.viewId) {
-            return this.webAPI.retrieveRecordsByView(this.relatedEntity, this.viewId).then(
+            return this.webAPI.retrieveRecordsByView(this.relatedEntityMetadata[EntityMetadataProperties.EntitySetName], this.viewId).then(
                 results => {
                     return results.text().then(responseText => {
                         let entities = JSON.parse(responseText).value as ComponentFramework.WebApi.Entity[];

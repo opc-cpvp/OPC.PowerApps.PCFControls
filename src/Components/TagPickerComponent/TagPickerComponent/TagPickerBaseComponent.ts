@@ -14,9 +14,9 @@ export abstract class TagPickerBaseComponent<TInputs, TOutputs> implements Compo
     public relationshipName: string;
 
     /**
-    * Extra Filtering to be configured when fetching tags 
+    * Extra Filtering and Rules can be created through a view and be used when searching 
     */
-    public filter: string;
+    public viewId: string;
 
     /**
      * Selected items cache.
@@ -195,17 +195,33 @@ export abstract class TagPickerBaseComponent<TInputs, TOutputs> implements Compo
         }
         return tagList.some(compareTag => compareTag.key === tag.key);
       };
-
-    /**
+/**
      * Searches the related entity for a given filter.
      * Returns all the tags if no filter was given.
+     * Extra filtering and rules can be applied if a View ID has been given through the control configuration
      * @param filter Text used to filter suggestions.
      */
-    private searchTags(filter?: string, selectedItems?: ITag[]): Promise<ITag[]> {
+ private searchTags(filter?: string, selectedItems?: ITag[]): Promise<ITag[]> {
+    if (this.viewId) {
+        return this.webAPI.retrieveRecordsByView(this.relatedEntityMetadata[EntityMetadataProperties.EntitySetName], this.viewId).then(
+            results => {
+                return results.text().then(responseText => {
+                    let entities = JSON.parse(responseText).value as ComponentFramework.WebApi.Entity[];
+                    if (entities.length < 1)
+                        return [];
+
+                    return entities
+                    .map(item => ({ key: item[this.idAttribute], name: item[this.nameAttribute] }))
+                    .filter(tag => !this.listContainsTagList(tag, selectedItems) && (filter ? tag.name.includes(filter) : true));
+                });                   
+            }
+        );
+    } else {
         let options = `?$select=${this.idAttribute},${this.nameAttribute}&$orderby=${this.nameAttribute} asc`;
 
-        if (filter)
-            options = `${options}&$filter=contains(${this.nameAttribute},'${filter}')${this.filter ? ` and (${this.filter})` : ""}`;
+        if (filter) {
+            options = `${options}&$filter=contains(${this.nameAttribute},'${filter}')`;
+        }
 
         return this.webAPI.retrieveMultipleRecords(this.relatedEntity, options).then(
             results => {
@@ -213,11 +229,12 @@ export abstract class TagPickerBaseComponent<TInputs, TOutputs> implements Compo
                     return [];
 
                 return results.entities
-                    .map(item => ({ key: item[this.idAttribute], name: item[this.nameAttribute] }))
-                    .filter(tag => !this.listContainsTagList(tag, selectedItems));
+                .map(item => ({ key: item[this.idAttribute], name: item[this.nameAttribute] }))
+                .filter(tag => !this.listContainsTagList(tag, selectedItems));
             }
         );
     }
+}
 
     /**
      * A callback for when the selected list of items changes.

@@ -161,13 +161,13 @@
     <value>Étiquette de champ qui sera afficher sur le formulaire</value>
     <comment>Texte d'affichage de la description de l'étiquette de champ</comment>
   </data>
-  <data name="filter_Display_Key" xml:space="preserve">
-    <value>Filtre OData</value>
-    <comment>Texte d'affichage pour le Filter OData</comment>
+  <data name="viewId_Display_Key" xml:space="preserve">
+    <value>ID de la vue</value>
+  <comment>Texte d'affichage pour ID de la vue</comment>
   </data>
-  <data name="filter_Desc_Key" xml:space="preserve">
-    <value>Filtre OData utilisé pour ajouter un filtrage supplémentaire aux étiquettes</value>
-    <comment>Texte d'affichage pour le Filter OData</comment>
+  <data name="viewId_Desc_Key" xml:space="preserve">
+    <value>ID de vue utiliser pour filtrer les étiquettes</value>
+  <comment>Texte d'affichage pour ID de vue utiliser pour filtrer les étiquettes</comment>
   </data>
   <data name="remove" xml:space="preserve">
     <value>Supprimer</value>
