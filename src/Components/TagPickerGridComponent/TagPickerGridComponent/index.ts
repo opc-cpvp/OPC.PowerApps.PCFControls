@@ -29,7 +29,6 @@ export class TagPickerGridComponent extends TagPickerBaseComponent<IInputs, IOut
         this.relationshipName = context.parameters.relationshipName.raw || "";
         this.labelText = context.parameters.labelText.raw || "";
         this.viewId = context.parameters.viewId.raw || "";
-        console.log("Filter?", context.parameters.viewId.raw);
 
         super.init(context, notifyOutputChanged, state, container);
     }
