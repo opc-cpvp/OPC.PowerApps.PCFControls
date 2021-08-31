@@ -32,6 +32,7 @@ export class TagPickerComponent extends TagPickerBaseComponent<IInputs, IOutputs
 		this.relatedEntity = context.parameters.relatedEntity.raw || "";
 		this.relationshipEntity = context.parameters.relationshipEntity.raw || "";
 		this.relationshipName = context.parameters.relationshipName.raw || "";
+		this.viewId = context.parameters.viewId.raw || "";
 
 		super.init(context, notifyOutputChanged, state, container);
 	}

@@ -157,6 +157,14 @@
     <value>Logical name of the relationship entity</value>
     <comment>Display text for Relationship Entity description</comment>
   </data>
+  <data name="viewId_Display_Key" xml:space="preserve">
+    <value>View ID</value>
+  <comment>Display text for View ID</comment>
+  </data>
+  <data name="viewId_Desc_Key" xml:space="preserve">
+    <value>View ID to use when fetching tags</value>
+  <comment>Display text for View ID</comment>
+  </data>
   <data name="remove" xml:space="preserve">
     <value>Remove</value>
     <comment>Display text for the remove button</comment>

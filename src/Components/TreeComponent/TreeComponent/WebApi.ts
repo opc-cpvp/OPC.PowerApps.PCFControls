@@ -3,7 +3,7 @@ import 'whatwg-fetch';
 export interface IWebApi extends ComponentFramework.WebApi {
     associateRecord(parentSetName: string, parentId: string, relationshipName: string, childSetName: string, childId: string): Promise<Response>;
     disassociateRecord(parentSetName: string, parentId: string, relationshipName: string, childId: string): Promise<Response>;
-    retrieveRecordsByView(entityType: string, viewId: string, options?: string | undefined): Promise<Response>;
+    retrieveRecordsByView(entityType: string, viewId: string): Promise<Response>;
 }
 
 export class WebApi implements IWebApi {
@@ -121,7 +121,7 @@ export class WebApi implements IWebApi {
      * For support options, please refer to https://docs.microsoft.com/en-us/dynamics365/customer-engagement/developer/clientapi/reference/xrm-webapi/retrieverecord
      * @returns The deferred object for the result of the operation. A JSON object with the retrieved properties and values will be resolved if successful.
      */
-    retrieveRecordsByView(entityType: string, viewId: string, options?: string | undefined): Promise<Response> {        
+    retrieveRecordsByView(entityType: string, viewId: string): Promise<Response> {        
         return window.fetch(`${this.clientUrl}/api/data/v9.1/${entityType}?savedQuery=${viewId}`, {
             method: "GET",
             headers: {
