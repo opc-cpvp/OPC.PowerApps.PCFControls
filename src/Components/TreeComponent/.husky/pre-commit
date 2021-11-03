@@ -10,5 +10,5 @@
 # cd ../TaskManagerComponent
 # npx lint-staged
 
-cd src/Components/TreeComponent
+cd src/Components/TreeComponent/TreeComponent
 npx lint-staged

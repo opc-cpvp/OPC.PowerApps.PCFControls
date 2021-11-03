@@ -145,7 +145,7 @@ export abstract class TreeBaseComponent<TInputs, TOutputs> implements ComponentF
 
         // Sort the items naturally (abc111 would now be placed after abc12 as it contains a bigger number when it would originially be placed first)
         const collator = new Intl.Collator("en", { numeric: true, sensitivity: "base" });
-        const sortedEntites = entities.sort((a, b) => collator.compare(a[this.nameAttribute] as string, b[this.nameAttribute]));
+        const sortedEntites = entities.sort((a, b) => collator.compare(a[this.nameAttribute], b[this.nameAttribute]));
 
         // Prepare root node to fill with the entities we fetched
         const rootNode = new TreeSelectNode();
