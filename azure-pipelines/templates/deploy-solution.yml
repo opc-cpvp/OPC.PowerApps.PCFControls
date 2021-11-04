@@ -1,0 +1,11 @@
+# The following parameters need to be set when the task is queued to run:
+# environmentUrl: The URL of the environment where you want to deploy.
+
+parameters:
+  - name: environmentUrl
+    type: string
+
+steps:
+  - template: 'install-solution.yml'
+    parameters:
+      environmentUrl: ${{ parameters.environmentUrl }}
