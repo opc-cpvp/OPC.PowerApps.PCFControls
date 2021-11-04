@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Target Name="ILRepackBuild" AfterTargets="Build" Condition="$(Configuration.Contains('Release'))">
+  <Target Name="ILRepackBuild" AfterTargets="Build" Condition="!$(Configuration.Contains('Development'))">
     <ItemGroup>
       <InputAssemblies Include="$(OutputPath)Components.Support.dll" />
       <InputAssemblies Include="$(OutputPath)Newtonsoft.Json.dll" />
