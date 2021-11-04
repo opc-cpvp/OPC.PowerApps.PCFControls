@@ -31,6 +31,7 @@ stages:
       vmImage: 'windows-2019'
     timeoutInMinutes: 120
     steps:
+    - download: buildPipeline
     - template: 'templates\deploy-solution.yml'
       parameters:
         environmentUrl: ${{ parameters.environmentUrl }}
