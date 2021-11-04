@@ -1,0 +1,32 @@
+# The following parameters need to be set when the task is queued to run:
+# environmentUrl: The URL of the environment where you want to install.
+
+parameters:
+- name: environmentUrl
+  type: string
+
+steps:
+- task: DownloadPipelineArtifact@2
+  displayName: 'Download Build Pipeline Artifact'
+
+- powershell: |
+   $artifactDropPath = '$(Pipeline.Workspace)\drop'
+   If (Test-Path -Path "$(Pipeline.Workspace)\buildPipeline\drop")
+   {
+       $artifactDropPath = "$(Pipeline.Workspace)\buildPipeline\drop"
+   }
+   Write-Host "##vso[task.setVariable variable=ArtifactDropPath]$artifactDropPath"
+  displayName: 'Get artifact drop path'
+
+- task: WaelHamze.xrm-ci-framework-build-tasks.MSCRMToolInstaller.MSCRMToolInstaller@12
+  displayName: 'Power DevOps Tool Installer'
+  inputs:
+    crmConnectorVersion: 3.3.0.928
+    packageDeploymentVersion: 3.3.0.928
+
+- task: WaelHamze.xrm-ci-framework-build-tasks.MSCRMImportSolution.MSCRMImportSolution@12
+  displayName: 'Import PCF Controls Solution'
+  inputs:
+    crmConnectionString: '$(CdsBaseConnectionString)${{ parameters.environmentUrl }}'
+    solutionFile: '$(ArtifactDropPath)\src\Solution\bin\Release\Solution_managed.zip'
+    publishWorkflows: true

@@ -1,0 +1,36 @@
+trigger: none
+pr: none
+
+resources:
+  pipelines:
+    - pipeline: buildPipeline
+      source: 'OPC.PowerApps.PCFControls - CI'
+
+parameters:
+  - name: tenant
+    displayName: 'Tenant'
+    type: string
+    default: 'prod-tenant'
+    values:
+    - 'prod-tenant'
+    - 'dev-tenant'
+  - name: environmentUrl
+    displayName: 'Environment URL'
+    type: string
+    default: 'https://opc-compliance-[name].crm3.dynamics.com'
+
+variables:
+  - group: ${{ parameters.tenant }}
+
+stages:
+- stage: deploy
+  displayName: 'Deploy'
+  jobs:
+  - job: deploy_job
+    pool:
+      vmImage: 'windows-2019'
+    timeoutInMinutes: 120
+    steps:
+    - template: 'templates\deploy-solution.yml'
+      parameters:
+        environmentUrl: ${{ parameters.environmentUrl }}

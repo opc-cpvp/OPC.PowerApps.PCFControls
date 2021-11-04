@@ -1,0 +1,13 @@
+steps:
+- task: GitHubRelease@1
+  displayName: 'Release Solution to GitHub'
+  inputs:
+    gitHubConnection: 'opc-buildbot'
+    repositoryName: '$(Build.Repository.Name)'
+    action: 'create'
+    target: '$(resources.pipeline.buildPipeline.sourceCommit)'
+    tagSource: 'userSpecifiedTag'
+    tag: '$(resources.pipeline.buildPipeline.runName)'
+    assets: '$(Pipeline.Workspace)\**\Solution*.zip'
+    changeLogCompareToRelease: 'lastFullRelease'
+    changeLogType: 'commitBased'
