@@ -3,14 +3,23 @@
   "version": "1.0.0",
   "description": "Project containing your PowerApps Component Framework (PCF) control.",
   "scripts": {
+    "prepare": "cd ../../.. && husky install src/components/TagPickerGridComponent/.husky",
     "build": "pcf-scripts build",
     "clean": "pcf-scripts clean",
     "rebuild": "pcf-scripts rebuild",
-    "start": "pcf-scripts start"
+    "start": "pcf-scripts start",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "dependencies": {
     "@types/node": "^10.12.18",
     "@types/powerapps-component-framework": "^1.2.0",
+    "eslint": "^7.26.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin": "^1.0.1",
+    "eslint-plugin-jsdoc": "^37.0.3",
+    "husky": "^7.0.4",
+    "lint-staged": "^11.2.6",
     "office-ui-fabric-react": "^7.145.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
@@ -19,6 +28,14 @@
   "devDependencies": {
     "@types/react": "^16.8",
     "@types/react-dom": "^16.8",
+    "@typescript-eslint/eslint-plugin": "^5.3.0",
+    "@typescript-eslint/eslint-plugin-tslint": "^5.3.0",
+    "@typescript-eslint/parser": "^5.3.0",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-jsdoc": "^37.0.3",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prefer-arrow": "^1.2.3",
+    "eslint-plugin-prettier": "^4.0.0",
     "pcf-scripts": "~0",
     "pcf-start": "~0"
   }

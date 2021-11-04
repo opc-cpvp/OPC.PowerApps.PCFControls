@@ -1,7 +1,13 @@
-import 'whatwg-fetch';
+import "whatwg-fetch";
 
 export interface IWebApi extends ComponentFramework.WebApi {
-    associateRecord(parentSetName: string, parentId: string, relationshipName: string, childSetName: string, childId: string): Promise<Response>;
+    associateRecord(
+        parentSetName: string,
+        parentId: string,
+        relationshipName: string,
+        childSetName: string,
+        childId: string
+    ): Promise<Response>;
     disassociateRecord(parentSetName: string, parentId: string, relationshipName: string, childId: string): Promise<Response>;
     retrieveRecordsByView(entityType: string, viewId: string): Promise<Response>;
 }
@@ -17,13 +23,20 @@ export class WebApi implements IWebApi {
 
     /**
      * Associates a child record to a parent record.
+     *
      * @param parentSetName Set name of the parent entity.
      * @param parentId ID of the parent record.
      * @param relationshipName Relationship name between the parent and child record.
      * @param childSetName Set name of the child entity.
      * @param childId ID of the child record.
      */
-    associateRecord(parentSetName: string, parentId: string, relationshipName: string, childSetName: string, childId: string): Promise<Response> {
+    associateRecord(
+        parentSetName: string,
+        parentId: string,
+        relationshipName: string,
+        childSetName: string,
+        childId: string
+    ): Promise<Response> {
         const payload = { "@odata.id": `${this.clientUrl}/api/data/v9.1/${parentSetName}(${parentId})` };
 
         // https://docs.microsoft.com/en-us/powerapps/developer/common-data-service/webapi/associate-disassociate-entities-using-web-api
@@ -41,6 +54,7 @@ export class WebApi implements IWebApi {
 
     /**
      * Creates an entity record.
+     *
      * @param entityType logical name of the entity type record to create
      * @param data dictionary with attribute schema name and value
      * @returns The deferred object for the result of the operation. The created record object will be resolved if successful.
@@ -51,6 +65,7 @@ export class WebApi implements IWebApi {
 
     /**
      * Deletes an entity record.
+     *
      * @param id GUID of the entity record you want to delete.
      * @param entityType logical name of the entity type record to delete
      * @returns The deferred object for the result of the operation. The deleted record object will be resolved if successful.
@@ -61,6 +76,7 @@ export class WebApi implements IWebApi {
 
     /**
      * Disassociates a child record from a parent record.
+     *
      * @param parentSetName Set name of the parent entity.
      * @param parentId ID of the parent record.
      * @param relationshipName Relationship name between the parent and child record.
@@ -81,6 +97,7 @@ export class WebApi implements IWebApi {
 
     /**
      * Updates an entity record.
+     *
      * @param id GUID of the entity record you want to update.
      * @param data dictionary containing to-change attributes with schema name and value
      * @param entityType logical name of the entity type record to update
@@ -92,18 +109,24 @@ export class WebApi implements IWebApi {
 
     /**
      * Retrieves a collection of entity records.
+     *
      * @param entityType logical name of the entity type record to retrieve
      * @param options OData system query options or FetchXML query to retrieve your data.
      * For support options, please refer to https://docs.microsoft.com/en-us/dynamics365/customer-engagement/developer/clientapi/reference/xrm-webapi/retrievemultiplerecords
      * @param maxPageSize Max number of records to be retrieved per page
      * @returns The deferred object for the result of the operation. An object with interface RetrieveMultipleResponse will be resolved if successful.
      */
-    retrieveMultipleRecords(entityType: string, options?: string | undefined, maxPageSize?: number | undefined): Promise<ComponentFramework.WebApi.RetrieveMultipleResponse> {
+    retrieveMultipleRecords(
+        entityType: string,
+        options?: string | undefined,
+        maxPageSize?: number | undefined
+    ): Promise<ComponentFramework.WebApi.RetrieveMultipleResponse> {
         return this.webApi.retrieveMultipleRecords(entityType, options, maxPageSize);
     }
 
     /**
      * Retrieves an entity record.
+     *
      * @param id GUID of the entity record you want to retrieve.
      * @param entityType logical name of the entity type record to retrieve
      * @param options OData system query options, $select and $expand, to retrieve your data.
@@ -116,12 +139,13 @@ export class WebApi implements IWebApi {
 
     /**
      * Retrieves records of a view from an entity
+     *
      * @param entityType logical name of the entity type record to retrieve
      * @param viewId ID of the view we want to use to filter the records
      * For support options, please refer to https://docs.microsoft.com/en-us/dynamics365/customer-engagement/developer/clientapi/reference/xrm-webapi/retrieverecord
      * @returns The deferred object for the result of the operation. A JSON object with the retrieved properties and values will be resolved if successful.
      */
-       retrieveRecordsByView(entityType: string, viewId: string): Promise<Response> {        
+    retrieveRecordsByView(entityType: string, viewId: string): Promise<Response> {
         return window.fetch(`${this.clientUrl}/api/data/v9.1/${entityType}?savedQuery=${viewId}`, {
             method: "GET",
             headers: {
