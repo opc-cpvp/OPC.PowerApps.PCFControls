@@ -1,6 +1,6 @@
-import * as React from 'react';
-import { TagPicker, ITag } from 'office-ui-fabric-react/lib/Pickers';
-import { initializeIcons } from 'office-ui-fabric-react/lib/Icons';
+import * as React from "react";
+import { TagPicker, ITag } from "office-ui-fabric-react/lib/Pickers";
+import { initializeIcons } from "office-ui-fabric-react/lib/Icons";
 
 initializeIcons();
 
@@ -18,8 +18,7 @@ export interface ITagPickerProps {
     onResolveSuggestions?: (filter: string, selectedItems?: ITag[]) => Promise<ITag[]>;
 }
 
-export interface ITagPickerState extends React.ComponentState, ITagPickerProps {
-}
+export interface ITagPickerState extends React.ComponentState, ITagPickerProps {}
 
 export class TagPickerBase extends React.Component<ITagPickerProps, ITagPickerState> {
     constructor(props: ITagPickerProps) {
@@ -46,13 +45,13 @@ export class TagPickerBase extends React.Component<ITagPickerProps, ITagPickerSt
                     onItemSelected={this._onItemSelected}
                     onResolveSuggestions={this._onResolveSuggestions}
                     onEmptyInputFocus={this._onEmptyInputFocus}
-                    getTextFromItem={this._getTextFromItem}
+                    getTextFromItem={item => this._getTextFromItem(item)}
                     pickerSuggestionsProps={{
                         noResultsFoundText: this.props.labels?.noResultsFound
                     }}
                     resolveDelay={300}
                     inputProps={{
-                        'aria-label': this.props.labels?.input
+                        "aria-label": this.props.labels?.input
                     }}
                 />
             </div>
@@ -69,28 +68,32 @@ export class TagPickerBase extends React.Component<ITagPickerProps, ITagPickerSt
             return prevState;
         });
 
-        if (this.props.onChange)
+        if (this.props.onChange) {
             this.props.onChange(items);
-    }
+        }
+    };
 
     private _onItemSelected = (selectedItem?: ITag | undefined): ITag | null => {
-        if (!selectedItem)
-            return null
+        if (!selectedItem) {
+            return null;
+        }
 
-        const itemSelected = this.state.selectedItems!.filter(compareTag => compareTag.key === selectedItem.key).length > 0;
+        const itemSelected = (this.state.selectedItems?.filter(compareTag => compareTag.key === selectedItem.key) ?? []).length > 0;
         return !itemSelected ? selectedItem : null;
     };
 
-    private _onResolveSuggestions = (filter: string,  selectedItems?: ITag[] | undefined): Promise<ITag[]> => {
-        if (this.props.onResolveSuggestions)
+    private _onResolveSuggestions = (filter: string, selectedItems?: ITag[] | undefined): Promise<ITag[]> => {
+        if (this.props.onResolveSuggestions) {
             return this.props.onResolveSuggestions(filter, selectedItems);
+        }
 
         return Promise.resolve([]);
     };
 
     private _onEmptyInputFocus = (selectedItems?: ITag[] | undefined): Promise<ITag[]> => {
-        if (this.props.onEmptyInputFocus)
+        if (this.props.onEmptyInputFocus) {
             return this.props.onEmptyInputFocus(selectedItems);
+        }
 
         return Promise.resolve([]);
     };
