@@ -5,7 +5,6 @@ js/lib/xrmquery
 node_modules
 out
 generated
-scripts
 
 .eslintrc.json
 .huskyrc.json

@@ -321,7 +321,7 @@ export abstract class TagPickerBaseComponent<TInputs, TOutputs> implements Compo
                 }
             })
             .catch(e => {
-                console.error("Error updating relationshi[");
+                console.error("Error updating relationship", e);
             });
     }
 }
