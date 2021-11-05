@@ -23,6 +23,13 @@ steps:
     targetType: 'inline'
     script: ls | foreach { cd $_.FullName | npm i }
     workingDirectory: '$(Build.SourcesDirectory)\src\Components'
+    
+- task: PowerShell@2
+  displayName: 'Lint all PCF Components'
+  inputs:
+    targetType: 'inline'
+    script: ls | foreach { cd $_.FullName | npm run lint }
+    workingDirectory: '$(Build.SourcesDirectory)\src\Components'
 
 - task: WaelHamze.xrm-ci-framework-build-tasks.MSCRMSetVersion.MSCRMSetVersion@12
   displayName: 'Set PowerApps Solution Version'
