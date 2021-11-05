@@ -3,5 +3,5 @@
 export enum EntityMetadataProperties {
     EntitySetName = "EntitySetName",
     PrimaryIdAttribute = "PrimaryIdAttribute",
-    PrimaryNameAttribute  = "PrimaryNameAttribute"
+    PrimaryNameAttribute = "PrimaryNameAttribute"
 }
