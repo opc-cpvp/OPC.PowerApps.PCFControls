@@ -8,7 +8,7 @@
         "clean": "pcf-scripts clean",
         "rebuild": "pcf-scripts rebuild",
         "start": "pcf-scripts start",
-        "lint": "eslint . --debug",
+        "lint": "eslint .",
         "lint:fix": "eslint . --fix"
     },
     "dependencies": {
