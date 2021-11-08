@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Project containing your PowerApps Component Framework (PCF) control.",
   "scripts": {
-    "prepare": "cd ../../.. && husky install src/components/TaskManagerComponent/.husky",
+    "prepare": "cd ../../.. && husky install src/components/.husky",
     "build": "pcf-scripts build",
     "clean": "pcf-scripts clean",
     "rebuild": "pcf-scripts rebuild",
@@ -14,12 +14,6 @@
   "dependencies": {
     "@types/node": "^10.12.18",
     "@types/powerapps-component-framework": "^1.2.0",
-    "eslint": "^7.26.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin": "^1.0.1",
-    "eslint-plugin-jsdoc": "^37.0.3",
-    "husky": "^7.0.4",
-    "lint-staged": "^11.2.6",
     "office-ui-fabric-react": "^7.153.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
@@ -36,6 +30,8 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prefer-arrow": "^1.2.3",
     "eslint-plugin-prettier": "^4.0.0",
+    "husky": "^7.0.4",
+    "lint-staged": "^11.2.6",
     "pcf-scripts": "^1",
     "pcf-start": "^1"    
   }
