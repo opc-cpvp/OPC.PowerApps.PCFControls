@@ -21,7 +21,7 @@ steps:
   displayName: 'Install dependencies for all PCF Components'
   inputs:
     targetType: 'inline'
-    script: ls | foreach { cd $_.FullName | npm i }
+    script: ls | foreach { cd $_.FullName | npm ci }
     workingDirectory: '$(Build.SourcesDirectory)\src\Components'
     
 - task: PowerShell@2
