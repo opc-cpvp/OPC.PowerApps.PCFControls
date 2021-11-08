@@ -36,7 +36,6 @@
     "lint-staged": "^11.2.6",
     "pcf-scripts": "^1",
     "pcf-start": "^1",
-    "prettier": "2.4.1",
-    "typescript": "^4.4.4"
+    "prettier": "2.4.1"
   }
 }
