@@ -23,11 +23,10 @@ export class WebApi implements IWebApi {
 
     retrieveOptionSetMetadata(entityType: string, attributeName: string): Promise<Response> {
         return window.fetch(
-            `${
-                this.clientUrl
-            }/api/data/v9.1/EntityDefinitions(LogicalName='${entityType}')/Attributes(LogicalName='${attributeName}')/Microsoft.Dynamics.CRM.${
-                attributeName === "statuscode" ? "StatusAttributeMetadata" : "PicklistAttributeMetadata"
-            }?$select=LogicalName&$expand=OptionSet($select=Options)`,
+            `${this.clientUrl}}/api/data/v9.1/EntityDefinitions(LogicalName='${entityType}')
+        /Attributes(LogicalName='${attributeName}')
+        /Microsoft.Dynamics.CRM.${attributeName === "statuscode" ? "StatusAttributeMetadata" : "PicklistAttributeMetadata"}
+        ?$select=LogicalName&$expand=OptionSet($select=Options)`,
             {
                 method: "GET",
                 headers: {
