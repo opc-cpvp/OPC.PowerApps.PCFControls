@@ -18,10 +18,10 @@ steps:
     packageDeploymentVersion: 3.3.0.928
 
 - task: PowerShell@2
-  displayName: 'Install dependencies for all PCF Components'
+  displayName: 'Install dependencies and build for all PCF Components'
   inputs:
     targetType: 'inline'
-    script: ls | foreach { cd $_.FullName | npm ci }
+    script: ls | foreach { cd $_.FullName | npm ci ; npm run build }
     workingDirectory: '$(Build.SourcesDirectory)\src\Components'
     
 - task: PowerShell@2
