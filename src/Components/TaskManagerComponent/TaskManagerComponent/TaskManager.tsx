@@ -275,7 +275,7 @@ export class TaskManager extends React.Component<ITaskManagerProps, ITaskManager
                 </div>
             </div>
         );
-        // RemoveFromTrash
+        // TODO: RemoveFromTrash (Un-delete task)
     }
 
     private handleDeleteTask(taskid?: string): void {
