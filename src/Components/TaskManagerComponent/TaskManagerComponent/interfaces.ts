@@ -11,27 +11,27 @@ export interface IOptionSetConfiguration {
 export interface ITaskManagerBadgeConfigurationItem {
     name: string;
     keys: number[];
-    values?: IOptionSetConfiguration[]
+    values?: IOptionSetConfiguration[];
 }
 
 export interface ITaskItem {
+    [additionalPropertyName: string]: string | Date | number | number[] | boolean | EntityReference | EntityReference[];
     key: string;
     subject: string;
     description: string;
     statuscode: number;
     isActive: boolean;
-    [additionalPropertyName: string]: string | Date | number | number[] | boolean | EntityReference | EntityReference[];
-  }
+}
 
-  export interface ITaskManagerProps {
+export interface ITaskManagerProps {
     tasks: ITaskItem[];
     panelTitle: string;
     badgeConfig: ITaskManagerBadgeConfigurationItem[];
     context: ComponentFramework.Context<IInputs>;
-  }
+}
 
-  export interface ITaskManagerState extends React.ComponentState {
+export interface ITaskManagerState extends React.ComponentState {
     tasks: ITaskItem[];
     selectedItems: IObjectWithKey[];
     showInactive: boolean;
-  }
+}

@@ -1,0 +1,38 @@
+trigger: none
+pr: none
+
+parameters:
+  - name: tenant
+    displayName: 'Tenant'
+    type: string
+    default: 'prod-tenant'
+    values:
+    - 'prod-tenant'
+    - 'dev-tenant'
+  - name: environmentUrl
+    displayName: 'Environment URL'
+    type: string
+    default: 'https://opc-compliance-[name].crm3.dynamics.com'
+
+variables:
+  - group: ${{ parameters.tenant }}
+  - name: 'Version.MajorMinor'
+    value: '1.0'
+  - name: 'Version.Patch'
+    value: $[counter(variables['Version.MajorMinor'], 0)]
+
+name: '$(Version.MajorMinor).$(Version.Patch)'
+
+stages:
+- stage: build_and_deploy
+  displayName: 'Build & Deploy'
+  jobs:
+  - job: build_and_deploy_job
+    pool:
+      vmImage: 'windows-2019'
+    timeoutInMinutes: 120
+    steps:
+      - template: 'templates\build-solution.yml'
+      - template: 'templates\deploy-solution.yml'
+        parameters:
+          environmentUrl: ${{ parameters.environmentUrl }}

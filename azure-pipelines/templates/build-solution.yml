@@ -1,0 +1,111 @@
+# The following parameters need to be set when the task is queued to run:
+# buildConfiguration: The configuration you want to build.
+# buildPlatform: The platform you want to build.
+
+parameters:
+- name: buildConfiguration
+  type: string
+  default: 'release'
+- name: buildPlatform
+  type: string
+  default: 'any cpu'
+
+steps:
+- task: WaelHamze.xrm-ci-framework-build-tasks.MSCRMToolInstaller.MSCRMToolInstaller@12
+  displayName: 'Power DevOps Tool Installer'
+  inputs:
+    crmConnectorVersion: 3.3.0.928
+    packageDeploymentVersion: 3.3.0.928
+
+- task: PowerShell@2
+  displayName: 'Install dependencies and build for all PCF Components'
+  inputs:
+    targetType: 'inline'
+    script: ls | foreach { cd $_.FullName | npm ci ; npm run build }
+    workingDirectory: '$(Build.SourcesDirectory)\src\Components'
+    
+- task: PowerShell@2
+  displayName: 'Lint all PCF Components'
+  inputs:
+    targetType: 'inline'
+    script: ls | foreach { cd $_.FullName | npm run lint }
+    workingDirectory: '$(Build.SourcesDirectory)\src\Components'
+
+- task: WaelHamze.xrm-ci-framework-build-tasks.MSCRMSetVersion.MSCRMSetVersion@12
+  displayName: 'Set PowerApps Solution Version'
+  inputs:
+    target: xml
+    unpackedFilesFolder: '$(Build.SourcesDirectory)\src\Solution'
+    versionNumber: '$(Build.BuildNumber)'
+
+- task: MagicChunks@2
+  displayName: 'Set All Components Versions'
+  inputs:
+    sourcePath: 'ControlManifest.Input.xml'
+    sourcePathRecurse: true
+    fileType: 'Xml'
+    targetPathType: 'source'
+    transformationType: 'json'
+    transformations: |
+      {
+        "manifest/control/@version": "$(Build.BuildNumber)"
+      }
+
+- task: NuGetCommand@2
+  displayName: 'Restore .sln'
+  inputs:
+    command: 'restore'
+    restoreSolution: '**\*.sln'
+    feedsToUse: 'select'
+
+- task: NuGetCommand@2
+  displayName: 'Restore .cdsproj'
+  inputs:
+    command: 'restore'
+    restoreSolution: '**\*.cdsproj'
+    feedsToUse: 'select'
+
+- task: MSBuild@1
+  displayName: 'Build solution **\*.cdsproj'
+  inputs:
+    solution: '**\*.cdsproj'
+    configuration: '${{ parameters.buildConfiguration }}'
+    msbuildArguments: '/restore'
+
+- task: MSBuild@1
+  displayName: 'Build solution **\*.sln'
+  inputs:
+    solution: '**\*.sln'
+    platform: '${{ parameters.buildPlatform }}'
+    configuration: '${{ parameters.buildConfiguration }}'
+    msbuildArguments: '/restore'
+
+- task: VSTest@2
+  displayName: 'Test Assemblies'
+  inputs:
+    testSelector: 'testAssemblies'
+    testAssemblyVer2: |
+      **\*test*.dll
+      !**\*TestAdapter.dll
+      !**\obj\**
+    searchFolder: '$(Build.SourcesDirectory)'
+    resultsFolder: '$(Agent.TempDirectory)\test-output'
+    testRunTitle: '.NET - xUnit'
+    platform: '${{ parameters.buildPlatform }}'
+    configuration: '${{ parameters.buildConfiguration }}'
+
+- task: CopyFiles@2
+  displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
+  inputs:
+    SourceFolder: '$(Build.SourcesDirectory)'
+    Contents: |
+     **\bin\${{ parameters.buildConfiguration }}\**
+     **\bin\ILRepack\**
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+- task: PublishPipelineArtifact@1
+  displayName: 'Publish Artifacts'
+  inputs:
+    targetPath: '$(Build.ArtifactStagingDirectory)'
+    artifact: 'drop'
+

@@ -1,15 +1,16 @@
 import { Culture } from "./enums";
 
 export class Utils {
- /**
+    /**
      * Retrieves the label based on the current language.
      * Accepts the following formats:
-     *   - Label
-     *   - en=Label|fr=Étiquette
+     * - Label
+     * - en=Label|fr=Étiquette
      */
     public static extractMultilingualText(text: string, currentCulture: Culture): string {
-        if (text.indexOf("|") === -1)
+        if (text.indexOf("|") === -1) {
             return text;
+        }
 
         // Load the translations from the label
         const translations = new Map<Culture, string>();
@@ -17,13 +18,15 @@ export class Utils {
             const values: string[] = translation.split("=");
 
             // Check if the string is formatted correctly
-            if (values.length !== 2)
+            if (values.length !== 2) {
                 continue;
+            }
 
             // Check if the language is supported, if not don't add.
-            const language: Culture = (<any>Culture)[values[0]];
-            if (language === undefined)
+            const language: Culture = (Culture as any)[values[0]];
+            if (language === undefined) {
                 continue;
+            }
 
             const label: string = values[1];
             translations.set(language, label);

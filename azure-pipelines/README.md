@@ -1,9 +1,13 @@
 # Azure Pipelines
 
-## [ci-build-solution.yml](ci-build-solution.yml)
+## [build-deploy-solution.yml](build-deploy-solution.yml)
+Build and deploy solution to a given environment.
 
-Continuous Integration pipeline used to build, test and package the OPC.PowerApps.PCFControls package.
+## [build-solution.yml](build-solution.yml)
+Build solution and publish artifacts.
 
-## [pr-build-solution.yml](pr-build-solution.yml)
+## [release-solution.yml](release-solution.yml)
+Release solution to GitHub.
 
-Pull Request pipeline used to build and test the OPC.PowerApps.PCFControls package.
+## [deploy-solution.yml](deploy-solution.yml)
+Deploy solution to a given environment.

@@ -1,0 +1,26 @@
+trigger:
+  branches:
+    include:
+    - master
+pr:
+  branches:
+    include:
+    - master
+
+variables:
+  - name: 'Version.MajorMinor'
+    value: '1.0'
+  - name: 'Version.Patch'
+    value: $[counter(variables['Version.MajorMinor'], 0)]
+
+name: '$(Version.MajorMinor).$(Version.Patch)'
+
+stages:
+- stage: build
+  displayName: 'Build'
+  jobs:
+  - job: build_job
+    pool:
+      vmImage: 'windows-2019'
+    steps:
+      - template: 'templates\build-solution.yml'

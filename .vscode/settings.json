@@ -1,0 +1,24 @@
+{
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true
+    },
+    "eslint.workingDirectories": [
+        {
+            "directory": "src/Components/TreeComponent",
+            "changeProcessCWD": true
+        },
+        {
+            "directory": "src/Components/TaskManagerComponent",
+            "changeProcessCWD": true
+        },
+        {
+            "directory": "src/Components/TagPickerGridComponent",
+            "changeProcessCWD": true
+        },
+        {
+            "directory": "src/Components/TagPickerComponent",
+            "changeProcessCWD": true,
+        }
+    ],
+    "eslint.format.enable": true,
+}

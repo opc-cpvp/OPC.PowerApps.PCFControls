@@ -1,0 +1,7 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+# Iterate all componenets to lint
+for d in src/Components/*/ ; do
+        (cd "$d" && npx lint-staged)
+done
