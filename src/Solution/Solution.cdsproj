@@ -9,9 +9,9 @@
 
   <PropertyGroup>
     <ProjectGuid>7362f29a-3848-44c9-80d1-6b10adee2ffa</ProjectGuid>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <!--Remove TargetFramework when this is available in 16.1-->
-    <TargetFramework>net462</TargetFramework>
+    <TargetFramework>net471</TargetFramework>
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
 
