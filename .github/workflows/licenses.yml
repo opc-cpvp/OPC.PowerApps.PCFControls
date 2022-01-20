@@ -17,6 +17,8 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
+      - name: Install license-checker
+        run: npm install -g license-checker
       - name: Install packages
         run: npm install
       - name: Generate license file for ${{ inputs.directory }}
