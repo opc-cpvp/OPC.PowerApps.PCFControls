@@ -8,8 +8,8 @@ jobs:
     name: Called workflow
     runs-on: ubuntu-latest
     strategy:
-    matrix:
-      directories: [TagPickerComponent,TagPickerGridComponent]
+      matrix:
+        directories: [TagPickerComponent,TagPickerGridComponent]
     defaults:
       run:
         working-directory: ./src/Components/${{ matrix.directories }}
