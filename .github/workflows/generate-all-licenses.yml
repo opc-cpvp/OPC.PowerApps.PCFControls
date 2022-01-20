@@ -1,0 +1,17 @@
+name: Generate license files for each projects
+
+on:
+  push:
+    branches: [features/licenses]
+jobs:
+  build:
+      name: Create License File
+      runs-on: ubuntu-latest
+      steps:
+        - name: Install license-checker
+          run: npm install -g license-checker
+        - name: Checkout Code
+          uses: actions/checkout@v2
+        - name: Generate license file
+          uses: opc-cpvp/OPC.PowerApps.PCFControls/.github/workflows/licenses.yml@features/licenses
+            with: TagPickerComponent
