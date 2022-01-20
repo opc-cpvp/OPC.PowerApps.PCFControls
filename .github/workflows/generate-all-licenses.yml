@@ -2,10 +2,10 @@ name: Generate license files for each projects
 
 on:
   push:
-    branches: [features/licenses]
+    branches: [na]
 jobs:
   generate-license-file:
     name: Generate license files
     uses: opc-cpvp/OPC.PowerApps.PCFControls/.github/workflows/licenses.yml@features/licenses
     with: 
-      directory: TagPickerComponent
+      directory: [TagPickerComponent,TagPickerGridComponent]

@@ -1,19 +1,18 @@
-name: Create License File
+name: Generate license files for each projects
 
 on:
-  workflow_call:
-    inputs:
-      directory:
-        required: true
-        type: string
-
+  push:
+    branches: [features/licenses]
 jobs:
   build:
     name: Called workflow
     runs-on: ubuntu-latest
+    strategy:
+    matrix:
+      directories: [TagPickerComponent,TagPickerGridComponent]
     defaults:
       run:
-        working-directory: ./src/Components/${{ inputs.directory }}
+        working-directory: ./src/Components/${{ matrix.directories }}
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
