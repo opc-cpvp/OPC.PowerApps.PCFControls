@@ -12,7 +12,7 @@ jobs:
           run: npm install -g license-checker
         - name: Checkout Code
           uses: actions/checkout@v2
-        - name: Generate license file
-          uses: opc-cpvp/OPC.PowerApps.PCFControls/.github/workflows/licenses.yml@features/licenses
-            with: 
-              directory: TagPickerComponent
+  generate-license-file:
+    uses: opc-cpvp/OPC.PowerApps.PCFControls/.github/workflows/licenses.yml@features/licenses
+    with: 
+      directory: TagPickerComponent
