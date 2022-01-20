@@ -10,8 +10,6 @@ jobs:
       steps:
         - name: Install license-checker
           run: npm install -g license-checker
-        - name: Checkout Code
-          uses: actions/checkout@v2
   generate-license-file:
     name: Generate license files
     uses: opc-cpvp/OPC.PowerApps.PCFControls/.github/workflows/licenses.yml@features/licenses
