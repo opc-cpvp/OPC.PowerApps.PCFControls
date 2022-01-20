@@ -1,21 +1,21 @@
 name: Generate license files for each projects
 
-on:
-  push:
-    branches: [features/licenses]
+on: [pull_request]
 jobs:
   build:
     name: Called workflow
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        directories: [TagPickerComponent,TagPickerGridComponent]
+        directories: [TagPickerComponent,TagPickerGridComponent,TaskManagerComponent,TreeComponent]
     defaults:
       run:
         working-directory: ./src/Components/${{ matrix.directories }}
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
+         with:
+          ref: ${{ github.head_ref }}
       - name: Install license-checker
         run: npm install -g license-checker
       - name: Install packages
