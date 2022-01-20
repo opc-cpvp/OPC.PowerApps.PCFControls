@@ -11,8 +11,8 @@ jobs:
         - name: Install license-checker
           run: npm install -g license-checker
   generate-license-file:
+    needs: build
     name: Generate license files
-    if: Success()
     uses: opc-cpvp/OPC.PowerApps.PCFControls/.github/workflows/licenses.yml@features/licenses
     with: 
       directory: TagPickerComponent
