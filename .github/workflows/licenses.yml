@@ -9,8 +9,6 @@ on:
 
 jobs:
   build:
-    name: Create License File
-    runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./src/Components/${{ inputs.directory }}

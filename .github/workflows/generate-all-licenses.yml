@@ -5,7 +5,7 @@ on:
     branches: [features/licenses]
 jobs:
   build:
-      name: Create License File
+      name: Set-up
       runs-on: ubuntu-latest
       steps:
         - name: Install license-checker
