@@ -9,6 +9,8 @@ on:
 
 jobs:
   build:
+    name: Called workflow
+    runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./src/Components/${{ inputs.directory }}
