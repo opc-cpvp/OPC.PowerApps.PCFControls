@@ -15,13 +15,9 @@ jobs:
       run:
         working-directory: ./src/Components/${{ inputs.directory }}
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v2
-        with:
-          ref: ${{ github.head_ref }}
       - name: Install packages
         run: npm install
-      - name: Generate license file
+      - name: Generate license file for ${{ inputs.directory }}
         run: license-checker --production > license.txt
       - name: Check for modified files
         id: git-status

@@ -13,6 +13,7 @@ jobs:
         - name: Checkout Code
           uses: actions/checkout@v2
   generate-license-file:
+    name: Generate license files
     uses: opc-cpvp/OPC.PowerApps.PCFControls/.github/workflows/licenses.yml@features/licenses
     with: 
       directory: TagPickerComponent
