@@ -1,9 +1,9 @@
-name: Generate license files for each projects
+name: Generate license files
 
 on: [pull_request]
 jobs:
   build:
-    name: Called workflow
+    name: Generate license file
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -20,7 +20,7 @@ jobs:
         run: npm install -g license-checker
       - name: Install packages
         run: npm install
-      - name: Generate license file for ${{ inputs.directory }}
+      - name: Generate license file for ${{ matrix.directory }}
         run: license-checker --production > license.txt
       - name: Check for modified files
         id: git-status
