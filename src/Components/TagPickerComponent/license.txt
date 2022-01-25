@@ -155,15 +155,11 @@
 │  ├─ repository: https://github.com/facebook/react
 │  ├─ path: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TagPickerComponent/node_modules/scheduler
 │  └─ licenseFile: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TagPickerComponent/node_modules/scheduler/LICENSE
-├─ tslib@1.14.1
-│  ├─ licenses: 0BSD
-│  ├─ repository: https://github.com/Microsoft/tslib
-│  ├─ publisher: Microsoft Corp.
-│  ├─ path: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TagPickerComponent/node_modules/tslib
-│  └─ licenseFile: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TagPickerComponent/node_modules/tslib/LICENSE.txt
-└─ whatwg-fetch@3.6.2
-   ├─ licenses: MIT
-   ├─ repository: https://github.com/github/fetch
-   ├─ path: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TagPickerComponent/node_modules/whatwg-fetch
-   └─ licenseFile: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TagPickerComponent/node_modules/whatwg-fetch/LICENSE
+└─ tslib@1.14.1
+   ├─ licenses: 0BSD
+   ├─ repository: https://github.com/Microsoft/tslib
+   ├─ publisher: Microsoft Corp.
+   ├─ path: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TagPickerComponent/node_modules/tslib
+   └─ licenseFile: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TagPickerComponent/node_modules/tslib/LICENSE.txt
+
 
