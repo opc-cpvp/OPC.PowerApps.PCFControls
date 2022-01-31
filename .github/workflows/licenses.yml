@@ -4,7 +4,7 @@ on: [pull_request_target]
 jobs:
   build:
     name: Generate license file
-    runs-on: ubuntu-
+    runs-on: ubuntu-latest
     env:
       licenseFile: 'license.txt'
     strategy:
