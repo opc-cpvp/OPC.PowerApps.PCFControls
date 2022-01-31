@@ -20,7 +20,7 @@ namespace Components.Support
             if (serviceProvider == null)
             {
                 throw new InvalidPluginExecutionException("serviceProvider");
-            } 
+            }
 
             PluginExecutionContext = (IPluginExecutionContext)serviceProvider.GetService(typeof(IPluginExecutionContext));
 
