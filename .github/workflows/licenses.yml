@@ -21,7 +21,7 @@ jobs:
       - name: Install license-checker
         run: npm install -g license-checker
       - name: Generate license file
-        run: license-checker --production > $licenseFile
+        run: license-checker --production > license.txt
       - name: Update changes
         uses: EndBug/add-and-commit@v8
         with:
