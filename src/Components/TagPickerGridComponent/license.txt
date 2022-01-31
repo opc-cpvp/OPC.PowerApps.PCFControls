@@ -145,16 +145,12 @@
 │  ├─ repository: https://github.com/facebook/react
 │  ├─ path: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TagPickerGridComponent/node_modules/react-is
 │  └─ licenseFile: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TagPickerGridComponent/node_modules/react-is/LICENSE
-├─ react@16.13.1
-│  ├─ licenses: MIT
-│  ├─ repository: https://github.com/facebook/react
-│  ├─ path: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TagPickerGridComponent/node_modules/react
-│  └─ licenseFile: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TagPickerGridComponent/node_modules/react/LICENSE
-└─ scheduler@0.19.1
+└─ react@16.13.1
    ├─ licenses: MIT
    ├─ repository: https://github.com/facebook/react
-   ├─ path: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TagPickerGridComponent/node_modules/scheduler
-   └─ licenseFile: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TagPickerGridComponent/node_modules/scheduler/LICENSE
+   ├─ path: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TagPickerGridComponent/node_modules/react
+   └─ licenseFile: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TagPickerGridComponent/node_modules/react/LICENSE
+
 
 
 
