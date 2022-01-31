@@ -187,9 +187,5 @@
 │  ├─ publisher: Microsoft Corp.
 │  ├─ path: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/tslib
 │  └─ licenseFile: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/tslib/LICENSE.txt
-└─ whatwg-fetch@3.5.0
-   ├─ licenses: MIT
-   ├─ repository: https://github.com/github/fetch
-   ├─ path: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/whatwg-fetch
-   └─ licenseFile: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/whatwg-fetch/LICENSE
+
 
