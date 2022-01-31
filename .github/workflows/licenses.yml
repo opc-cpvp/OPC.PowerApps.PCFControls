@@ -4,7 +4,9 @@ on: [pull_request]
 jobs:
   build:
     name: Generate license file
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-
+    env:
+      licenseFile: 'license.txt'
     strategy:
       matrix:
         directories: [TagPickerComponent,TagPickerGridComponent,TaskManagerComponent,TreeComponent]
@@ -21,7 +23,7 @@ jobs:
       - name: Install license-checker
         run: npm install -g license-checker
       - name: Generate license file
-        run: license-checker --production > license.txt
+        run: license-checker --production > $licenseFile
       - name: Update changes
         uses: EndBug/add-and-commit@v8
         with:
