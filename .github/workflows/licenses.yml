@@ -1,12 +1,10 @@
 name: Generate license files
 
-on: [pull_request_target]
+on: [pull_request]
 jobs:
   build:
     name: Generate license file
     runs-on: ubuntu-latest
-    env:
-      licenseFile: 'license.txt'
     strategy:
       matrix:
         directories: [TagPickerComponent,TagPickerGridComponent,TaskManagerComponent,TreeComponent]
@@ -23,11 +21,11 @@ jobs:
       - name: Install license-checker
         run: npm install -g license-checker
       - name: Generate license file
-        run: license-checker --production > $licenseFile
+        run: license-checker --production > 'license.txt'
       - name: Update changes
         uses: EndBug/add-and-commit@v8
         with:
           author_name: github-actions
           author_email: github-actions@github.com
           message: '[Automated] Added license file'
-          add: $licenseFile
+          add: 'license.txt'
