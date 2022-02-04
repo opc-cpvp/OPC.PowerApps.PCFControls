@@ -14,7 +14,7 @@ namespace Components.Support
 
         internal PluginBase(Type pluginClassName)
         {
-            PluginClassName = pluginClassName.ToString();
+            PluginClassName = pluginClassName.ToString(); 
         }
 
         public void Execute(IServiceProvider serviceProvider)
