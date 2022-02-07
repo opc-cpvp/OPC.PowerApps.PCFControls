@@ -10,7 +10,7 @@ jobs:
         directories: [TagPickerComponent,TagPickerGridComponent,TaskManagerComponent,TreeComponent]
     defaults:
       run:
-        working-directory: ./src/Components/${{ matrix.directories }}
+        working-directory: ./src/Components/TagPickerComponent
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
