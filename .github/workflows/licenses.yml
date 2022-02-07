@@ -5,9 +5,6 @@ jobs:
   build:
     name: Generate license file
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        directories: [TagPickerComponent,TagPickerGridComponent,TaskManagerComponent,TreeComponent]
     defaults:
       run:
         working-directory: ./src/Components/TagPickerComponent
