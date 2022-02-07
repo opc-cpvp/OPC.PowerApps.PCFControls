@@ -10,7 +10,7 @@ namespace Components.Support
      */
     public abstract class PluginBase : IPlugin
     {
-        protected string PluginClassName { get; }
+        protected string PluginClassName { get; } 
 
         internal PluginBase(Type pluginClassName)
         {
