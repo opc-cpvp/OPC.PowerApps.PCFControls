@@ -1,6 +1,6 @@
 name: Generate license files
 
-on: [pull_request]
+on: [push]
 jobs:
   build:
     name: Generate license file
@@ -14,8 +14,6 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
-        with:
-          ref: ${{ github.head_ref }}
       - name: Install packages
         run: npm install
       - name: Install license-checker
