@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        directories: [TaskManagerComponent,TreeComponent]
+        directories: [TagPickerComponent,TagPickerGridComponent,TaskManagerComponent,TreeComponent]
     defaults:
       run:
         working-directory: ./src/Components/${{ matrix.directories }}
