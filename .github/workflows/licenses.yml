@@ -28,4 +28,8 @@ jobs:
           message: '[Automated] Added license file'
           cwd: './src/Components/${{ matrix.directories }}'
           add: 'license.txt'
-          pull: '--rebase'
+          push: false
+      - name: Push changes
+        run: |
+          git pull --rebase
+          git push
