@@ -5,9 +5,12 @@ jobs:
   build:
     name: Generate license file
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        directories: [TagPickerComponent]
     defaults:
       run:
-        working-directory: ./src/Components/TagPickerComponent
+        working-directory: ./src/Components/${{ matrix.directories }}
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
@@ -17,13 +20,11 @@ jobs:
         run: npm install -g license-checker
       - name: Generate license file
         run: license-checker --production > 'license.txt'
-      - name: Status
-        run: echo $(git status)
       - name: Update changes
         uses: EndBug/add-and-commit@v8
         with:
           author_name: github-actions
           author_email: github-actions@github.com
           message: '[Automated] Added license file'
-          cwd: './src/Components/TagPickerComponent'
+          cwd: './src/Components/${{ matrix.directories }}'
           add: 'license.txt'
