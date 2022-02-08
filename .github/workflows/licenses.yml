@@ -23,4 +23,5 @@ jobs:
           author_name: github-actions
           author_email: github-actions@github.com
           message: '[Automated] Added license file'
+          cwd: './src/Components/TagPickerComponent'
           add: '*.txt'
