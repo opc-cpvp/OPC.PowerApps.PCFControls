@@ -21,7 +21,7 @@ namespace Components.Support
         {
             if (serviceProvider == null)
             {
-                throw new InvalidPluginExecutionException("serviceProvider");
+                throw new InvalidPluginExecutionException("serviceProvider"); 
             }
 
             var localPluginContext = new LocalPluginContext(serviceProvider);
