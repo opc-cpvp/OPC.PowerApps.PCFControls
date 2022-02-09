@@ -30,6 +30,7 @@ jobs:
           cwd: './src/Components/${{ matrix.directories }}'
           message: '[Automated] Added license file'
           add: '*.txt'
+          push: false
       
   push:
     name: Add file to repository
