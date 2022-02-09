@@ -20,6 +20,8 @@ jobs:
         run: npm install -g license-checker
       - name: Generate license file
         run: license-checker --production > 'license.txt'
+      - name: Status 1
+        run: echo $(git status --porcelain)
       
   add:
     name: Add file to repository
@@ -28,11 +30,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+      - name: Status 2
+        run: echo $(git status --porcelain)
       - name: Update changes
         uses: EndBug/add-and-commit@v8
         with:
           author_name: github-actions
           author_email: github-actions@github.com
           message: '[Automated] Added license file'
-          cwd: './src/Components/${{ matrix.directories }}'
-          add: '*license.txt'
+          add: '*.txt'
