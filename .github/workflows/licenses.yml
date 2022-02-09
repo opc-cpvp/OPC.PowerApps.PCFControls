@@ -6,6 +6,7 @@ jobs:
     name: Generate license file
     runs-on: ubuntu-latest
     strategy:
+      max-parallel: 1
       matrix:
         directories: [TagPickerComponent,TagPickerGridComponent,TaskManagerComponent,TreeComponent]
     defaults:
