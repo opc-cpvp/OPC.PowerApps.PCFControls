@@ -14,8 +14,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Git Status 1
-        run: echo "$(git status --porcelain)"
       - name: Install packages
         run: npm install
       - name: Install license-checker
@@ -31,8 +29,6 @@ jobs:
           cwd: './src/Components/${{ matrix.directories }}'
           add: 'license.txt'
           push: false
-      - name: Git Status 2
-        run: echo "$(git status --porcelain)"
       - name: Push changes
         run: |
           git pull --rebase
