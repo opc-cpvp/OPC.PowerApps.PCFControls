@@ -12,7 +12,7 @@ jobs:
       run:
         working-directory: ./src/Components/${{ matrix.directories }}
     steps:
-      - name: Checkout Code
+      - name: Checkout code
         uses: actions/checkout@v2
         with:
           ref: ${{ github.head_ref }}
@@ -28,4 +28,10 @@ jobs:
           author_name: github-actions
           author_email: github-actions@github.com
           message: '[Automated] Added license file'
+          cwd: './src/Components/${{ matrix.directories }}'
           add: 'license.txt'
+          push: false
+      - name: Push changes
+        run: |
+          git pull --rebase
+          git push
