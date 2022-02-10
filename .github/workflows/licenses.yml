@@ -2,7 +2,7 @@ name: Generate license files
 
 on: [pull_request]
 jobs:
-  build:
+  license_file:
     name: Generate license file
     runs-on: ubuntu-latest
     strategy:
