@@ -1,9 +1,9 @@
 name: Generate license files
 
-on: [pull_request]
+on: [push]
 jobs:
-  build:
-    name: Generate license file
+  license_components:
+    name: Generate licenses for components
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 1
@@ -15,8 +15,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-        with:
-          ref: ${{ github.head_ref }}
       - name: Install packages
         run: npm install
       - name: Install license-checker
@@ -36,3 +34,25 @@ jobs:
         run: |
           git pull --rebase
           git push
+  license_plugins:
+    name: Generate licenses for plugins
+    runs-on: ubuntu-latest
+    needs: license_components
+    defaults:
+      run:
+        working-directory: ./src/Plugins/Components.Support
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Install nuget-license
+        run: dotnet tool install --global dotnet-project-
+      - name: Generate license file
+        run: dotnet-project-licenses -i . -o  --outfile 'license.txt'
+      - name: Update changes
+        uses: EndBug/add-and-commit@v8
+        with:
+          author_name: github-actions
+          author_email: github-actions@github.com
+          message: '[Automated] Added license file'
+          cwd: './src/Plugins/Components.Support'
+          add: 'license.txt'
