@@ -45,7 +45,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Install nuget-license
-        run: dotnet tool install --global dotnet-project-
+        run: dotnet tool install --global dotnet-project-licenses
       - name: Generate license file
         run: dotnet-project-licenses -i . -o  --outfile 'license.txt'
       - name: Update changes
