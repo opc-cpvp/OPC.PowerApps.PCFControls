@@ -10,18 +10,18 @@ namespace Components.Support
      */
     public abstract class PluginBase : IPlugin
     {
-        protected string PluginClassName { get; } 
+        protected string PluginClassName { get; }
 
         internal PluginBase(Type pluginClassName)
         {
-            PluginClassName = pluginClassName.ToString(); 
+            PluginClassName = pluginClassName.ToString();
         }
 
         public void Execute(IServiceProvider serviceProvider)
         {
             if (serviceProvider == null)
             {
-                throw new InvalidPluginExecutionException("serviceProvider"); 
+                throw new InvalidPluginExecutionException("serviceProvider");
             }
 
             var localPluginContext = new LocalPluginContext(serviceProvider);
