@@ -28,7 +28,7 @@ jobs:
         with:
           author_name: github-actions
           author_email: github-actions@github.com
-          message: '[Automated] Added license file'
+          message: '[Automated] Added license file for ${{ matrix.directories }}'
           cwd: './src/Components/${{ matrix.directories }}'
           add: 'license.txt'
           push: false
@@ -57,6 +57,6 @@ jobs:
         with:
           author_name: github-actions
           author_email: github-actions@github.com
-          message: '[Automated] Added license file'
+          message: '[Automated] Added license file for Components.Support'
           cwd: './src/Plugins/Components.Support'
           add: 'license.txt'
