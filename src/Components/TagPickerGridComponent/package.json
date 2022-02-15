@@ -34,8 +34,8 @@
     "eslint-plugin-prettier": "^4.0.0",
     "husky": "^7.0.4",
     "lint-staged": "^11.2.6",
-    "pcf-scripts": "~0",
-    "pcf-start": "~0",
+    "pcf-scripts": "^1.11.8",
+    "pcf-start": "^1.11.8",
     "prettier": "2.4.1",
     "typescript": "^4.4.4"
   }
