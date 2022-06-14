@@ -77,6 +77,7 @@ steps:
     solution: '**\*.sln'
     platform: '${{ parameters.buildPlatform }}'
     configuration: '${{ parameters.buildConfiguration }}'
+    msbuildArguments: '/restore'
 
 - task: VSTest@2
   displayName: 'Test Assemblies'
