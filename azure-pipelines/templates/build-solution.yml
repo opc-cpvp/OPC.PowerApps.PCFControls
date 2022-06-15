@@ -68,13 +68,16 @@ steps:
 - task: MSBuild@1
   displayName: 'Build solution **\*.cdsproj'
   inputs:
+    msbuildVersion: 16.0
+    restoreNugetPackages: true
+    clean: true
     solution: '**\*.cdsproj'
     configuration: '${{ parameters.buildConfiguration }}'
-    msbuildArguments: '/restore'
 
 - task: MSBuild@1
   displayName: 'Build solution **\*.sln'
   inputs:
+    msbuildVersion: 16.0
     solution: '**\*.sln'
     platform: '${{ parameters.buildPlatform }}'
     configuration: '${{ parameters.buildConfiguration }}'
