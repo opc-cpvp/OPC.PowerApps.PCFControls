@@ -67,7 +67,15 @@ steps:
     feedsToUse: 'config'
 
 - task: MSBuild@1
-  displayName: 'Build solution **\*.cdsproj'
+  displayName: 'Build solution t:restore **\*.cdsproj'
+  inputs:
+    solution: '**\*.cdsproj'
+    configuration: '${{ parameters.buildConfiguration }}'
+    msbuildArguments: '/t:restore'
+
+
+- task: MSBuild@1
+  displayName: 'Build solution no restore **\*.cdsproj'
   inputs:
     solution: '**\*.cdsproj'
     configuration: '${{ parameters.buildConfiguration }}'
