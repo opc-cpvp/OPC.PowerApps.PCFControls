@@ -11,7 +11,7 @@ resources:
           - master
 
 variables:
-  - group: prod-tenant
+  - group: prod-tenant-prod
 
 stages:
   - stage: release
