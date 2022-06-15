@@ -51,9 +51,6 @@ steps:
         "manifest/control/@version": "$(Build.BuildNumber)"
       }
 
-- task: NuGetToolInstaller@1
-  inputs:
-    versionSpec: 
 
 - task: NuGetCommand@2
   displayName: 'Restore .sln'
@@ -73,10 +70,9 @@ steps:
   displayName: 'Build solution **\*.cdsproj'
   inputs:
     msbuildVersion: 16.0
-    clean: true
     solution: '**\*.cdsproj'
     configuration: '${{ parameters.buildConfiguration }}'
-    msBuildArguments: '/restore'
+    msBuildArguments: '/t:restore'
 
 - task: MSBuild@1
   displayName: 'Build solution **\*.sln'
