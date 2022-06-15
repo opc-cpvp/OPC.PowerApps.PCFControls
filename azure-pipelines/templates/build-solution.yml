@@ -15,7 +15,7 @@ steps:
   displayName: 'Power DevOps Tool Installer'
   inputs:
     crmConnectorVersion: 3.3.0.928
-    packageDeploymentVersion: 3.3.0.928
+    packageDeploymentVersion: 3.3.0.940
 
 - task: PowerShell@2
   displayName: 'Install dependencies and build for all PCF Components'
@@ -51,6 +51,10 @@ steps:
         "manifest/control/@version": "$(Build.BuildNumber)"
       }
 
+- task: NuGetToolInstaller@1
+  inputs:
+    versionSpec: 
+    checkLatest: true
 
 - task: NuGetCommand@2
   displayName: 'Restore .sln'
