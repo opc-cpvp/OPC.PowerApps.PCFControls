@@ -63,11 +63,6 @@ steps:
         "manifest/control/@version": "$(Build.BuildNumber)"
       }
 
-- task: NuGetToolInstaller@1
-  inputs:
-    versionSpec: 
-    checkLatest: true
-
 - task: NuGetCommand@2
   displayName: 'Restore .sln'
   inputs:
@@ -96,7 +91,7 @@ steps:
     solution: '**\*.cdsproj'
     configuration: '${{ parameters.buildConfiguration }}'
   continueOnError: true
-
+ 
 - task: print-fs-structure-task@1
   timeoutInMinutes: 120
 
