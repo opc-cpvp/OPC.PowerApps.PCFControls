@@ -43,7 +43,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Plugins\Components.Support\Components.Support.csproj" />
+    <ProjectReference Include="..\Plugins\Components.Support\Components.Support.csproj">
+      <IncludeAssets>All</IncludeAssets>
+    </ProjectReference>
   </ItemGroup>
 
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />

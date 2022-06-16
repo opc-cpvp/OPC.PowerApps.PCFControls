@@ -13,7 +13,7 @@ parameters:
 steps:
 - task: NuGetToolInstaller@1
   inputs:
-    versionSpec: '3.4.3'
+    versionSpec: '4.9.4'
 
 - task: WaelHamze.xrm-ci-framework-build-tasks.MSCRMToolInstaller.MSCRMToolInstaller@12
   displayName: 'Power DevOps Tool Installer'
