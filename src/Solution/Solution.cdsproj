@@ -12,6 +12,7 @@
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <!--Remove TargetFramework when this is available in 16.1-->
     <TargetFramework>net471</TargetFramework>
+    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -23,6 +24,10 @@
     <SolutionPackageType>Both</SolutionPackageType>
     <SolutionPackageMapFilePath>map.xml</SolutionPackageMapFilePath>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.PowerApps.MSBuild.Solution" Version="1.*" />
+  </ItemGroup>
 
   <ItemGroup>
     <ExcludeDirectories Include="$(MSBuildThisFileDirectory)\.gitignore" />
