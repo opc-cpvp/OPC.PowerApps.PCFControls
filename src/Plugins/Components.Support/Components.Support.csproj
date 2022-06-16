@@ -8,6 +8,9 @@
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>1.0.0.0</FileVersion>
     <AssemblyName>Components.Support</AssemblyName>
+    <DisableSystemTextJsonSourceGenerator>true</DisableSystemTextJsonSourceGenerator>
+    <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
+    <AnalysisLevel>none</AnalysisLevel>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -28,14 +31,6 @@
     <PackageReference Include="Microsoft.CrmSdk.CoreAssemblies" Version="9.0.2.*" />
     <PackageReference Include="Microsoft.PowerApps.MSBuild.Plugin" Version="1.*" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="Roslynator.Analyzers" Version="3.2.2">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
   </ItemGroup>
 
   <Import Project="$(PowerAppsTargetsPath)\Microsoft.PowerApps.VisualStudio.Plugin.targets" Condition="Exists('$(PowerAppsTargetsPath)\Microsoft.PowerApps.VisualStudio.Plugin.targets')" />
