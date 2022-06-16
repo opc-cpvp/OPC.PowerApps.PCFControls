@@ -22,7 +22,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Update="Microsoft.PowerApps.MSBuild.Solution" Version="1.*" />
+    <PackageReference Include="Microsoft.PowerApps.MSBuild.Solution" Version="1.*" />
   </ItemGroup>
 
   <ItemGroup>
