@@ -77,17 +77,27 @@ steps:
     restoreSolution: '**\*.cdsproj'
     feedsToUse: 'config'
 
-- task: VSBuild@1
-  displayName: 'Build Solution'
+- task: MSBuild@1
+  displayName: 'Build solution t:restore **\*.cdsproj'
   inputs:
-    vsVersion: 16.0
-    platform: '${{ parameters.buildPlatform }}'
-    configuration: '${{ parameters.buildConfiguration }}'
     solution: '**\*.cdsproj'
-    msbuildArguments: '/restore'
- 
-- task: print-fs-structure-task@1
-  timeoutInMinutes: 120
+    configuration: '${{ parameters.buildConfiguration }}'
+    msbuildArguments: '/t:restore'
+
+
+- task: MSBuild@1
+  displayName: 'Build solution no restore **\*.cdsproj'
+  inputs:
+    solution: '**\*.cdsproj'
+    configuration: '${{ parameters.buildConfiguration }}'
+  continueOnError: true
+
+- task: PowerShell@2
+  displayName: 'list directory content'
+  inputs:
+    targetType: 'inline'
+    script: cd "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Microsoft\NuGet\16.0\" && ls
+    workingDirectory: '$(Build.SourcesDirectory)\src\Components'
 
 - task: MSBuild@1
   displayName: 'Build solution **\*.sln'
