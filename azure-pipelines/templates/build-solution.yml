@@ -63,41 +63,12 @@ steps:
         "manifest/control/@version": "$(Build.BuildNumber)"
       }
 
-- task: NuGetCommand@2
-  displayName: 'Restore .sln'
-  inputs:
-    command: 'restore'
-    restoreSolution: '**\*.sln'
-    feedsToUse: 'config'
-
-- task: NuGetCommand@2
-  displayName: 'Restore .cdsproj'
-  inputs:
-    command: 'restore'
-    restoreSolution: '**\*.cdsproj'
-    feedsToUse: 'config'
-
-- task: MSBuild@1
-  displayName: 'Build solution t:restore **\*.cdsproj'
-  inputs:
-    solution: '**\*.cdsproj'
-    configuration: '${{ parameters.buildConfiguration }}'
-    msbuildArguments: '/t:restore'
-
-- task: NuGetToolInstaller@1
-  inputs:
-    versionSpec: 
-
-- task: NuGetCommand@2
-  inputs:
-    command: 'custom'
-    arguments: 'install Microsoft.PowerApps.MSBuild.Solution'
-
 - task: MSBuild@1
   displayName: 'Build solution no restore **\*.cdsproj'
   inputs:
     solution: '**\*.cdsproj'
     configuration: '${{ parameters.buildConfiguration }}'
+    msbuildArguments: '/t:build /restore'
   continueOnError: true
 
 - task: PowerShell@2
