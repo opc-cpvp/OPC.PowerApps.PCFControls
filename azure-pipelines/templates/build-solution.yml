@@ -14,8 +14,20 @@ steps:
 - task: WaelHamze.xrm-ci-framework-build-tasks.MSCRMToolInstaller.MSCRMToolInstaller@12
   displayName: 'Power DevOps Tool Installer'
   inputs:
-    crmConnectorVersion: 3.3.0.928
-    packageDeploymentVersion: 3.3.0.940
+    nugetFeed: 'official'
+    psFeed: 'official'
+    coreToolsVersion: 'latest'
+    crmConnectorVersion: 'latest'
+    packageDeploymentVersion: 'latest'
+    onlineAPIVersion: 'latest'
+    checkerVersion: 'latest'
+    configMigrationVersion: 'latest'
+    powerAppsAdminVersion: 'latest'
+    powerAppsVersion: 'latest'
+    powerAppsCLIVersion: 'latest'
+    msalPSVersion: 'latest'
+    mgUsersVersion: 'latest'
+    mgGroupsVersion: 'latest'
 
 - task: PowerShell@2
   displayName: 'Install dependencies and build for all PCF Components'
