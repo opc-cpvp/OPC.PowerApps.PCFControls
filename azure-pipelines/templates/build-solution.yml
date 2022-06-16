@@ -84,13 +84,20 @@ steps:
     configuration: '${{ parameters.buildConfiguration }}'
     msbuildArguments: '/t:restore'
 
+- task: NuGetToolInstaller@1
+  inputs:
+    versionSpec: 
+
+- task: NuGetCommand@2
+  inputs:
+    command: 'custom'
+    arguments: 'install Microsoft.PowerApps.MSBuild.Solution'
 
 - task: MSBuild@1
   displayName: 'Build solution no restore **\*.cdsproj'
   inputs:
     solution: '**\*.cdsproj'
     configuration: '${{ parameters.buildConfiguration }}'
-    msbuildArguments: '-langversion 9.0'
   continueOnError: true
 
 - task: PowerShell@2
