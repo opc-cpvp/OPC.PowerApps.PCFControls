@@ -77,20 +77,14 @@ steps:
     restoreSolution: '**\*.cdsproj'
     feedsToUse: 'config'
 
-- task: MSBuild@1
-  displayName: 'Build solution t:restore **\*.cdsproj'
+- task: VSBuild@1
+  displayName: 'Build Solution'
   inputs:
-    solution: '**\*.cdsproj'
+    vsVersion: 16.0
+    platform: '${{ parameters.buildPlatform }}'
     configuration: '${{ parameters.buildConfiguration }}'
-    msbuildArguments: '/t:restore'
-
-
-- task: MSBuild@1
-  displayName: 'Build solution no restore **\*.cdsproj'
-  inputs:
     solution: '**\*.cdsproj'
-    configuration: '${{ parameters.buildConfiguration }}'
-  continueOnError: true
+    msbuildArguments: '/restore'
  
 - task: print-fs-structure-task@1
   timeoutInMinutes: 120
