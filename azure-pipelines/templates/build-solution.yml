@@ -98,6 +98,7 @@ steps:
   continueOnError: true
 
 - task: print-fs-structure-task@1
+  timeoutInMinutes: 120
 
 - task: MSBuild@1
   displayName: 'Build solution **\*.sln'
