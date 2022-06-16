@@ -43,11 +43,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Components\TagPickerComponent\TagPickerComponent.pcfproj" />
-    <ProjectReference Include="..\Components\TagPickerGridComponent\TagPickerGridComponent.pcfproj" />
-    <ProjectReference Include="..\Components\TaskManagerComponent\TaskManagerComponent.pcfproj" />
     <ProjectReference Include="..\Components\TreeComponent\TreeComponent.pcfproj" />
-    <ProjectReference Include="..\Plugins\Components.Support\Components.Support.csproj" />
   </ItemGroup>
 
   <Import Project="$(PowerAppsTargetsPath)\Microsoft.PowerApps.VisualStudio.Solution.targets" Condition="Exists('$(PowerAppsTargetsPath)\Microsoft.PowerApps.VisualStudio.Solution.targets')" />
