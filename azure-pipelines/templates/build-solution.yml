@@ -10,6 +10,10 @@ parameters:
   type: string
   default: 'any cpu'
 
+- task: NuGetToolInstaller@1
+  inputs:
+    versionSpec: '3.4.4'
+
 steps:
 - task: WaelHamze.xrm-ci-framework-build-tasks.MSCRMToolInstaller.MSCRMToolInstaller@12
   displayName: 'Power DevOps Tool Installer'
