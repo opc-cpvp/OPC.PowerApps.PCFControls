@@ -51,19 +51,20 @@ steps:
         "manifest/control/@version": "$(Build.BuildNumber)"
       }
 
+
 - task: NuGetCommand@2
   displayName: 'Restore .sln'
   inputs:
     command: 'restore'
     restoreSolution: '**\*.sln'
-    feedsToUse: 'select'
+    feedsToUse: 'config'
 
 - task: NuGetCommand@2
   displayName: 'Restore .cdsproj'
   inputs:
     command: 'restore'
     restoreSolution: '**\*.cdsproj'
-    feedsToUse: 'select'
+    feedsToUse: 'config'
 
 - task: MSBuild@1
   displayName: 'Build solution **\*.cdsproj'

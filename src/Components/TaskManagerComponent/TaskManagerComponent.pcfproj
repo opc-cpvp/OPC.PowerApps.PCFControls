@@ -29,7 +29,7 @@
     <ExcludeDirectories Include="$(MSBuildThisFileDirectory)\bin\**"/>
     <ExcludeDirectories Include="$(MSBuildThisFileDirectory)\obj\**"/>
     <ExcludeDirectories Include="$(OutputPath)\**"/>
-    <ExcludeDirectories Include="$(MSBuildThisFileDirectory)\*.pcfproj"/>
+    <ExcludeDirectories Include="$(MSBuildThisFileDirectory)\*.pcfproj"/> 
     <ExcludeDirectories Include="$(MSBuildThisFileDirectory)\*.pcfproj.user"/>
     <ExcludeDirectories Include="$(MSBuildThisFileDirectory)\*.sln"/>
     <ExcludeDirectories Include="$(MSBuildThisFileDirectory)\node_modules\**"/>
