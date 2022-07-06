@@ -13,6 +13,7 @@
     <!--Remove TargetFramework when this is available in 16.1-->
     <TargetFramework>net471</TargetFramework>
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <!-- Solution Packager overrides, un-comment to use: SolutionPackagerType (Managed, Unmanaged, Both) -->
