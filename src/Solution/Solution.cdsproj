@@ -43,6 +43,7 @@
     <ProjectReference Include="..\Components\TagPickerGridComponent\TagPickerGridComponent.pcfproj" />
     <ProjectReference Include="..\Components\TreeComponent\TreeComponent.pcfproj" />
     <ProjectReference Include="..\Components\TaskManagerComponent\TaskManagerComponent.pcfproj" />
+    <ProjectReference Include="..\Plugins\Components.Support\Components.Support.csproj" />
   </ItemGroup>
 
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
