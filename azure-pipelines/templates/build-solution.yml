@@ -71,7 +71,7 @@ steps:
   inputs:
     solution: '**\*.cdsproj'
     configuration: '${{ parameters.buildConfiguration }}'
-    msbuildArguments: '/t:build /restore'
+    msbuildArguments: '/t:build /restore /p:SkipBuildPackage=true'
 
 - task: MSBuild@1
   displayName: 'Build solution **\*.sln'
