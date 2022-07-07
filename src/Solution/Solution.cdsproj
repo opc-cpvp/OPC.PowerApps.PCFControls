@@ -13,7 +13,6 @@
     <!--Remove TargetFramework when this is available in 16.1-->
     <TargetFramework>net471</TargetFramework>
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
-    <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <!-- Solution Packager overrides, un-comment to use: SolutionPackagerType (Managed, Unmanaged, Both) -->
@@ -44,7 +43,6 @@
     <ProjectReference Include="..\Components\TagPickerGridComponent\TagPickerGridComponent.pcfproj" />
     <ProjectReference Include="..\Components\TreeComponent\TreeComponent.pcfproj" />
     <ProjectReference Include="..\Components\TaskManagerComponent\TaskManagerComponent.pcfproj" />
-    <ProjectReference Include="..\Plugins\Components.Support\Components.Support.csproj" />
   </ItemGroup>
 
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
