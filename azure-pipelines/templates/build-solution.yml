@@ -17,20 +17,6 @@ steps:
     crmConnectorVersion: 3.3.0.928
     packageDeploymentVersion: 3.3.0.928
 
-- task: PowerShell@2
-  displayName: 'Install dependencies and build for all PCF Components'
-  inputs:
-    targetType: 'inline'
-    script: ls -directory | foreach { cd $_.FullName | npm ci; npm run build }
-    workingDirectory: '$(Build.SourcesDirectory)\src\Components'
-    
-- task: PowerShell@2
-  displayName: 'Lint all PCF Components'
-  inputs:
-    targetType: 'inline'
-    script: ls -directory | foreach { cd $_.FullName | npm run lint }
-    workingDirectory: '$(Build.SourcesDirectory)\src\Components'
-
 - task: WaelHamze.xrm-ci-framework-build-tasks.MSCRMSetVersion.MSCRMSetVersion@12
   displayName: 'Set PowerApps Solution Version'
   inputs:
@@ -73,12 +59,26 @@ steps:
     platform: '${{ parameters.buildPlatform }}'
     configuration: '${{ parameters.buildConfiguration }}'
 
+- task: PowerShell@2
+  displayName: 'Install dependencies for all PCF Components'
+  inputs:
+    targetType: 'inline'
+    script: ls -directory | foreach { cd $_.FullName | npm ci }
+    workingDirectory: '$(Build.SourcesDirectory)\src\Components'
+
 - task: MSBuild@1
   displayName: 'Build solution **\*.cdsproj'
   inputs:
     solution: '**\*.cdsproj'
     configuration: '${{ parameters.buildConfiguration }}'
-    msbuildArguments: '/t:restore,StartTelemetryTask,PowerAppsPackage'
+    msbuildArguments: '/restore'
+    
+- task: PowerShell@2
+  displayName: 'Lint all PCF Components'
+  inputs:
+    targetType: 'inline'
+    script: ls -directory | foreach { cd $_.FullName | npm run lint }
+    workingDirectory: '$(Build.SourcesDirectory)\src\Components'
 
 - task: CopyFiles@2
   displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
