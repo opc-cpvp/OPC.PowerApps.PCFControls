@@ -51,21 +51,6 @@ steps:
         "manifest/control/@version": "$(Build.BuildNumber)"
       }
 
-
-- task: NuGetCommand@2
-  displayName: 'Restore .sln'
-  inputs:
-    command: 'restore'
-    restoreSolution: '**\*.sln'
-    feedsToUse: 'config'
-
-- task: NuGetCommand@2
-  displayName: 'Restore .cdsproj'
-  inputs:
-    command: 'restore'
-    restoreSolution: '**\*.cdsproj'
-    feedsToUse: 'config'
-
 - task: MSBuild@1
   displayName: 'Build solution **\*.sln'
   inputs:
@@ -93,7 +78,7 @@ steps:
   inputs:
     solution: '**\*.cdsproj'
     configuration: '${{ parameters.buildConfiguration }}'
-    msbuildArguments: '/t:build /restore'
+    msbuildArguments: '/restore'
 
 - task: CopyFiles@2
   displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
