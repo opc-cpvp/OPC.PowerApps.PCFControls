@@ -14,9 +14,9 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <!--Remove TargetFramework when this is available in 16.1-->
-    <TargetFramework>net462</TargetFramework>
+    <TargetFramework>net471</TargetFramework>
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
 
@@ -29,7 +29,7 @@
     <ExcludeDirectories Include="$(MSBuildThisFileDirectory)\bin\**"/>
     <ExcludeDirectories Include="$(MSBuildThisFileDirectory)\obj\**"/>
     <ExcludeDirectories Include="$(OutputPath)\**"/>
-    <ExcludeDirectories Include="$(MSBuildThisFileDirectory)\*.pcfproj"/>
+    <ExcludeDirectories Include="$(MSBuildThisFileDirectory)\*.pcfproj"/> 
     <ExcludeDirectories Include="$(MSBuildThisFileDirectory)\*.pcfproj.user"/>
     <ExcludeDirectories Include="$(MSBuildThisFileDirectory)\*.sln"/>
     <ExcludeDirectories Include="$(MSBuildThisFileDirectory)\node_modules\**"/>
