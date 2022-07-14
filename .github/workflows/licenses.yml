@@ -1,6 +1,6 @@
 name: Generate license files
 
-on: [pull_request]
+on: [pull_request_target]
 jobs:
   license_components:
     name: Generate licenses for components
@@ -16,7 +16,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
         with:
-          ref: ${{ github.head_ref }}
+          ref: ${{ github.event.pull_request.head.ref }}
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
       - name: Install packages
         run: npm install
       - name: Install license-checker
@@ -47,7 +48,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
         with:
-          ref: ${{ github.head_ref }}
+          ref: ${{ github.event.pull_request.head.ref }}
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
       - name: Install nuget-license
         run: dotnet tool install --global dotnet-project-licenses
       - name: Generate license file
