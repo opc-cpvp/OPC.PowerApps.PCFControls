@@ -260,7 +260,8 @@ export abstract class TagPickerBaseComponent<TInputs, TOutputs> implements Compo
 
                         return entities
                             .map(item => ({ key: item[this.idAttribute], name: item[this.nameAttribute] }))
-                            .filter(tag => !this.listContainsTagList(tag, selectedItems) && (filter ? tag.name.includes(filter) : true));
+                            .filter(tag => !this.listContainsTagList(tag, selectedItems))
+                            .filter(tag => (filter ? this.matchesFilter(tag, filter) : true));
                     })
                 );
         } else {
@@ -280,6 +281,17 @@ export abstract class TagPickerBaseComponent<TInputs, TOutputs> implements Compo
                     .filter(tag => !this.listContainsTagList(tag, selectedItems));
             });
         }
+    }
+
+    /**
+     * Checks if the given tag matches the filter.
+     *
+     * @param tag
+     * @param filter
+     * @returns Returns true if the given tag matches the filter.
+     */
+    private matchesFilter(tag: ITag, filter: string): boolean {
+        return tag.name.toLowerCase().includes(filter.toLowerCase());
     }
 
     /**
