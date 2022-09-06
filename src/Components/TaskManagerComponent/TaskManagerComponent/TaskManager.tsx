@@ -49,6 +49,8 @@ export class TaskManager extends React.Component<ITaskManagerProps, ITaskManager
             showInactive: false
         };
 
+        console.log(this.state.tasks);
+
         // Define columns
         this._columns = [
             {

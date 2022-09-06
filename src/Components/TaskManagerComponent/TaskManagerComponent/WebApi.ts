@@ -23,10 +23,11 @@ export class WebApi implements IWebApi {
 
     retrieveOptionSetMetadata(entityType: string, attributeName: string): Promise<Response> {
         return window.fetch(
-            `${this.clientUrl}}/api/data/v9.1/EntityDefinitions(LogicalName='${entityType}')
-        /Attributes(LogicalName='${attributeName}')
-        /Microsoft.Dynamics.CRM.${attributeName === "statuscode" ? "StatusAttributeMetadata" : "PicklistAttributeMetadata"}
-        ?$select=LogicalName&$expand=OptionSet($select=Options)`,
+            `${
+                this.clientUrl
+            }/api/data/v9.2/EntityDefinitions(LogicalName='${entityType}')/Attributes(LogicalName='${attributeName}')/Microsoft.Dynamics.CRM.${
+                attributeName === "statuscode" ? "StatusAttributeMetadata" : "PicklistAttributeMetadata"
+            }?$select=LogicalName&$expand=OptionSet($select=Options)`,
             {
                 method: "GET",
                 headers: {
@@ -58,7 +59,7 @@ export class WebApi implements IWebApi {
         const payload = { "@odata.id": `${this.clientUrl}/api/data/v9.1/${parentSetName}(${parentId})` };
 
         // https://docs.microsoft.com/en-us/powerapps/developer/common-data-service/webapi/associate-disassociate-entities-using-web-api
-        return window.fetch(`${this.clientUrl}/api/data/v9.1/${childSetName}(${childId})/${relationshipName}/$ref`, {
+        return window.fetch(`${this.clientUrl}/api/data/v9.2/${childSetName}(${childId})/${relationshipName}/$ref`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json; charset=utf-8",
@@ -102,7 +103,7 @@ export class WebApi implements IWebApi {
      */
     disassociateRecord(parentSetName: string, parentId: string, relationshipName: string, childId: string): Promise<Response> {
         // https://docs.microsoft.com/en-us/powerapps/developer/common-data-service/webapi/associate-disassociate-entities-using-web-api
-        return window.fetch(`${this.clientUrl}/api/data/v9.1/${parentSetName}(${parentId})/${relationshipName}(${childId})/$ref`, {
+        return window.fetch(`${this.clientUrl}/api/data/v9.2/${parentSetName}(${parentId})/${relationshipName}(${childId})/$ref`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json; charset=utf-8",

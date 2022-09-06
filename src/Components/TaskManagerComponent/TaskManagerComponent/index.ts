@@ -125,7 +125,9 @@ export class TaskManagerComponent implements ComponentFramework.StandardControl<
                 // Map main properties
                 task = {
                     key: dataset.records[taskId].getRecordId(),
-                    isActive: dataset.records[taskId].getValue("statecode") === 0 ? true : false,
+                    /* eslint-disable eqeqeq */
+                    isActive: dataset.records[taskId].getValue("statecode") == 0,
+                    /* eslint-enable eqeqeq */
                     subject: dataset.records[taskId].getValue("subject") as string,
                     description: dataset.records[taskId].getValue("description") as string,
                     statuscode: dataset.records[taskId].getValue("statuscode") as number
