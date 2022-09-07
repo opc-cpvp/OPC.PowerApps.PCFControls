@@ -12,7 +12,7 @@ parameters:
   - name: environmentUrl
     displayName: 'Environment URL'
     type: string
-    default: 'https://opc-compliance-[name].crm3.dynamics.com'
+    default: 'https://priv360-[name].api.crm3.dynamics.com'
 
 variables:
   - group: ${{ parameters.tenant }}
