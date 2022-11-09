@@ -5,6 +5,7 @@ export class TreeSelectNode {
     inputTitle: string;
     name: string;
     key: string;
+    value: string;
     isLeaf: boolean;
     children: TreeSelectNode[];
     summary: string;
