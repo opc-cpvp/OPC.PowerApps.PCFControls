@@ -35,7 +35,7 @@ jobs:
           push: false
       - name: Push changes
         run: |
-          git pull --rebase
+          git pull
           git push
   license_plugins:
     name: Generate licenses for plugins
