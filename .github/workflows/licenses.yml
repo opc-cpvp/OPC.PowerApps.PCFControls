@@ -1,6 +1,6 @@
 name: Generate license files
 
-on: [pull_request_target]
+on: [pull_request]
 jobs:
   license_components:
     name: Generate licenses for components
