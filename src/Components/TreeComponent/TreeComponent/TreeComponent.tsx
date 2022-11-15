@@ -39,6 +39,7 @@ export class TreeComponent extends React.Component<ITreeSelectProps, ITreeSelect
             }));
         }
     }
+
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     filter = (inputValue: string, treeNode: any): boolean => {
         const includesIgnoreCase = (value1: string, value2: string): boolean =>
