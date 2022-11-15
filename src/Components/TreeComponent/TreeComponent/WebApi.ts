@@ -13,6 +13,7 @@ export interface IWebApi extends ComponentFramework.WebApi {
 }
 
 export class WebApi implements IWebApi {
+    private static readonly API_RELATIVEPREFIX: string = "api/data/v9.2";
     private webApi: ComponentFramework.WebApi;
     private clientUrl: string;
 
@@ -37,10 +38,10 @@ export class WebApi implements IWebApi {
         childSetName: string,
         childId: string
     ): Promise<Response> {
-        const payload = { "@odata.id": `${this.clientUrl}/api/data/v9.2/${parentSetName}(${parentId})` };
+        const payload = { "@odata.id": `${this.clientUrl}/${WebApi.API_RELATIVEPREFIX}/${parentSetName}(${parentId})` };
 
         // https://docs.microsoft.com/en-us/powerapps/developer/common-data-service/webapi/associate-disassociate-entities-using-web-api
-        return window.fetch(`${this.clientUrl}/api/data/v9.2/${childSetName}(${childId})/${relationshipName}/$ref`, {
+        return window.fetch(`${this.clientUrl}/${WebApi.API_RELATIVEPREFIX}/${childSetName}(${childId})/${relationshipName}/$ref`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json; charset=utf-8",
@@ -84,15 +85,18 @@ export class WebApi implements IWebApi {
      */
     disassociateRecord(parentSetName: string, parentId: string, relationshipName: string, childId: string): Promise<Response> {
         // https://docs.microsoft.com/en-us/powerapps/developer/common-data-service/webapi/associate-disassociate-entities-using-web-api
-        return window.fetch(`${this.clientUrl}/api/data/v9.2/${parentSetName}(${parentId})/${relationshipName}(${childId})/$ref`, {
-            method: "DELETE",
-            headers: {
-                "Content-Type": "application/json; charset=utf-8",
-                "Accept": "application/json",
-                "OData-MaxVersion": "4.0",
-                "OData-Version": "4.0"
+        return window.fetch(
+            `${this.clientUrl}/${WebApi.API_RELATIVEPREFIX}/${parentSetName}(${parentId})/${relationshipName}(${childId})/$ref`,
+            {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json; charset=utf-8",
+                    "Accept": "application/json",
+                    "OData-MaxVersion": "4.0",
+                    "OData-Version": "4.0"
+                }
             }
-        });
+        );
     }
 
     /**
@@ -146,7 +150,7 @@ export class WebApi implements IWebApi {
      * @returns The deferred object for the result of the operation. A JSON object with the retrieved properties and values will be resolved if successful.
      */
     retrieveRecordsByView(entityType: string, viewId: string): Promise<Response> {
-        return window.fetch(`${this.clientUrl}/api/data/v9.2/${entityType}?savedQuery=${viewId}`, {
+        return window.fetch(`${this.clientUrl}/${WebApi.API_RELATIVEPREFIX}/${entityType}?savedQuery=${viewId}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json; charset=utf-8",
