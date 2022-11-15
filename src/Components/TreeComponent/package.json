@@ -4,7 +4,6 @@
     "description": "Project containing your PowerApps Component Framework (PCF) control.",
     "scripts": {
         "prepare": "cd ../../.. && husky install src/components/.husky",
-        "postinstall": "copy .\\node_modules\\antd\\dist\\antd.css .\\TreeComponent\\css",
         "build": "pcf-scripts build",
         "clean": "pcf-scripts clean",
         "rebuild": "pcf-scripts rebuild",

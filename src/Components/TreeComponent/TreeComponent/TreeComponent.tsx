@@ -1,6 +1,7 @@
 import * as React from "react";
 import { TreeSelect } from "antd/lib";
 import { TreeSelectNode } from "./TreeSelectNode";
+import "antd/dist/antd.css";
 
 const { SHOW_CHILD } = TreeSelect;
 
