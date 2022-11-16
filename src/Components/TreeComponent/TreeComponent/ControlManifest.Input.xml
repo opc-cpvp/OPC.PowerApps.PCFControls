@@ -25,8 +25,7 @@
     <resources>
       <code path="index.ts" order="1"/>
       <css path="css/TreeComponent.css" order="2" />
-      <css path="css/antd.css" order="3" />
-      <css path="resources/pcfsupport.css" order="5" />
+      <css path="resources/pcfsupport.css" order="3" />
       <resx path="strings/TreeComponent.1033.resx" version="1.0.0" />
       <resx path="strings/TreeComponent.1036.resx" version="1.0.0" />
     </resources>

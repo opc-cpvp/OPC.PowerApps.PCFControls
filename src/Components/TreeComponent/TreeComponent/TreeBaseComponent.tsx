@@ -169,9 +169,11 @@ export abstract class TreeBaseComponent<TInputs, TOutputs> implements ComponentF
         for (const entity of entities) {
             if (treeRoot != null) {
                 // Add to tree if root node or tree root is the parent of the current node
-                if (entity[this.treeEntityAttribute] === (treeRoot.key || null)) {
+                /* eslint-disable eqeqeq */
+                if (entity[this.treeEntityAttribute] == (treeRoot.key || null)) {
+                    /* eslint-enable eqeqeq */
                     const newNode = new TreeSelectNode();
-                    newNode.key = entity[this.idAttribute];
+                    newNode.key = newNode.value = entity[this.idAttribute];
                     newNode.parentKey = entity[this.treeEntityAttribute];
                     newNode.children = [];
 

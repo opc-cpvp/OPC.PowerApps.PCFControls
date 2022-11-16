@@ -22,6 +22,8 @@ jobs:
         run: npm install
       - name: Install license-checker
         run: npm install -g license-checker
+      - name: Pull changes
+        run: git pull
       - name: Generate license file
         run: license-checker --production > 'license.txt'
       - name: Update changes
@@ -34,9 +36,7 @@ jobs:
           add: 'license.txt'
           push: false
       - name: Push changes
-        run: |
-          git pull
-          git push
+        run: git push
   license_plugins:
     name: Generate licenses for plugins
     runs-on: ubuntu-latest
