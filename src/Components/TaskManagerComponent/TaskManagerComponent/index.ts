@@ -89,7 +89,7 @@ export class TaskManagerComponent implements ComponentFramework.StandardControl<
                 // Only exctract the metadata of the options that are in the config then convert it to a BadgeConfigurationItem
                 badgeConfigItem.values = jsonResponse.OptionSet.Options.filter((opt: { Value: number }) =>
                     badgeConfigItem.keys.includes(opt.Value)
-                ).map((optBadge: { Value: any; Label: { UserLocalizedLabel: { Label: any } }; Color: any }) => ({
+                ).map((optBadge: { Value: number; Label: { UserLocalizedLabel: { Label: string } }; Color: string }) => ({
                     key: optBadge.Value,
                     label: optBadge.Label.UserLocalizedLabel.Label,
                     color: optBadge.Color

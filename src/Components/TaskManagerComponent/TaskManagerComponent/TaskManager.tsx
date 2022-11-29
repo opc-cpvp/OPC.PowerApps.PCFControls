@@ -242,9 +242,11 @@ export class TaskManager extends React.Component<ITaskManagerProps, ITaskManager
                 <div className="task-content">
                     <span className="task-title">{item?.subject}</span>
                     {this.props.badgeConfig?.map(badgeConfigItem => {
-                        // Cast as any to access property value from variable name which represent the attribute name
-                        const optionKey = (item as any)[badgeConfigItem.name];
-                        const optionMetadata = badgeConfigItem.values?.find(v => v.key === optionKey);
+                        const optionKey = item ? item[badgeConfigItem.name] : null;
+                        // Strictly equal is not used here for user convenience and because there seems to be an issue fetching optionset value which are returned as string from the library fetching the data.
+                        /* eslint-disable eqeqeq */
+                        const optionMetadata = badgeConfigItem.values?.find(v => v.key == optionKey);
+                        /* eslint-enable eqeqeq */
 
                         // This transforms all badge configurations into <span> elements if the current value matches something in the configuration.
                         // If the value was not mapped in the configuration, don't do anything with it.
