@@ -37,6 +37,13 @@
 }
 
 .task-wrapper { display: flex; }
-.task-title { }
-.task-description { font-size: smaller;}
-.task-action { margin-left: auto; }
+.task-title { white-space: normal; }
+.task-description { font-size: smaller; white-space: normal; }
+.task-action { 
+    margin-left: auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: space-evenly;
+    flex-direction: row; 
+}
