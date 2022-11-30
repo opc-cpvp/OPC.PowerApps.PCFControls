@@ -238,7 +238,7 @@ export class TaskManager extends React.Component<ITaskManagerProps, ITaskManager
 
     private handleRenderColumn(item?: ITaskItem, index?: number, column?: IColumn): JSX.Element {
         return (
-            <div className="task-wrapper" onDoubleClick={() => this.handleRowDoubleClick(item)}>
+            <div className="task-wrapper" onDoubleClick={e => this.handleRowDoubleClick(e, item)}>
                 <div className="task-content">
                     <span className="task-title">{item?.subject}</span>
                     {this.props.badgeConfig?.map(badgeConfigItem => {
@@ -280,14 +280,10 @@ export class TaskManager extends React.Component<ITaskManagerProps, ITaskManager
         // TODO: RemoveFromTrash (Un-delete task)
     }
 
-    private handleRowDoubleClick(item: ITaskItem | undefined): React.MouseEventHandler<HTMLDivElement> | undefined {
-        if (!item) {
-            return;
-        }
-
+    private handleRowDoubleClick(event: React.MouseEvent<HTMLDivElement>, item: ITaskItem | undefined) {
         this.props.context?.navigation
             .navigateTo(
-                { pageType: "entityrecord", entityName: "task", entityId: item.key },
+                { pageType: "entityrecord", entityName: "task", entityId: item?.key },
                 {
                     target: 2,
                     position: 2,
@@ -298,7 +294,6 @@ export class TaskManager extends React.Component<ITaskManagerProps, ITaskManager
                 console.log("opened");
             })
             .catch((error: any) => console.error(error));
-        return undefined;
     }
 
     private handleDeleteTask(taskid?: string): void {
