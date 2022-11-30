@@ -36,7 +36,7 @@
     background-color:green;
 }
 
-.task-wrapper { display: flex; }
+.task-wrapper { display: flex; cursor: pointer; }
 .task-title { white-space: normal; }
 .task-description { font-size: smaller; white-space: normal; }
 .task-action { 
