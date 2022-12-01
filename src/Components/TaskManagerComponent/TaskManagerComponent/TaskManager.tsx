@@ -16,10 +16,10 @@ import {
     IDetailsRowFieldsProps,
     Selection,
     IDetailsListCheckboxProps,
-    IDetailsRowProps
+    IDetailsRowProps,
+    IconButton
 } from "office-ui-fabric-react";
 import { initializeIcons } from "@uifabric/icons";
-import { IconButton } from "@fluentui/react/lib/Button";
 import { SharedColors } from "@fluentui/theme";
 import { IInputs } from "./generated/ManifestTypes";
 import { ITaskItem, ITaskManagerProps, ITaskManagerState } from "./interfaces";

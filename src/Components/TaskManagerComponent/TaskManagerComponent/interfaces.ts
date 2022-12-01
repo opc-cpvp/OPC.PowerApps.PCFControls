@@ -1,6 +1,5 @@
 import { IObjectWithKey } from "office-ui-fabric-react";
 import { IInputs } from "./generated/ManifestTypes";
-import EntityReference = ComponentFramework.EntityReference;
 
 export interface IOptionSetConfiguration {
     key: number;
@@ -15,7 +14,16 @@ export interface ITaskManagerBadgeConfigurationItem {
 }
 
 export interface ITaskItem {
-    [additionalPropertyName: string]: string | Date | number | number[] | boolean | EntityReference | EntityReference[];
+    [additionalPropertyName: string]:
+        | string
+        | number
+        | boolean
+        | number[]
+        | Date
+        | ComponentFramework.EntityReference
+        | ComponentFramework.EntityReference[]
+        | ComponentFramework.LookupValue
+        | ComponentFramework.LookupValue[];
     key: string;
     subject: string;
     description: string;

@@ -75,7 +75,7 @@ export class WebApi implements IWebApi {
      * @param data dictionary with attribute schema name and value
      * @returns The deferred object for the result of the operation. The created record object will be resolved if successful.
      */
-    createRecord(entityType: string, data: ComponentFramework.WebApi.Entity): Promise<ComponentFramework.EntityReference> {
+    createRecord(entityType: string, data: ComponentFramework.WebApi.Entity): Promise<ComponentFramework.LookupValue> {
         return this.webApi.createRecord(entityType, data);
     }
 
@@ -86,7 +86,7 @@ export class WebApi implements IWebApi {
      * @param entityType logical name of the entity type record to delete
      * @returns The deferred object for the result of the operation. The deleted record object will be resolved if successful.
      */
-    deleteRecord(entityType: string, id: string): Promise<ComponentFramework.EntityReference> {
+    deleteRecord(entityType: string, id: string): Promise<ComponentFramework.LookupValue> {
         return this.webApi.deleteRecord(entityType, id);
     }
 
@@ -117,7 +117,7 @@ export class WebApi implements IWebApi {
      * @param entityType logical name of the entity type record to update
      * @returns The deferred object for the result of the operation. The updated record object will be resolved if successful.
      */
-    updateRecord(entityType: string, id: string, data: ComponentFramework.WebApi.Entity): Promise<ComponentFramework.EntityReference> {
+    updateRecord(entityType: string, id: string, data: ComponentFramework.WebApi.Entity): Promise<ComponentFramework.LookupValue> {
         return this.webApi.updateRecord(entityType, id, data);
     }
 

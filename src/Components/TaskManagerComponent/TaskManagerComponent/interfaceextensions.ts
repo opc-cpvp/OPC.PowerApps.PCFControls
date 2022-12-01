@@ -83,7 +83,7 @@ declare namespace ComponentFramework {
         /**
          * Designates a record that will provide default values based on mapped attribute values.
          */
-        createFromEntity?: Lookup;
+        createFromEntity?: LookupValue;
 
         /**
          * A dictionary object that passes extra parameters to the form.
@@ -151,25 +151,5 @@ declare namespace ComponentFramework {
          * Role type in relationship.
          */
         roleType: EntityFormRelationshipRoleType;
-    }
-
-    /**
-     * Interface for a Lookup which is used by some Xrm.Utility functions.
-     */
-    interface Lookup {
-        /**
-         * Entity type (logical name) of the lookup.
-         */
-        entityType: string;
-
-        /**
-         * GUID of the lookup.
-         */
-        id: string;
-
-        /**
-         * Record name of the lookup.
-         */
-        name?: string;
     }
 }
