@@ -1,4 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 declare namespace ComponentFramework {
+    /* eslint-enable @typescript-eslint/no-unused-vars */
     type SizeValueUnit = "%" | "px";
 
     const enum NavigationOptionsTarget {
