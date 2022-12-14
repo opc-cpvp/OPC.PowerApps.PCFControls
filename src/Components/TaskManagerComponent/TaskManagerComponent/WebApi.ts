@@ -28,10 +28,14 @@ export class WebApi implements IWebApi {
         this.clientUrl = clientUrl;
     }
 
+    public get apiBaseUrl(): string {
+        return `${this.clientUrl}/${WebApi.API_RELATIVEPREFIX}`;
+    }
+
     retrieveOptionSetMetadata(entityType: string, attributeName: string): Promise<Response> {
         return window.fetch(
-            `${this.clientUrl}/${
-                WebApi.API_RELATIVEPREFIX
+            `${
+                this.apiBaseUrl
             }/EntityDefinitions(LogicalName='${entityType}')/Attributes(LogicalName='${attributeName}')/Microsoft.Dynamics.CRM.${
                 attributeName === "statuscode" ? "StatusAttributeMetadata" : "PicklistAttributeMetadata"
             }?$select=LogicalName&$expand=OptionSet($select=Options)`,
@@ -61,7 +65,7 @@ export class WebApi implements IWebApi {
         const payload = { "@odata.id": `${this.clientUrl}/${WebApi.API_RELATIVEPREFIX}/${parentSetName}(${parentId})` };
 
         // https://docs.microsoft.com/en-us/powerapps/developer/common-data-service/webapi/associate-disassociate-entities-using-web-api
-        return window.fetch(`${this.clientUrl}/${WebApi.API_RELATIVEPREFIX}/${childSetName}(${childId})/${relationshipName}/$ref`, {
+        return window.fetch(`${this.apiBaseUrl}/${childSetName}(${childId})/${relationshipName}/$ref`, {
             method: "POST",
             headers: WebApi.API_HEADERS,
             body: JSON.stringify(payload)
@@ -100,13 +104,10 @@ export class WebApi implements IWebApi {
      */
     disassociateRecord(parentSetName: string, parentId: string, relationshipName: string, childId: string): Promise<Response> {
         // https://docs.microsoft.com/en-us/powerapps/developer/common-data-service/webapi/associate-disassociate-entities-using-web-api
-        return window.fetch(
-            `${this.clientUrl}/${WebApi.API_RELATIVEPREFIX}/${parentSetName}(${parentId})/${relationshipName}(${childId})/$ref`,
-            {
-                method: "DELETE",
-                headers: WebApi.API_HEADERS
-            }
-        );
+        return window.fetch(`${this.apiBaseUrl}/${parentSetName}(${parentId})/${relationshipName}(${childId})/$ref`, {
+            method: "DELETE",
+            headers: WebApi.API_HEADERS
+        });
     }
 
     /**

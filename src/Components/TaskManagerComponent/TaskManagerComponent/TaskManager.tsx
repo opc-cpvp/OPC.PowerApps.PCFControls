@@ -290,9 +290,6 @@ export class TaskManager extends React.Component<ITaskManagerProps, ITaskManager
                     width: { value: 25, unit: "%" }
                 }
             )
-            .then(() => {
-                console.log("opened");
-            })
             .catch((error: any) => console.error(error));
     }
 
