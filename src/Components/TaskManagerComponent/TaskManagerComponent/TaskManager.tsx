@@ -16,10 +16,10 @@ import {
     IDetailsRowFieldsProps,
     Selection,
     IDetailsListCheckboxProps,
-    IDetailsRowProps
+    IDetailsRowProps,
+    IconButton
 } from "office-ui-fabric-react";
 import { initializeIcons } from "@uifabric/icons";
-import { IconButton } from "@fluentui/react/lib/Button";
 import { SharedColors } from "@fluentui/theme";
 import { IInputs } from "./generated/ManifestTypes";
 import { ITaskItem, ITaskManagerProps, ITaskManagerState } from "./interfaces";
@@ -238,13 +238,15 @@ export class TaskManager extends React.Component<ITaskManagerProps, ITaskManager
 
     private handleRenderColumn(item?: ITaskItem, index?: number, column?: IColumn): JSX.Element {
         return (
-            <div className="task-wrapper">
+            <div className="task-wrapper" onDoubleClick={e => this.handleRowDoubleClick(e, item)}>
                 <div className="task-content">
                     <span className="task-title">{item?.subject}</span>
                     {this.props.badgeConfig?.map(badgeConfigItem => {
-                        // Cast as any to access property value from variable name which represent the attribute name
-                        const optionKey = (item as any)[badgeConfigItem.name];
-                        const optionMetadata = badgeConfigItem.values?.find(v => v.key === optionKey);
+                        const optionKey = item ? item[badgeConfigItem.name] : null;
+                        // Strictly equal is not used here for user convenience and because there seems to be an issue fetching optionset value which are returned as string from the library fetching the data.
+                        /* eslint-disable eqeqeq */
+                        const optionMetadata = badgeConfigItem.values?.find(v => v.key == optionKey);
+                        /* eslint-enable eqeqeq */
 
                         // This transforms all badge configurations into <span> elements if the current value matches something in the configuration.
                         // If the value was not mapped in the configuration, don't do anything with it.
@@ -276,6 +278,19 @@ export class TaskManager extends React.Component<ITaskManagerProps, ITaskManager
             </div>
         );
         // TODO: RemoveFromTrash (Un-delete task)
+    }
+
+    private handleRowDoubleClick(event: React.MouseEvent<HTMLDivElement>, item: ITaskItem | undefined) {
+        this.props.context?.navigation
+            .navigateTo(
+                { pageType: "entityrecord", entityName: "task", entityId: item?.key },
+                {
+                    target: 2,
+                    position: 2,
+                    width: { value: 25, unit: "%" }
+                }
+            )
+            .catch((error: any) => console.error(error));
     }
 
     private handleDeleteTask(taskid?: string): void {

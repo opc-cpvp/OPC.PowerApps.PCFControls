@@ -13,6 +13,13 @@ export interface IWebApi extends ComponentFramework.WebApi {
 }
 
 export class WebApi implements IWebApi {
+    private static readonly API_RELATIVEPREFIX: string = "api/data/v9.2";
+    private static readonly API_HEADERS: HeadersInit = {
+        "Content-Type": "application/json; charset=utf-8",
+        "Accept": "application/json",
+        "OData-MaxVersion": "4.0",
+        "OData-Version": "4.0"
+    };
     private webApi: ComponentFramework.WebApi;
     private clientUrl: string;
 
@@ -21,21 +28,20 @@ export class WebApi implements IWebApi {
         this.clientUrl = clientUrl;
     }
 
+    public get apiBaseUrl(): string {
+        return `${this.clientUrl}/${WebApi.API_RELATIVEPREFIX}`;
+    }
+
     retrieveOptionSetMetadata(entityType: string, attributeName: string): Promise<Response> {
         return window.fetch(
             `${
-                this.clientUrl
-            }/api/data/v9.2/EntityDefinitions(LogicalName='${entityType}')/Attributes(LogicalName='${attributeName}')/Microsoft.Dynamics.CRM.${
+                this.apiBaseUrl
+            }/EntityDefinitions(LogicalName='${entityType}')/Attributes(LogicalName='${attributeName}')/Microsoft.Dynamics.CRM.${
                 attributeName === "statuscode" ? "StatusAttributeMetadata" : "PicklistAttributeMetadata"
             }?$select=LogicalName&$expand=OptionSet($select=Options)`,
             {
                 method: "GET",
-                headers: {
-                    "Content-Type": "application/json; charset=utf-8",
-                    "Accept": "application/json",
-                    "OData-MaxVersion": "4.0",
-                    "OData-Version": "4.0"
-                }
+                headers: WebApi.API_HEADERS
             }
         );
     }
@@ -56,17 +62,12 @@ export class WebApi implements IWebApi {
         childSetName: string,
         childId: string
     ): Promise<Response> {
-        const payload = { "@odata.id": `${this.clientUrl}/api/data/v9.1/${parentSetName}(${parentId})` };
+        const payload = { "@odata.id": `${this.clientUrl}/${WebApi.API_RELATIVEPREFIX}/${parentSetName}(${parentId})` };
 
         // https://docs.microsoft.com/en-us/powerapps/developer/common-data-service/webapi/associate-disassociate-entities-using-web-api
-        return window.fetch(`${this.clientUrl}/api/data/v9.2/${childSetName}(${childId})/${relationshipName}/$ref`, {
+        return window.fetch(`${this.apiBaseUrl}/${childSetName}(${childId})/${relationshipName}/$ref`, {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json; charset=utf-8",
-                "Accept": "application/json",
-                "OData-MaxVersion": "4.0",
-                "OData-Version": "4.0"
-            },
+            headers: WebApi.API_HEADERS,
             body: JSON.stringify(payload)
         });
     }
@@ -78,7 +79,7 @@ export class WebApi implements IWebApi {
      * @param data dictionary with attribute schema name and value
      * @returns The deferred object for the result of the operation. The created record object will be resolved if successful.
      */
-    createRecord(entityType: string, data: ComponentFramework.WebApi.Entity): Promise<ComponentFramework.EntityReference> {
+    createRecord(entityType: string, data: ComponentFramework.WebApi.Entity): Promise<ComponentFramework.LookupValue> {
         return this.webApi.createRecord(entityType, data);
     }
 
@@ -89,7 +90,7 @@ export class WebApi implements IWebApi {
      * @param entityType logical name of the entity type record to delete
      * @returns The deferred object for the result of the operation. The deleted record object will be resolved if successful.
      */
-    deleteRecord(entityType: string, id: string): Promise<ComponentFramework.EntityReference> {
+    deleteRecord(entityType: string, id: string): Promise<ComponentFramework.LookupValue> {
         return this.webApi.deleteRecord(entityType, id);
     }
 
@@ -103,14 +104,9 @@ export class WebApi implements IWebApi {
      */
     disassociateRecord(parentSetName: string, parentId: string, relationshipName: string, childId: string): Promise<Response> {
         // https://docs.microsoft.com/en-us/powerapps/developer/common-data-service/webapi/associate-disassociate-entities-using-web-api
-        return window.fetch(`${this.clientUrl}/api/data/v9.2/${parentSetName}(${parentId})/${relationshipName}(${childId})/$ref`, {
+        return window.fetch(`${this.apiBaseUrl}/${parentSetName}(${parentId})/${relationshipName}(${childId})/$ref`, {
             method: "DELETE",
-            headers: {
-                "Content-Type": "application/json; charset=utf-8",
-                "Accept": "application/json",
-                "OData-MaxVersion": "4.0",
-                "OData-Version": "4.0"
-            }
+            headers: WebApi.API_HEADERS
         });
     }
 
@@ -122,7 +118,7 @@ export class WebApi implements IWebApi {
      * @param entityType logical name of the entity type record to update
      * @returns The deferred object for the result of the operation. The updated record object will be resolved if successful.
      */
-    updateRecord(entityType: string, id: string, data: ComponentFramework.WebApi.Entity): Promise<ComponentFramework.EntityReference> {
+    updateRecord(entityType: string, id: string, data: ComponentFramework.WebApi.Entity): Promise<ComponentFramework.LookupValue> {
         return this.webApi.updateRecord(entityType, id, data);
     }
 

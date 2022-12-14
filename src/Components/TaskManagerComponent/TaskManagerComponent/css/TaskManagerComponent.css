@@ -1,4 +1,4 @@
-.is-selected .ms-DetailsRow-fields {
+.is-selected .task-content {
     text-decoration: line-through;
 }
 
@@ -36,7 +36,14 @@
     background-color:green;
 }
 
-.task-wrapper { display: flex; }
-.task-title { }
-.task-description { font-size: smaller;}
-.task-action { margin-left: auto; }
+.task-wrapper { display: flex; cursor: pointer; }
+.task-title { white-space: normal; }
+.task-description { font-size: smaller; white-space: normal; }
+.task-action { 
+    margin-left: auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: space-evenly;
+    flex-direction: row; 
+}
