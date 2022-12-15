@@ -41,8 +41,10 @@ export class TaskManagerComponent implements ComponentFramework.StandardControl<
      */
     public async updateView(context: ComponentFramework.Context<IInputs>): Promise<void> {
         this._props = {
+            /* eslint-disable @typescript-eslint/no-unsafe-argument */
             tasks: this.mapTasks(context.parameters.tasks),
             panelTitle: Utils.extractMultilingualText(context.parameters.panelTitle.raw || "", context.userSettings.languageId),
+            /* eslint-enable @typescript-eslint/no-unsafe-argument */
             context: context,
             badgeConfig: await this.loadBadgeConfiguration(context)
         };
@@ -71,7 +73,7 @@ export class TaskManagerComponent implements ComponentFramework.StandardControl<
         // Load badge configuration if present
         let parsedBadgeConfig: ITaskManagerBadgeConfigurationItem[];
         try {
-            parsedBadgeConfig = JSON.parse(context.parameters.badgeConfig.raw ?? "");
+            parsedBadgeConfig = JSON.parse(context.parameters.badgeConfig.raw ?? "") as ITaskManagerBadgeConfigurationItem[];
         } catch (e) {
             parsedBadgeConfig = [];
             console.error("The badge configuration does not appear to be properly formatted.\n", e);
