@@ -63,7 +63,7 @@ steps:
   displayName: 'Install dependencies for all PCF Components'
   inputs:
     targetType: 'inline'
-    script: ls -directory | foreach { cd $_.FullName | npm ci }
+    script: ls -directory | foreach { cd $_.FullName | npm i }
     workingDirectory: '$(Build.SourcesDirectory)\src\Components'
 
 - task: MSBuild@1
