@@ -11,6 +11,12 @@ parameters:
   default: 'any cpu'
 
 steps:
+- task: UseDotNet@2
+  displayName: 'Use .NET Core 3.1.x'
+  inputs:
+    packageType: 'sdk'
+    version: '3.1.x'
+    
 - task: WaelHamze.xrm-ci-framework-build-tasks.MSCRMToolInstaller.MSCRMToolInstaller@12
   displayName: 'Power DevOps Tool Installer'
   inputs:
