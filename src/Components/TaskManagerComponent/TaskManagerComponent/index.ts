@@ -73,7 +73,9 @@ export class TaskManagerComponent implements ComponentFramework.StandardControl<
         // Load badge configuration if present
         let parsedBadgeConfig: ITaskManagerBadgeConfigurationItem[];
         try {
+            /* eslint-disable @typescript-eslint/no-unsafe-argument */
             parsedBadgeConfig = JSON.parse(context.parameters.badgeConfig.raw ?? "") as ITaskManagerBadgeConfigurationItem[];
+            /* eslint-enable @typescript-eslint/no-unsafe-argument */
         } catch (e) {
             parsedBadgeConfig = [];
             console.error("The badge configuration does not appear to be properly formatted.\n", e);
