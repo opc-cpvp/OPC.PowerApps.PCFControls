@@ -2,13 +2,6 @@
     min-height: auto;
 }
 
-.tagPickerGridContainer {
-    border-bottom: 1px solid rgb(216, 216, 216);
-    min-height: 42px;
-    padding-bottom: 0.25em;
-    padding-top: 0.25em;
-}
-
 .tagPickerGridComponent .ms-BasePicker-text {
     border-color: rgb(207, 205, 204);
 }
