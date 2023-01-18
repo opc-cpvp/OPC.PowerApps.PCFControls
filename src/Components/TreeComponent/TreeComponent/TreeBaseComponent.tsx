@@ -5,11 +5,7 @@ import { WebApi, IWebApi } from "./WebApi";
 import { TreeComponent, ITreeSelectProps } from "./TreeComponent";
 import { TreeSelectNode } from "./TreeSelectNode";
 
-type TreeDataResponses = [
-    ComponentFramework.PropertyHelper.EntityMetadata,
-    Response,
-    ComponentFramework.WebApi.RetrieveMultipleResponse | undefined
-];
+type TreeDataResponses = [ComponentFramework.PropertyHelper.EntityMetadata, Response, Response | undefined];
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export abstract class TreeBaseComponent<TInputs, TOutputs> implements ComponentFramework.StandardControl<IInputs, IOutputs> {
     // Cached context object for the latest updateView
@@ -86,18 +82,13 @@ export abstract class TreeBaseComponent<TInputs, TOutputs> implements ComponentF
 
         const entityTypeName = (this.context as any).page.entityTypeName as string;
 
-        let retrieveMultipleRecordsRequest: Promise<ComponentFramework.WebApi.RetrieveMultipleResponse | undefined> =
-            Promise.resolve(undefined);
+        let fetchFilterRequest: Promise<Response | undefined> = Promise.resolve(undefined);
 
         // Get selected records if the record already exists
         if ((this.context as any).page.entityId !== undefined) {
             // TODO: May need additional testing to make sur entityTypeName will always stay the same
-            const relationshipOptions = `?$filter=${entityTypeName}id eq ${(this.context as any).page.entityId as string}`;
-            retrieveMultipleRecordsRequest = this.context.webAPI.retrieveMultipleRecords(
-                this.relationshipEntity,
-                relationshipOptions,
-                5000
-            );
+            const fetchFilter = `${entityTypeName}id eq ${(this.context as any).page.entityId as string}`;
+            fetchFilterRequest = this.webAPI.fetchRecords(this.relationshipEntity, fetchFilter);
         }
 
         const getMetaDataRequest = this.context.utils.getEntityMetadata(entityTypeName, []);
@@ -107,7 +98,7 @@ export abstract class TreeBaseComponent<TInputs, TOutputs> implements ComponentF
         );
 
         // Due to some typescript bug, a tuple can't currently be used for Promise.All as types are not infered properly. Using an array and casting to const seems to infer them properly.
-        await Promise.all([getMetaDataRequest, getRecordsByViewRequest, retrieveMultipleRecordsRequest])
+        await Promise.all([getMetaDataRequest, getRecordsByViewRequest, fetchFilterRequest])
             .then(x => this.processTreeDataResponses(x))
             .catch(e => {
                 console.error("An error occured starting up the pcf", e);
@@ -157,7 +148,9 @@ export abstract class TreeBaseComponent<TInputs, TOutputs> implements ComponentF
 
         // Set the selected records if the request has been made
         if (results[2] !== undefined) {
-            this.selectedItems?.push(...results[2].entities.map(e => e[this.idAttribute] as string));
+            const selectedRecordsData = await results[2]?.text();
+            const selectedRecordEntities = JSON.parse(selectedRecordsData).value as ComponentFramework.WebApi.Entity[];
+            this.selectedItems?.push(...selectedRecordEntities.map(e => e[this.idAttribute] as string));
             this.props.selectedItems = this.selectedItems;
         }
 
