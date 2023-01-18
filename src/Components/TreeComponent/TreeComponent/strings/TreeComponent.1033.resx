@@ -129,23 +129,23 @@
     <comment>Display text for TreeComponent description</comment>
   </data>
   <data name="treeParentEntityAttribute_Display_Key" xml:space="preserve">
-    <value>Tree parent attribute</value>
+    <value>Tree Entity Parent attribute</value>
     <comment>Display text for tree entity parent attribute logical name</comment>
   </data>
   <data name="treeParentEntityAttribute_Desc_Key" xml:space="preserve">
-    <value>The logical name of the lookup to the parent of the entity</value>
+    <value>The logical name of the lookup field on the child that looks up to the parent of the entity</value>
     <comment>Description text for tree entity parent attribute logical name</comment>
   </data>
-  <data name="treeEntityCollectionName_Display_Key" xml:space="preserve">
-    <value>Tree Entity Collection Name</value>
+  <data name="treeEntityName_Display_Key" xml:space="preserve">
+    <value>Tree Entity Name</value>
     <comment>Display text for the name of the tree entity</comment>
   </data>
   <data name="treeEntityCollectionName_Desc_Key" xml:space="preserve">
-    <value>The logical name of the collection of the tree entity</value>
+    <value>Logical name of the entity that contains data for building the tree</value>
     <comment>Description text for Tree Entity Collection Name</comment>
   </data>
   <data name="treeNameAttribute_Display_key" xml:space="preserve">
-    <value>Tree Name attribute</value>
+    <value>Tree Entity Name attribute</value>
     <comment>Display text for the name of the record</comment>
   </data>
   <data name="treeNameAttribute_Desc_key" xml:space="preserve">
@@ -153,7 +153,7 @@
     <comment>Description text for Name Attribute</comment>
   </data>
   <data name="descriptionAttribute_Display_Key" xml:space="preserve">
-    <value>Tree Description attribute</value>
+    <value>Tree Entity Description attribute</value>
     <comment>Display text for the description of the record</comment>
   </data>
   <data name="descriptionAttribute_Desc_Key" xml:space="preserve">
@@ -161,7 +161,7 @@
     <comment>Description text for description Attribute</comment>
   </data>
   <data name="extraTitleDetailsAttribute_Display_Key" xml:space="preserve">
-    <value>Tree Extra Title Details attribute</value>
+    <value>Tree Entity Extra Title Details attribute</value>
     <comment>Display text for the extra title details of the record</comment>
   </data>
   <data name="extraTitleDetailsAttribute_Desc_Key" xml:space="preserve">
@@ -169,7 +169,7 @@
     <comment>Description text for Extra Title Details Attribute</comment>
   </data>
   <data name="isCheckableAttribute_Display_Key" xml:space="preserve">
-    <value>Tree Is Checkable attribute</value>
+    <value>Tree Entity Is Checkable attribute</value>
     <comment>Display text for the Is Checkable attribute</comment>
   </data>
   <data name="isCheckableAttribute_Desc_Key" xml:space="preserve">
@@ -185,12 +185,12 @@
     <comment>Description text for the Max Name Display Length</comment>
   </data>
   <data name="idAttribute_Display_Key" xml:space="preserve">
-    <value>Tree Id attribute</value>
-    <comment>Display text for Relationship Name</comment>
+    <value>Tree Entity Id attribute</value>
+    <comment>Display text for Tree Entity Id</comment>
   </data>
   <data name="idAttribute_Desc_Key" xml:space="preserve">
     <value>The logical name of the Id attribute for the tree entity</value>
-    <comment>Display text for Relationship Name</comment>
+    <comment>Display text for Tree Entity Id</comment>
   </data>
   <data name="relationshipName_Display_Key" xml:space="preserve">
     <value>Relationship Name</value>

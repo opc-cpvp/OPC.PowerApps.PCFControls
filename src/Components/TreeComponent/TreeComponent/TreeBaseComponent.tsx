@@ -5,7 +5,7 @@ import { WebApi, IWebApi } from "./WebApi";
 import { TreeComponent, ITreeSelectProps } from "./TreeComponent";
 import { TreeSelectNode } from "./TreeSelectNode";
 
-type TreeDataResponses = [ComponentFramework.PropertyHelper.EntityMetadata, Response, Response | undefined];
+type TreeDataResponses = [ComponentFramework.PropertyHelper.EntityMetadata, Response | undefined, Response | undefined];
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export abstract class TreeBaseComponent<TInputs, TOutputs> implements ComponentFramework.StandardControl<IInputs, IOutputs> {
     // Cached context object for the latest updateView
@@ -65,7 +65,7 @@ export abstract class TreeBaseComponent<TInputs, TOutputs> implements ComponentF
     ): Promise<void> {
         this.context = context;
         this.notifyOutputChanged = notifyOutputChanged;
-
+        console.log("TreeBaseComponent init");
         const clientUrl = (this.context as any).page.getClientUrl() as string;
         this.webAPI = new WebApi(this.context.webAPI, clientUrl);
 
@@ -86,18 +86,28 @@ export abstract class TreeBaseComponent<TInputs, TOutputs> implements ComponentF
         let fetchSelectedRecordsRequest: Promise<Response | undefined> = Promise.resolve(undefined);
         if ((this.context as any).page.entityId !== undefined) {
             // TODO: May need additional testing to make sur entityTypeName will always stay the same
-            const fetchFilter = `${entityTypeName}id eq ${(this.context as any).page.entityId as string}`;
-            fetchSelectedRecordsRequest = this.webAPI.fetchRecords(this.relationshipEntity, fetchFilter);
+            const fetchSelectedRecordsFilter = `$filter=${entityTypeName}id eq ${(this.context as any).page.entityId as string}`;
+            fetchSelectedRecordsRequest = this.webAPI.fetchRecords(this.relationshipEntity, fetchSelectedRecordsFilter);
         }
 
         const getMetaDataRequest = this.context.utils.getEntityMetadata(entityTypeName, []);
-        const getRecordsByViewRequest = this.webAPI.retrieveRecordsByView(
-            this.treeEntityCollectionName,
-            this.context.parameters.tableGrid.getViewId()
-        );
+
+        // Get tree entity data for building tree
+        let fetchTreeEntityRecordsRequest: Promise<Response | undefined> = Promise.resolve(undefined);
+        let fetchTreeEntityRecordsSelect = `$select=${this.treeEntityAttribute},${this.nameAttribute},${this.idAttribute}`;
+        if (this.descriptionAttribute) {
+            fetchTreeEntityRecordsSelect += `,${this.descriptionAttribute}`;
+        }
+        if (this.extraTitleDetailsAttribute) {
+            fetchTreeEntityRecordsSelect += `,${this.extraTitleDetailsAttribute}`;
+        }
+        if (this.isCheckableAttribute) {
+            fetchTreeEntityRecordsSelect += `,${this.isCheckableAttribute}`;
+        }
+        fetchTreeEntityRecordsRequest = this.webAPI.fetchRecords(this.treeEntityCollectionName, fetchTreeEntityRecordsSelect);
 
         // Due to some typescript bug, a tuple can't currently be used for Promise.All as types are not infered properly. Using an array and casting to const seems to infer them properly.
-        await Promise.all([getMetaDataRequest, getRecordsByViewRequest, fetchSelectedRecordsRequest])
+        await Promise.all([getMetaDataRequest, fetchTreeEntityRecordsRequest, fetchSelectedRecordsRequest])
             .then(x => this.processTreeDataResponses(x))
             .catch(e => {
                 console.error("An error occured starting up the pcf", e);
@@ -111,7 +121,7 @@ export abstract class TreeBaseComponent<TInputs, TOutputs> implements ComponentF
      */
     public updateView(context: ComponentFramework.Context<IInputs>): void {
         const entityId = (context as any).page.entityId as string;
-        this.props.entityExists = entityId !== null && entityId !== "00000000-0000-0000-0000-000000000000";
+        this.props.entityExists = entityId !== null && entityId !== "00000000-0000-0000-0000-000000000000" && entityId !== undefined;
 
         ReactDOM.render(React.createElement(TreeComponent, this.props), this.treeComponentContainer);
 
@@ -129,28 +139,32 @@ export abstract class TreeBaseComponent<TInputs, TOutputs> implements ComponentF
     private async processTreeDataResponses(results: TreeDataResponses): Promise<void> {
         this.mainEntityCollectionName = results[0]?.EntitySetName;
 
-        const recordData = await results[1]?.text();
+        if (results[1] !== undefined) {
+            const recordData = await results[1]?.text();
 
-        const entities = JSON.parse(recordData).value as ComponentFramework.WebApi.Entity[];
+            const entities = JSON.parse(recordData).value as ComponentFramework.WebApi.Entity[];
 
-        // Sort the items naturally (abc111 would now be placed after abc12 as it contains a bigger number when it would originially be placed first)
-        const collator = new Intl.Collator("en", { numeric: true, sensitivity: "base" });
-        const sortedEntites = entities.sort((a, b) => collator.compare(a[this.nameAttribute] as string, b[this.nameAttribute] as string));
+            // Sort the items naturally (abc111 would now be placed after abc12 as it contains a bigger number when it would originially be placed first)
+            const collator = new Intl.Collator("en", { numeric: true, sensitivity: "base" });
+            const sortedEntites = entities.sort((a, b) =>
+                collator.compare(a[this.nameAttribute] as string, b[this.nameAttribute] as string)
+            );
 
-        // Prepare root node to fill with the entities we fetched
-        const rootNode = new TreeSelectNode();
-        rootNode.key = "";
-        rootNode.children = [];
+            // Prepare root node to fill with the entities we fetched
+            const rootNode = new TreeSelectNode();
+            rootNode.key = "";
+            rootNode.children = [];
 
-        this.buildTreeData(sortedEntites, rootNode);
-        this.props.treeData = rootNode.children;
+            this.buildTreeData(sortedEntites, rootNode);
+            this.props.treeData = rootNode.children;
 
-        // Set the selected records if the request has been made
-        if (results[2] !== undefined) {
-            const selectedRecordsData = await results[2]?.text();
-            const selectedRecordEntities = JSON.parse(selectedRecordsData).value as ComponentFramework.WebApi.Entity[];
-            this.selectedItems?.push(...selectedRecordEntities.map(e => e[this.idAttribute] as string));
-            this.props.selectedItems = this.selectedItems;
+            // Set the selected records if the request has been made
+            if (results[2] !== undefined) {
+                const selectedRecordsData = await results[2]?.text();
+                const selectedRecordEntities = JSON.parse(selectedRecordsData).value as ComponentFramework.WebApi.Entity[];
+                this.selectedItems?.push(...selectedRecordEntities.map(e => e[this.idAttribute] as string));
+                this.props.selectedItems = this.selectedItems;
+            }
         }
 
         // Render the component now that we have all data
