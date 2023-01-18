@@ -108,7 +108,7 @@ export class WebApi implements IWebApi {
         return this.webApi.updateRecord(entityType, id, data);
     }
 
-        /**
+    /**
      * Retrieves a collection of entity records.
      *
      * @param entityType logical name of the entity type record to retrieve
@@ -117,26 +117,23 @@ export class WebApi implements IWebApi {
      * @param maxPageSize Max number of records to be retrieved per page
      * @returns The deferred object for the result of the operation. An object with interface RetrieveMultipleResponse will be resolved if successful.
      */
-        retrieveMultipleRecords(
-            entityType: string,
-            options?: string | undefined,
-            maxPageSize?: number | undefined
-        ): Promise<ComponentFramework.WebApi.RetrieveMultipleResponse> {
-            return this.webApi.retrieveMultipleRecords(entityType, options, maxPageSize);
-        }
+    retrieveMultipleRecords(
+        entityType: string,
+        options?: string | undefined,
+        maxPageSize?: number | undefined
+    ): Promise<ComponentFramework.WebApi.RetrieveMultipleResponse> {
+        return this.webApi.retrieveMultipleRecords(entityType, options, maxPageSize);
+    }
 
     /**
      * Retrieves a collection of entity records using fetch.
      *
      * @param entityType logical name of the entity type record to retrieve
-     * @param filter filter content for api query.
+     * @param queryString queryString content for api query.
      * @returns The deferred object for the result of the operation. A JSON object with the retrieved properties and values will be resolved if successful.
      */
-    fetchRecords(
-        entityType: string,
-        filter?: string | undefined
-    ): Promise<Response> {
-        return window.fetch(`${this.clientUrl}/${WebApi.API_RELATIVEPREFIX}/${entityType}?$filter=${filter}`, {
+    fetchRecords(entityType: string, queryString: string): Promise<Response> {
+        return window.fetch(`${this.clientUrl}/${WebApi.API_RELATIVEPREFIX}/${entityType}?${queryString}`, {
             method: "GET",
             headers: WebApi.API_HEADERS
         });
