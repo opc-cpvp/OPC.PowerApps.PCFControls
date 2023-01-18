@@ -82,13 +82,12 @@ export abstract class TreeBaseComponent<TInputs, TOutputs> implements ComponentF
 
         const entityTypeName = (this.context as any).page.entityTypeName as string;
 
-        let fetchFilterRequest: Promise<Response | undefined> = Promise.resolve(undefined);
-
         // Get selected records if the record already exists
+        let fetchSelectedRecordsRequest: Promise<Response | undefined> = Promise.resolve(undefined);
         if ((this.context as any).page.entityId !== undefined) {
             // TODO: May need additional testing to make sur entityTypeName will always stay the same
             const fetchFilter = `${entityTypeName}id eq ${(this.context as any).page.entityId as string}`;
-            fetchFilterRequest = this.webAPI.fetchRecords(this.relationshipEntity, fetchFilter);
+            fetchSelectedRecordsRequest = this.webAPI.fetchRecords(this.relationshipEntity, fetchFilter);
         }
 
         const getMetaDataRequest = this.context.utils.getEntityMetadata(entityTypeName, []);
@@ -98,7 +97,7 @@ export abstract class TreeBaseComponent<TInputs, TOutputs> implements ComponentF
         );
 
         // Due to some typescript bug, a tuple can't currently be used for Promise.All as types are not infered properly. Using an array and casting to const seems to infer them properly.
-        await Promise.all([getMetaDataRequest, getRecordsByViewRequest, fetchFilterRequest])
+        await Promise.all([getMetaDataRequest, getRecordsByViewRequest, fetchSelectedRecordsRequest])
             .then(x => this.processTreeDataResponses(x))
             .catch(e => {
                 console.error("An error occured starting up the pcf", e);
