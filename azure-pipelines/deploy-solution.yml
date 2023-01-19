@@ -10,14 +10,14 @@ parameters:
   - name: tenant
     displayName: 'Tenant'
     type: string
-    default: 'prod-tenant'
+    default: 'prod-tenant-dev'
     values:
-    - 'prod-tenant'
+    - 'prod-tenant-dev'
     - 'dev-tenant'
   - name: environmentUrl
     displayName: 'Environment URL'
     type: string
-    default: 'https://opc-compliance-[name].crm3.dynamics.com'
+    default: 'https://priv360-[name].crm3.dynamics.com'
 
 variables:
   - group: ${{ parameters.tenant }}
