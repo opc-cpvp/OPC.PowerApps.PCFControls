@@ -16,7 +16,12 @@ steps:
   inputs:
     packageType: 'sdk'
     version: '3.1.x'
-    
+
+- task: UseNode@1
+  displayName: 'Use Node 16.3.x'
+  inputs:
+    version: '16.3.x'
+
 - task: WaelHamze.xrm-ci-framework-build-tasks.MSCRMToolInstaller.MSCRMToolInstaller@12
   displayName: 'Power DevOps Tool Installer'
   inputs:
@@ -78,7 +83,7 @@ steps:
     solution: '**\*.cdsproj'
     configuration: '${{ parameters.buildConfiguration }}'
     msbuildArguments: '/restore'
-    
+
 - task: PowerShell@2
   displayName: 'Lint all PCF Components'
   inputs:
