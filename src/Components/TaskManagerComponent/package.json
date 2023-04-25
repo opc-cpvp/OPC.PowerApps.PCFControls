@@ -33,7 +33,7 @@
     "eslint-plugin-prefer-arrow": "^1.2.3",
     "eslint-plugin-prettier": "^4.0.0",
     "husky": "^7.0.4",
-    "lint-staged": "^11.2.6",
+    "lint-staged": "^13.2.1",
     "pcf-scripts": "^1",
     "pcf-start": "^1",
     "prettier": "2.4.1"
