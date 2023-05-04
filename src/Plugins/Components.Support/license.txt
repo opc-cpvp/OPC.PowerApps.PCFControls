@@ -25,10 +25,10 @@ license Type:
 
 ####################################################################################################
 Package:Microsoft.PowerApps.MSBuild.Plugin
-Version:1.21.13
+Version:1.22.4
 project URL:https://docs.microsoft.com/en-us/dynamics365/customer-engagement/developer/write-plugin-extend-business-processes
 Description:The package contains build definitions that are required to build a CDS Plug-in class library. See project site how to install.
-licenseUrl:https://www.nuget.org/packages/Microsoft.PowerApps.MSBuild.Plugin/1.21.13/License
+licenseUrl:https://www.nuget.org/packages/Microsoft.PowerApps.MSBuild.Plugin/1.22.4/License
 license Type:LICENSE.txt
 
 ####################################################################################################
