@@ -17,7 +17,7 @@ license Type:MIT
 
 ####################################################################################################
 Package:Microsoft.CrmSdk.CoreAssemblies
-Version:9.0.2.48
+Version:9.0.2.50
 project URL:https://docs.microsoft.com/dotnet/api/microsoft.crm.sdk
 Description:This package contains the official Microsoft.Xrm.Sdk.dll and Microsoft.Crm.Sdk.Proxy.dll assemblies plus tools and has been authored by the Microsoft Common Data Service SDK team.
 licenseUrl:https://go.microsoft.com/fwlink/?linkid=2108407
@@ -25,10 +25,10 @@ license Type:
 
 ####################################################################################################
 Package:Microsoft.PowerApps.MSBuild.Plugin
-Version:1.21.13
+Version:1.27.6
 project URL:https://docs.microsoft.com/en-us/dynamics365/customer-engagement/developer/write-plugin-extend-business-processes
 Description:The package contains build definitions that are required to build a CDS Plug-in class library. See project site how to install.
-licenseUrl:https://www.nuget.org/packages/Microsoft.PowerApps.MSBuild.Plugin/1.21.13/License
+licenseUrl:https://www.nuget.org/packages/Microsoft.PowerApps.MSBuild.Plugin/1.27.6/License
 license Type:LICENSE.txt
 
 ####################################################################################################
