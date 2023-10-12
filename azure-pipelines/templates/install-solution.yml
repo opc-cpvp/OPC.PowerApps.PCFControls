@@ -21,8 +21,8 @@ steps:
 - task: WaelHamze.xrm-ci-framework-build-tasks.MSCRMToolInstaller.MSCRMToolInstaller@12
   displayName: 'Power DevOps Tool Installer'
   inputs:
-    crmConnectorVersion: 3.3.0.928
-    packageDeploymentVersion: 3.3.0.928
+    crmConnectorVersion: 3.3.0.1003
+    packageDeploymentVersion: 3.3.0.972
 
 - task: WaelHamze.xrm-ci-framework-build-tasks.MSCRMImportSolution.MSCRMImportSolution@12
   displayName: 'Import PCF Controls Solution'
