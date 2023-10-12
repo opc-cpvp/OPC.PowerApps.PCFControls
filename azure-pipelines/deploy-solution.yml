@@ -14,10 +14,13 @@ parameters:
     values:
     - 'prod-tenant-dev'
     - 'dev-tenant'
-  - name: environmentUrl
-    displayName: 'Environment URL'
+  - name: environment
+    displayName: 'Environment'
     type: string
-    default: 'https://priv360-[name].crm3.dynamics.com'
+    values:
+     - 'SprintEven'
+     - 'SprintOdd'
+     - 'Dev'
 
 variables:
   - group: ${{ parameters.tenant }}
@@ -34,4 +37,4 @@ stages:
     - download: buildPipeline
     - template: 'templates\deploy-solution.yml'
       parameters:
-        environmentUrl: ${{ parameters.environmentUrl }}
+        environment: ${{ parameters.environment }}
