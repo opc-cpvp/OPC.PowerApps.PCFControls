@@ -7,20 +7,16 @@ resources:
       source: 'OPC.PowerApps.PCFControls - CI'
 
 parameters:
-  - name: tenant
-    displayName: 'Tenant'
+  - name: environment
+    displayName: 'Environment'
     type: string
-    default: 'prod-tenant-dev'
     values:
-    - 'prod-tenant-dev'
-    - 'dev-tenant'
-  - name: environmentUrl
-    displayName: 'Environment URL'
-    type: string
-    default: 'https://priv360-[name].crm3.dynamics.com'
+     - 'SprintEven'
+     - 'SprintOdd'
+     - 'Dev'
 
 variables:
-  - group: ${{ parameters.tenant }}
+  - group: 'prod-tenant-dev'
 
 stages:
 - stage: deploy
@@ -34,4 +30,4 @@ stages:
     - download: buildPipeline
     - template: 'templates\deploy-solution.yml'
       parameters:
-        environmentUrl: ${{ parameters.environmentUrl }}
+        environment: ${{ parameters.environment }}

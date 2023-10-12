@@ -2,7 +2,7 @@
 # environmentUrl: The URL of the environment where you want to install.
 
 parameters:
-- name: environmentUrl
+- name: environment
   type: string
 
 steps:
@@ -18,15 +18,18 @@ steps:
    Write-Host "##vso[task.setVariable variable=ArtifactDropPath]$artifactDropPath"
   displayName: 'Get artifact drop path'
 
-- task: WaelHamze.xrm-ci-framework-build-tasks.MSCRMToolInstaller.MSCRMToolInstaller@12
-  displayName: 'Power DevOps Tool Installer'
+- task: PowerPlatformToolInstaller@2
+  displayName: 'Install Power Tools'
   inputs:
-    crmConnectorVersion: 3.3.0.928
-    packageDeploymentVersion: 3.3.0.928
+    DefaultVersion: true
 
-- task: WaelHamze.xrm-ci-framework-build-tasks.MSCRMImportSolution.MSCRMImportSolution@12
-  displayName: 'Import PCF Controls Solution'
+- task: PowerPlatformImportSolution@2
+  displayName: 'Deploy PCF Solution'
   inputs:
-    crmConnectionString: '$(CdsBaseConnectionString)${{ parameters.environmentUrl }}'
-    solutionFile: '$(ArtifactDropPath)\src\Solution\bin\Release\Solution_managed.zip'
-    publishWorkflows: true
+    authenticationType: 'PowerPlatformSPN'
+    PowerPlatformSPN: 'PowerApps - ${{ parameters.environment }} - Package Deployer Service'
+    Environment: 'https://priv360-${{ parameters.environment }}.crm3.dynamics.com/'
+    SolutionInputFile: '$(ArtifactDropPath)\src\Solution\bin\Release\Solution_managed.zip'
+    AsyncOperation: true
+    MaxAsyncWaitTime: '60'
+    OverwriteUnmanagedCustomizations: true
