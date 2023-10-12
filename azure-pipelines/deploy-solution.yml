@@ -7,13 +7,6 @@ resources:
       source: 'OPC.PowerApps.PCFControls - CI'
 
 parameters:
-  - name: tenant
-    displayName: 'Tenant'
-    type: string
-    default: 'prod-tenant-dev'
-    values:
-    - 'prod-tenant-dev'
-    - 'dev-tenant'
   - name: environment
     displayName: 'Environment'
     type: string
@@ -23,7 +16,7 @@ parameters:
      - 'Dev'
 
 variables:
-  - group: ${{ parameters.tenant }}
+  - group: 'prod-tenant-dev'
 
 stages:
 - stage: deploy
