@@ -2,10 +2,10 @@
 # environmentUrl: The URL of the environment where you want to deploy.
 
 parameters:
-  - name: environmentUrl
+  - name: environment
     type: string
 
 steps:
   - template: 'install-solution.yml'
     parameters:
-      environmentUrl: ${{ parameters.environmentUrl }}
+      environment: ${{ parameters.environment }}
