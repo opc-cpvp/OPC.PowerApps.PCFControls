@@ -19,10 +19,12 @@ steps:
   displayName: 'Get artifact drop path'
 
 - task: PowerPlatformToolInstaller@2
+  displayName: 'Install Power Tools'
   inputs:
     DefaultVersion: true
 
 - task: PowerPlatformImportSolution@2
+  displayName: 'Deploy PCF Solution'
   inputs:
     authenticationType: 'PowerPlatformSPN'
     PowerPlatformSPN: 'PowerApps - ${{ parameters.environment }} - Package Deployer Service'
