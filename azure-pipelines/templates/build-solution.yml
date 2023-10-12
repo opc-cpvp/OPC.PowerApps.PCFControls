@@ -21,7 +21,10 @@ steps:
   displayName: 'Use Node 16.3.x'
   inputs:
     version: '16.3.x'
-    
+
+- task: WaelHamze.xrm-ci-framework-build-tasks.MSCRMToolInstaller.MSCRMToolInstaller@12
+  displayName: 'Power DevOps Tool Installer'
+  
 - task: WaelHamze.xrm-ci-framework-build-tasks.MSCRMSetVersion.MSCRMSetVersion@12
   displayName: 'Set PowerApps Solution Version'
   inputs:
