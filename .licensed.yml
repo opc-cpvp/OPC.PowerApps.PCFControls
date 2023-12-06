@@ -1,11 +1,3 @@
-# If not set, defaults to the directory name of `source_path`
-name: "OPC.PowerApps.PCFControls"
-
-# Path is relative to configuration root and specifies the working directory when enumerating dependencies
-# Optional for single app configuration, required when specifying multiple apps
-# Defaults to current directory when running `licensed`
-source_path: "src"
-
 # Whether to take any action when records are detected in the cache paths that don't map to evaluated
 # dependencies.
 # Available values are:
@@ -23,7 +15,7 @@ sources:
 # projects.  Each configuration is referred to as an "application" and must include
 # a source path, at a minimum
 apps:
-  - source_path: Components/TagPickerComponent
-  - source_path: Components/TagPickerGridComponent
-  - source_path: Components/TaskManagerComponent
-  - source_path: Components/TreeComponent
+  - source_path: src/Components/TagPickerComponent
+  - source_path: src/Components/TagPickerGridComponent
+  - source_path: src/Components/TaskManagerComponent
+  - source_path: src/Components/TreeComponent
