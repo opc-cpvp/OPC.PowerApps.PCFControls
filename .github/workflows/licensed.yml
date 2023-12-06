@@ -24,11 +24,6 @@ jobs:
       # checkout the repo
       - uses: actions/checkout@v3
 
-      # set up tooling
-      - uses: ruby/setup-ruby@v1
-        with:
-          bundler-cache: true
-
       # run licensed
       - uses: github/licensed-ci@v1
         with:
