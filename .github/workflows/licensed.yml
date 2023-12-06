@@ -24,6 +24,16 @@ jobs:
       # checkout the repo
       - uses: actions/checkout@v3
 
+      # install licensed.  licensed v4 can only be installed as a gem and requires
+      # running ruby/setup-ruby before github/setup-licensed.  If a project doesn't
+      # require a specific version of ruby, default to installing latest stable
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ruby
+      - uses: github/setup-licensed@v1
+        with:
+          version: 4.x
+
       # run licensed
       - uses: github/licensed-ci@v1
         with:
