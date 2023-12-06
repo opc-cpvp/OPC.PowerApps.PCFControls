@@ -27,9 +27,6 @@ jobs:
       # run licensed
       - uses: github/licensed-ci@v1
         with:
-          # override the command to use licensed built from this repo
-          command: bundle exec licensed
-
           # changes made using GITHUB_TOKEN will not re-trigger this action.
           # set a custom token so that added or changed cached license files
           # will cause this workflow to run and validate cached contents
