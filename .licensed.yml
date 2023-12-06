@@ -5,7 +5,7 @@
 # - 'warn', '', unset: treat stale cached records as warnings.  Notify the user but do not fail status checks
 # - 'ignore': Ignore stale cached records.  Do not notify the user and do not fail status checks
 # Optional, when not set this defaults to 'warn' behavior
-stale_records_action: "warn"
+stale_records_action: "ignore"
 
 # Sources of metadata
 sources:
