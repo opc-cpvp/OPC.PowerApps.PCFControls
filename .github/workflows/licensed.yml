@@ -22,6 +22,21 @@ jobs:
       # checkout the repo
       - uses: actions/checkout@v3
 
+      # install environment pre-requisites and project dependencies
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: npm # cache dependencies for faster subsequent runs.
+
+      - run: npm ci
+        working-directory: ./src/Components/TagPickerComponent
+      - run: npm ci
+        working-directory: ./src/Components/TagPickerGridComponent
+      - run: npm ci
+        working-directory: ./src/Components/TaskManagerComponent
+      - run: npm ci
+        working-directory: ./src/Components/TreeComponent
+
       # install licensed.  licensed v4 can only be installed as a gem and requires
       # running ruby/setup-ruby before github/setup-licensed.  If a project doesn't
       # require a specific version of ruby, default to installing latest stable
