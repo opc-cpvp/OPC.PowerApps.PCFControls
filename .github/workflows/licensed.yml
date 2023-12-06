@@ -26,7 +26,6 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-          cache: npm # cache dependencies for faster subsequent runs.
 
       - run: npm ci
         working-directory: ./src/Components/TagPickerComponent
