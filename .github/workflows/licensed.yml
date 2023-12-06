@@ -17,8 +17,6 @@ on:
 jobs:
   licensed:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
 
     steps:
       # checkout the repo
