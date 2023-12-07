@@ -21,6 +21,16 @@ allowed:
   - 0bsd
   - apache-2.0
 
+# These dependencies are ignored during enumeration.
+# They will not be cached, and will not raise errors or warnings.
+# This configuration is intended to be used for dependencies that don't need to
+# be included for compliance purposes, such as other projects owned by the current
+# project's owner, internal dependencies, and dependencies that aren't shipped with
+# the project like test frameworks.
+ignored:
+  nuget:
+    - "ILRepack" # apache-2.0
+
 # These dependencies have licenses not on the `allowed` list and have been reviewed.
 # They will be cached and checked, but will not raise errors or warnings for a
 # non-allowed license.  Dependencies on this list will still raise errors if
@@ -48,7 +58,6 @@ reviewed:
     - "lodash" # CC0-1.0
   nuget:
     - "FakeXrmEasy.9" # mit
-    - "ILRepack" # apache-2.0
     - "Microsoft.CrmSdk.CoreAssemblies" # mit
     - "Microsoft.CrmSdk.Deployment" # mit
     - "Microsoft.CrmSdk.Workflow" # mit
