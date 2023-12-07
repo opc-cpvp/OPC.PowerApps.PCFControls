@@ -28,6 +28,7 @@ jobs:
           node-version: 16
       - uses: microsoft/setup-msbuild@v1.3
 
+      # install project dependencies
       - run: npm ci
         working-directory: ./src/Components/TagPickerComponent
       - run: npm ci
@@ -37,8 +38,8 @@ jobs:
       - run: npm ci
         working-directory: ./src/Components/TreeComponent
 
-      - run: msbuild Solution.cdsproj /t:restore
-        working-directory: ./src/Solution
+      - run: msbuild OPC.PowerApps.PCFControls.sln /t:restore
+        working-directory: ./src/Plugins
 
       # install licensed.  licensed v4 can only be installed as a gem and requires
       # running ruby/setup-ruby before github/setup-licensed.  If a project doesn't
