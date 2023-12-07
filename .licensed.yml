@@ -10,6 +10,7 @@ stale_records_action: "warn"
 # Sources of metadata
 sources:
   npm: true
+  nuget: true
 
 # Dependencies with these licenses are allowed and will not raise errors or warnings.
 # This list does not have a default value and is required for `licensed status`
