@@ -16,6 +16,29 @@ sources:
 # to succeed.
 allowed:
   - mit
+  - 0bsd
+
+# These dependencies have licenses not on the `allowed` list and have been reviewed.
+# They will be cached and checked, but will not raise errors or warnings for a
+# non-allowed license.  Dependencies on this list will still raise errors if
+# license text cannot be found for the dependency.
+reviewed:
+  npm:
+    - @fluentui/dom-utilities         # MIT
+    - @fluentui/keyboard-key          # MIT
+    - @fluentui/react-focus           # MIT
+    - @fluentui/react-window-provider # MIT
+    - @fluentui/theme                 # MIT
+    - @microsoft/load-themed-styles   # MIT
+    - @uifabric/foundation            # MIT
+    - @uifabric/icons                 # MIT
+    - @uifabric/merge-styles          # MIT
+    - @uifabric/react-hooks           # MIT
+    - @uifabric/set-version           # MIT
+    - @uifabric/styling               # MIT
+    - @uifabric/utilities             # MIT
+    - office-ui-fabric-react          # MIT
+
 
 # A single configuration file can be used to enumerate dependencies for multiple
 # projects.  Each configuration is referred to as an "application" and must include
