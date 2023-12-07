@@ -5,11 +5,17 @@
 # - 'warn', '', unset: treat stale cached records as warnings.  Notify the user but do not fail status checks
 # - 'ignore': Ignore stale cached records.  Do not notify the user and do not fail status checks
 # Optional, when not set this defaults to 'warn' behavior
-stale_records_action: "ignore"
+stale_records_action: "warn"
 
 # Sources of metadata
 sources:
   npm: true
+
+# Dependencies with these licenses are allowed and will not raise errors or warnings.
+# This list does not have a default value and is required for `licensed status`
+# to succeed.
+allowed:
+  - mit
 
 # A single configuration file can be used to enumerate dependencies for multiple
 # projects.  Each configuration is referred to as an "application" and must include
