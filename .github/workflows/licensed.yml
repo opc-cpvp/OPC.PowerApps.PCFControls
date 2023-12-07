@@ -16,7 +16,7 @@ on:
 
 jobs:
   licensed:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
       # checkout the repo
@@ -26,6 +26,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
+      - uses: microsoft/setup-msbuild@v1.3
 
       - run: npm ci
         working-directory: ./src/Components/TagPickerComponent
@@ -35,6 +36,9 @@ jobs:
         working-directory: ./src/Components/TaskManagerComponent
       - run: npm ci
         working-directory: ./src/Components/TreeComponent
+
+      - run: msbuild Solution.cdsproj /t:restore
+        working-directory: ./src/Solution
 
       # install licensed.  licensed v4 can only be installed as a gem and requires
       # running ruby/setup-ruby before github/setup-licensed.  If a project doesn't

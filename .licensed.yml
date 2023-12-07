@@ -53,3 +53,5 @@ apps:
   - source_path: src/Components/TagPickerGridComponent
   - source_path: src/Components/TaskManagerComponent
   - source_path: src/Components/TreeComponent
+  - source_path: src/Plugins/Components.Support
+  - source_path: src/Plugins/Components.Support.Tests
