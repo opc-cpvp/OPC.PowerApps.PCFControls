@@ -19,6 +19,7 @@ allowed:
   - isc
   - mit
   - 0bsd
+  - apache-2.0
 
 # These dependencies have licenses not on the `allowed` list and have been reviewed.
 # They will be cached and checked, but will not raise errors or warnings for a
@@ -45,6 +46,23 @@ reviewed:
     - "@uifabric/utilities" # mit
     - "office-ui-fabric-react" # mit
     - "lodash" # CC0-1.0
+  nuget:
+    - "FakeXrmEasy.9" # mit
+    - "ILRepack" # apache-2.0
+    - "Microsoft.CrmSdk.CoreAssemblies" # mit
+    - "Microsoft.CrmSdk.Deployment" # mit
+    - "Microsoft.CrmSdk.Workflow" # mit
+    - "Microsoft.CrmSdk.XrmTooling.CoreAssembly" # mit
+    - "Microsoft.PowerApps.MSBuild.Plugin" # mit
+    - "StyleCop.Analyzers" # apache-2.0
+    - "xunit" # apache-2.0
+    - "xunit.abstractions" # apache-2.0
+    - "xunit.analyzers" # apache-2.0
+    - "xunit.assert" # apache-2.0
+    - "xunit.core" # apache-2.0
+    - "xunit.extensibility.core" # apache-2.0
+    - "xunit.extensibility.execution" # apache-2.0
+    - "xunit.runner.visualstudio" # apache-2.0
 
 # A single configuration file can be used to enumerate dependencies for multiple
 # projects.  Each configuration is referred to as an "application" and must include
