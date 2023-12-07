@@ -15,6 +15,7 @@ sources:
 # This list does not have a default value and is required for `licensed status`
 # to succeed.
 allowed:
+  - isc
   - mit
   - 0bsd
 
@@ -24,20 +25,21 @@ allowed:
 # license text cannot be found for the dependency.
 reviewed:
   npm:
-    - "@fluentui/dom-utilities" # MIT
-    - "@fluentui/keyboard-key" # MIT
-    - "@fluentui/react-focus" # MIT
-    - "@fluentui/react-window-provider" # MIT
-    - "@fluentui/theme" # MIT
-    - "@microsoft/load-themed-styles" # MIT
-    - "@uifabric/foundation" # MIT
-    - "@uifabric/icons" # MIT
-    - "@uifabric/merge-styles" # MIT
-    - "@uifabric/react-hooks" # MIT
-    - "@uifabric/set-version" # MIT
-    - "@uifabric/styling" # MIT
-    - "@uifabric/utilities" # MIT
-    - "office-ui-fabric-react" # MIT
+    - "@fluentui/dom-utilities" # mit
+    - "@fluentui/keyboard-key" # mit
+    - "@fluentui/react-focus" # mit
+    - "@fluentui/react-window-provider" # mit
+    - "@fluentui/theme" # mit
+    - "@microsoft/load-themed-styles" # mit
+    - "@uifabric/foundation" # mit
+    - "@uifabric/icons" # mit
+    - "@uifabric/merge-styles" # mit
+    - "@uifabric/react-hooks" # mit
+    - "@uifabric/set-version" # mit
+    - "@uifabric/styling" # mit
+    - "@uifabric/utilities" # mit
+    - "office-ui-fabric-react" # mit
+    - "lodash" # CC0-1.0
 
 # A single configuration file can be used to enumerate dependencies for multiple
 # projects.  Each configuration is referred to as an "application" and must include
