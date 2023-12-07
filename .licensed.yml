@@ -25,15 +25,19 @@ allowed:
 # license text cannot be found for the dependency.
 reviewed:
   npm:
+    - "@fluentui/date-time-utilities" # mit
     - "@fluentui/dom-utilities" # mit
     - "@fluentui/keyboard-key" # mit
     - "@fluentui/react-focus" # mit
+    - "@fluentui/react-stylesheets" # mit
+    - "@fluentui/react-theme-provider" # mit
     - "@fluentui/react-window-provider" # mit
     - "@fluentui/theme" # mit
     - "@microsoft/load-themed-styles" # mit
     - "@uifabric/foundation" # mit
     - "@uifabric/icons" # mit
     - "@uifabric/merge-styles" # mit
+    - "@fluentui/react-compose" # mit
     - "@uifabric/react-hooks" # mit
     - "@uifabric/set-version" # mit
     - "@uifabric/styling" # mit
