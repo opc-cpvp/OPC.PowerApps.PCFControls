@@ -81,5 +81,7 @@ apps:
   - source_path: src/Components/TagPickerGridComponent
   - source_path: src/Components/TaskManagerComponent
   - source_path: src/Components/TreeComponent
-  - source_path: src/Plugins/Components.Support/obj
-  - source_path: src/Plugins/Components.Support.Tests/obj
+  - name: Components.Support
+    source_path: src/Plugins/Components.Support/obj
+  - name: Components.Support.Tests
+    source_path: src/Plugins/Components.Support.Tests/obj
