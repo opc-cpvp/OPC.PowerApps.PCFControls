@@ -67,5 +67,4 @@ jobs:
           author_email: licensed-ci@users.noreply.github.com
           message: "Auto-update license files"
           add: ".licenses"
-          remove: "-r .licenses"
           push: true
