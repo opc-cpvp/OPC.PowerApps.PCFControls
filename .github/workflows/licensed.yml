@@ -51,22 +51,4 @@ jobs:
         with:
           version: 4.x
 
-      # run licensed
-      - uses: github/licensed-ci@v1
-        with:
-          # changes made using GITHUB_TOKEN will not re-trigger this action.
-          # set a custom token so that added or changed cached license files
-          # will cause this workflow to run and validate cached contents
-          #
-          # see https://docs.github.com/en/actions/security-guides/automatic-token-authentication#using-the-github_token-in-a-workflow
-          # for additional details on GITHUB_TOKEN not re-triggering this action
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-
-          # the "push" workflow updates license metadata files on the branch being examined.
-          # e.g. when the action is run on main, changes are pushed to main
-
-          # the "branch" workflow creates a new branch for license file updates.
-          # e.g. when the action is run on main, changes are pushed to a new "main-licenses" branch
-
-          # see https://github.com/github/licensed-ci for more details
-          workflow: branch
+      - run: licensed cache
