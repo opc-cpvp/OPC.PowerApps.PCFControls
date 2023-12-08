@@ -29,16 +29,21 @@ jobs:
       - uses: microsoft/setup-msbuild@v1.3
 
       # install project dependencies
-      - run: npm ci
+      - name: Components - TagPickerComponent - Install dependencies
+        run: npm ci
         working-directory: ./src/Components/TagPickerComponent
-      - run: npm ci
+      - name: Components - TagPickerGridComponent - Install dependencies
+        run: npm ci
         working-directory: ./src/Components/TagPickerGridComponent
-      - run: npm ci
+      - name: Components - TaskManagerComponent - Install dependencies
+        run: npm ci
         working-directory: ./src/Components/TaskManagerComponent
-      - run: npm ci
+      - name: Components - TreeComponent - Install dependencies
+        run: npm ci
         working-directory: ./src/Components/TreeComponent
 
-      - run: msbuild OPC.PowerApps.PCFControls.sln /t:restore
+      - name: Plugins - Install dependencies
+        run: msbuild OPC.PowerApps.PCFControls.sln /t:restore
         working-directory: ./src/Plugins
 
       # install licensed.  licensed v4 can only be installed as a gem and requires
@@ -52,3 +57,12 @@ jobs:
           version: 4.x
 
       - run: licensed cache
+
+      - name: Auto-update license files
+        uses: EndBug/add-and-commit@v8
+        with:
+          author_name: licensed-ci
+          author_email: licensed-ci@users.noreply.github.com
+          message: "Auto-update license files"
+          add: ".licenses"
+          push: true
