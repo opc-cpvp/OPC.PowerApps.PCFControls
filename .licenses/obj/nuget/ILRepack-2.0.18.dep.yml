@@ -1,8 +1,0 @@
----
-name: ILRepack
-version: 2.0.18
-type: nuget
-license: none
-homepage: https://github.com/gluck/il-repack
-licenses: []
-notices: []
