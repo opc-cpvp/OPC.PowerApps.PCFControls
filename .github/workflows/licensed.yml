@@ -21,7 +21,8 @@ jobs:
     steps:
       # checkout the repo
       - uses: actions/checkout@v4
-        ref: ${{ github.event.pull_request.head.ref }}
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
 
       # install environment pre-requisites and project dependencies
       - uses: actions/setup-node@v3
