@@ -1,0 +1,48 @@
+---
+name: StyleCop.Analyzers
+version: 1.1.118
+type: nuget
+license: other
+homepage: https://github.com/DotNetAnalyzers/StyleCopAnalyzers
+summary: An implementation of StyleCop's rules using Roslyn analyzers and code fixes
+licenses:
+- sources: LICENSE
+  text: "\uFEFFCopyright (c) Tunnel Vision Laboratories, LLC. All rights reserved.\n\nLicensed
+    under the Apache License, Version 2.0 (the \"License\"); you may not use\nthese
+    files except in compliance with the License. You may obtain a copy of the\nLicense
+    at\n\nhttp://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable
+    law or agreed to in writing, software distributed\nunder the License is distributed
+    on an \"AS IS\" BASIS, WITHOUT WARRANTIES OR\nCONDITIONS OF ANY KIND, either express
+    or implied. See the License for the\nspecific language governing permissions and
+    limitations under the License.\n\n---\n\nThis project uses other open source projects,
+    which are used under the terms\nof the following license(s).\n\n.NET Compiler
+    Platform (\"Roslyn\")\n\n  Copyright Microsoft.\n\n  Licensed under the Apache
+    License, Version 2.0 (the \"License\"); you may not use\n  these files except
+    in compliance with the License. You may obtain a copy of the\n  License at\n\n
+    \ http://www.apache.org/licenses/LICENSE-2.0\n\n  Unless required by applicable
+    law or agreed to in writing, software distributed\n  under the License is distributed
+    on an \"AS IS\" BASIS, WITHOUT WARRANTIES OR\n  CONDITIONS OF ANY KIND, either
+    express or implied. See the License for the\n  specific language governing permissions
+    and limitations under the License.\n\nCode Cracker\n\n  Copyright 2014 Giovanni
+    Bassi and Elemar Jr.\n\n  Licensed under the Apache License, Version 2.0 (the
+    \"License\"); you may not use\n  these files except in compliance with the License.
+    You may obtain a copy of the\n  License at\n\n  http://www.apache.org/licenses/LICENSE-2.0\n\n
+    \ Unless required by applicable law or agreed to in writing, software distributed\n
+    \ under the License is distributed on an \"AS IS\" BASIS, WITHOUT WARRANTIES OR\n
+    \ CONDITIONS OF ANY KIND, either express or implied. See the License for the\n
+    \ specific language governing permissions and limitations under the License.\n\nLightJson\n\n
+    \ Copyright (c) 2017 Marcos López C.\n  \n  Permission is hereby granted, free
+    of charge, to any person obtaining a copy\n  of this software and associated documentation
+    files (the \"Software\"), to deal\n  in the Software without restriction, including
+    without limitation the rights\n  to use, copy, modify, merge, publish, distribute,
+    sublicense, and/or sell\n  copies of the Software, and to permit persons to whom
+    the Software is\n  furnished to do so, subject to the following conditions:\n
+    \ \n  The above copyright notice and this permission notice shall be included
+    in\n  all copies or substantial portions of the Software.\n  \n  THE SOFTWARE
+    IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\n  IMPLIED, INCLUDING
+    BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\n  FITNESS FOR A PARTICULAR
+    PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\n  AUTHORS OR COPYRIGHT HOLDERS
+    BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\n  LIABILITY, WHETHER IN AN ACTION OF
+    CONTRACT, TORT OR OTHERWISE, ARISING FROM,\n  OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN\n  THE SOFTWARE.\n"
+notices: []
