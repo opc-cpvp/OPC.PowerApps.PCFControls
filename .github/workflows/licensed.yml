@@ -20,7 +20,8 @@ jobs:
 
     steps:
       # checkout the repo
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+        ref: ${{ github.event.pull_request.head.ref }}
 
       # install environment pre-requisites and project dependencies
       - uses: actions/setup-node@v3
@@ -59,7 +60,7 @@ jobs:
       - run: licensed cache
 
       - name: Auto-update license files
-        uses: EndBug/add-and-commit@v8
+        uses: EndBug/add-and-commit@v9
         with:
           author_name: licensed-ci
           author_email: licensed-ci@users.noreply.github.com
