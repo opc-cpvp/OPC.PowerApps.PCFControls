@@ -1,0 +1,199 @@
+├─ @fluentui/date-time-utilities@7.9.1
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/microsoft/fluentui
+│  ├─ path: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/@fluentui/date-time-utilities
+│  └─ licenseFile: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/@fluentui/date-time-utilities/LICENSE
+├─ @fluentui/dom-utilities@1.1.2
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/microsoft/fluentui
+│  ├─ path: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/@fluentui/dom-utilities
+│  └─ licenseFile: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/@fluentui/dom-utilities/LICENSE
+├─ @fluentui/keyboard-key@0.2.17
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/microsoft/fluentui
+│  ├─ path: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/@fluentui/keyboard-key
+│  └─ licenseFile: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/@fluentui/keyboard-key/LICENSE
+├─ @fluentui/react-compose@0.19.24
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/microsoft/fluentui
+│  ├─ path: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/@fluentui/react-compose
+│  └─ licenseFile: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/@fluentui/react-compose/LICENSE
+├─ @fluentui/react-focus@7.18.17
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/microsoft/fluentui
+│  ├─ path: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/@fluentui/react-focus
+│  └─ licenseFile: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/@fluentui/react-focus/LICENSE
+├─ @fluentui/react-stylesheets@0.2.9
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/microsoft/fluentui
+│  ├─ path: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/@fluentui/react-stylesheets
+│  └─ licenseFile: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/@fluentui/react-stylesheets/LICENSE
+├─ @fluentui/react-theme-provider@0.19.16
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/microsoft/fluentui
+│  ├─ path: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/@fluentui/react-theme-provider
+│  └─ licenseFile: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/@fluentui/react-theme-provider/LICENSE
+├─ @fluentui/react-window-provider@1.0.6
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/microsoft/fluentui
+│  ├─ path: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/@fluentui/react-window-provider
+│  └─ licenseFile: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/@fluentui/react-window-provider/LICENSE
+├─ @fluentui/theme@1.7.13
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/microsoft/fluentui
+│  ├─ path: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/@fluentui/theme
+│  └─ licenseFile: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/@fluentui/theme/LICENSE
+├─ @microsoft/load-themed-styles@1.10.295
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/microsoft/rushstack
+│  ├─ path: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/@microsoft/load-themed-styles
+│  └─ licenseFile: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/@microsoft/load-themed-styles/LICENSE
+├─ @types/classnames@2.3.1
+│  ├─ licenses: MIT
+│  ├─ path: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/@types/classnames
+│  └─ licenseFile: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/@types/classnames/LICENSE
+├─ @types/node@10.17.60
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/DefinitelyTyped/DefinitelyTyped
+│  ├─ path: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/@types/node
+│  └─ licenseFile: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/@types/node/LICENSE
+├─ @types/powerapps-component-framework@1.3.4
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/DefinitelyTyped/DefinitelyTyped
+│  ├─ path: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/@types/powerapps-component-framework
+│  └─ licenseFile: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/@types/powerapps-component-framework/LICENSE
+├─ @types/prop-types@15.7.5
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/DefinitelyTyped/DefinitelyTyped
+│  ├─ path: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/@types/prop-types
+│  └─ licenseFile: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/@types/prop-types/LICENSE
+├─ @types/react-dom@16.9.17
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/DefinitelyTyped/DefinitelyTyped
+│  ├─ path: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/@types/react-dom
+│  └─ licenseFile: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/@types/react-dom/LICENSE
+├─ @types/react@16.14.34
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/DefinitelyTyped/DefinitelyTyped
+│  ├─ path: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/@types/react
+│  └─ licenseFile: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/@types/react/LICENSE
+├─ @types/scheduler@0.16.2
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/DefinitelyTyped/DefinitelyTyped
+│  ├─ path: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/@types/scheduler
+│  └─ licenseFile: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/@types/scheduler/LICENSE
+├─ @uifabric/foundation@7.10.16
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/microsoft/fluentui
+│  ├─ path: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/@uifabric/foundation
+│  └─ licenseFile: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/@uifabric/foundation/LICENSE
+├─ @uifabric/icons@7.9.5
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/microsoft/fluentui
+│  ├─ path: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/@uifabric/icons
+│  └─ licenseFile: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/@uifabric/icons/LICENSE
+├─ @uifabric/merge-styles@7.20.2
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/microsoft/fluentui
+│  ├─ path: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/@uifabric/merge-styles
+│  └─ licenseFile: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/@uifabric/merge-styles/LICENSE
+├─ @uifabric/react-hooks@7.16.4
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/microsoft/fluentui
+│  ├─ path: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/@uifabric/react-hooks
+│  └─ licenseFile: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/@uifabric/react-hooks/LICENSE
+├─ @uifabric/set-version@7.0.24
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/microsoft/fluentui
+│  ├─ path: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/@uifabric/set-version
+│  └─ licenseFile: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/@uifabric/set-version/LICENSE
+├─ @uifabric/styling@7.25.1
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/microsoft/fluentui
+│  ├─ path: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/@uifabric/styling
+│  └─ licenseFile: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/@uifabric/styling/LICENSE
+├─ @uifabric/utilities@7.38.2
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/microsoft/fluentui
+│  ├─ path: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/@uifabric/utilities
+│  └─ licenseFile: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/@uifabric/utilities/LICENSE
+├─ classnames@2.3.2
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/JedWatson/classnames
+│  ├─ publisher: Jed Watson
+│  ├─ path: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/classnames
+│  └─ licenseFile: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/classnames/LICENSE
+├─ csstype@3.1.1
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/frenic/csstype
+│  ├─ publisher: Fredrik Nicol
+│  ├─ email: fredrik.nicol@gmail.com
+│  ├─ path: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/csstype
+│  └─ licenseFile: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/csstype/LICENSE
+├─ js-tokens@4.0.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/lydell/js-tokens
+│  ├─ publisher: Simon Lydell
+│  ├─ path: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/js-tokens
+│  └─ licenseFile: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/js-tokens/LICENSE
+├─ loose-envify@1.4.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/zertosh/loose-envify
+│  ├─ publisher: Andres Suarez
+│  ├─ email: zertosh@gmail.com
+│  ├─ path: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/loose-envify
+│  └─ licenseFile: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/loose-envify/LICENSE
+├─ object-assign@4.1.1
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/sindresorhus/object-assign
+│  ├─ publisher: Sindre Sorhus
+│  ├─ email: sindresorhus@gmail.com
+│  ├─ url: sindresorhus.com
+│  ├─ path: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/object-assign
+│  └─ licenseFile: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/object-assign/license
+├─ office-ui-fabric-react@7.201.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/microsoft/fluentui
+│  ├─ path: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/office-ui-fabric-react
+│  └─ licenseFile: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/office-ui-fabric-react/LICENSE
+├─ pcf-project@1.0.0
+│  ├─ licenses: Undefined
+│  ├─ path: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent
+│  └─ licenseFile: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/license.txt
+├─ prop-types@15.8.1
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/facebook/prop-types
+│  ├─ path: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/prop-types
+│  └─ licenseFile: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/prop-types/LICENSE
+├─ react-dom@16.14.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/facebook/react
+│  ├─ path: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/react-dom
+│  └─ licenseFile: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/react-dom/LICENSE
+├─ react-is@16.13.1
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/facebook/react
+│  ├─ path: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/react-is
+│  └─ licenseFile: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/react-is/LICENSE
+├─ react@16.14.0
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/facebook/react
+│  ├─ path: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/react
+│  └─ licenseFile: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/react/LICENSE
+├─ scheduler@0.19.1
+│  ├─ licenses: MIT
+│  ├─ repository: https://github.com/facebook/react
+│  ├─ path: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/scheduler
+│  └─ licenseFile: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/scheduler/LICENSE
+├─ tslib@1.14.1
+│  ├─ licenses: 0BSD
+│  ├─ repository: https://github.com/Microsoft/tslib
+│  ├─ publisher: Microsoft Corp.
+│  ├─ path: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/tslib
+│  └─ licenseFile: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/tslib/LICENSE.txt
+└─ whatwg-fetch@3.6.2
+   ├─ licenses: MIT
+   ├─ repository: https://github.com/github/fetch
+   ├─ path: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/whatwg-fetch
+   └─ licenseFile: /home/runner/work/OPC.PowerApps.PCFControls/OPC.PowerApps.PCFControls/src/Components/TaskManagerComponent/node_modules/whatwg-fetch/LICENSE
+
