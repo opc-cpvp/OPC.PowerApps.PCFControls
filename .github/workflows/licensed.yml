@@ -1,0 +1,70 @@
+name: Verify cached license metadata
+
+on:
+  # run on pushes to the default branch
+  push:
+    branches:
+      - master
+  # run on all pull request events
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+  # run on demand
+  workflow_dispatch:
+
+jobs:
+  licensed:
+    runs-on: windows-latest
+
+    steps:
+      # checkout the repo
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+
+      # install environment pre-requisites and project dependencies
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - uses: microsoft/setup-msbuild@v1
+
+      # install project dependencies
+      - name: Components - TagPickerComponent - Install dependencies
+        run: npm ci
+        working-directory: ./src/Components/TagPickerComponent
+      - name: Components - TagPickerGridComponent - Install dependencies
+        run: npm ci
+        working-directory: ./src/Components/TagPickerGridComponent
+      - name: Components - TaskManagerComponent - Install dependencies
+        run: npm ci
+        working-directory: ./src/Components/TaskManagerComponent
+      - name: Components - TreeComponent - Install dependencies
+        run: npm ci
+        working-directory: ./src/Components/TreeComponent
+
+      - name: Plugins - Install dependencies
+        run: msbuild OPC.PowerApps.PCFControls.sln /t:restore
+        working-directory: ./src/Plugins
+
+      # install licensed.  licensed v4 can only be installed as a gem and requires
+      # running ruby/setup-ruby before github/setup-licensed.  If a project doesn't
+      # require a specific version of ruby, default to installing latest stable
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ruby
+      - uses: github/setup-licensed@v1
+        with:
+          version: 4.x
+
+      - run: licensed cache
+
+      - name: Auto-update license files
+        uses: EndBug/add-and-commit@v9
+        with:
+          author_name: licensed-ci
+          author_email: licensed-ci@users.noreply.github.com
+          message: "Auto-update license files"
+          add: ".licenses"
+          push: true

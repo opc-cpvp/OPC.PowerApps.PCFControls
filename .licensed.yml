@@ -1,0 +1,26 @@
+# Whether to take any action when records are detected in the cache paths that don't map to evaluated
+# dependencies.
+# Available values are:
+# - 'error': treat stale cached records as errors.  Notify the user and fail status checks
+# - 'warn', '', unset: treat stale cached records as warnings.  Notify the user but do not fail status checks
+# - 'ignore': Ignore stale cached records.  Do not notify the user and do not fail status checks
+# Optional, when not set this defaults to 'warn' behavior
+stale_records_action: "warn"
+
+# Sources of metadata
+sources:
+  npm: true
+  nuget: true
+
+# A single configuration file can be used to enumerate dependencies for multiple
+# projects.  Each configuration is referred to as an "application" and must include
+# a source path, at a minimum
+apps:
+  - source_path: src/Components/TagPickerComponent
+  - source_path: src/Components/TagPickerGridComponent
+  - source_path: src/Components/TaskManagerComponent
+  - source_path: src/Components/TreeComponent
+  - name: Components.Support
+    source_path: src/Plugins/Components.Support/obj
+  - name: Components.Support.Tests
+    source_path: src/Plugins/Components.Support.Tests/obj
