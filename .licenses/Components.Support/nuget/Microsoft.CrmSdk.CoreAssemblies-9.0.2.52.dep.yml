@@ -1,6 +1,6 @@
 ---
 name: Microsoft.CrmSdk.CoreAssemblies
-version: 9.0.2.51
+version: 9.0.2.52
 type: nuget
 license: other
 homepage: https://docs.microsoft.com/dotnet/api/microsoft.crm.sdk

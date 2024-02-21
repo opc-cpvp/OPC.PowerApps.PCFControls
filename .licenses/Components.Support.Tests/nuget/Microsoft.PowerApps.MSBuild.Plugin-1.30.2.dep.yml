@@ -1,6 +1,6 @@
 ---
 name: Microsoft.PowerApps.MSBuild.Plugin
-version: 1.29.9
+version: 1.30.2
 type: nuget
 license: other
 homepage: https://docs.microsoft.com/en-us/dynamics365/customer-engagement/developer/write-plugin-extend-business-processes
