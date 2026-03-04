@@ -9,7 +9,7 @@ pr:
 
 variables:
   - name: 'Version.MajorMinor'
-    value: '1.1'
+    value: '1.0'
   - name: 'Version.Patch'
     value: $[counter(variables['Version.MajorMinor'], 822)]
 
