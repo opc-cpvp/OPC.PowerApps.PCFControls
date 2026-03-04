@@ -1,9 +1,11 @@
 ---
-name: System.Text.Json
-version: 6.0.7
+name: System.ServiceModel.Http
+version: 4.10.3
 type: nuget
 license: mit
-homepage: https://dot.net/
+homepage: https://github.com/dotnet/wcf
+summary: 'Provides the types that permit SOAP messages to be exchanged using Http
+  (example: BasicHttpBinding).'
 licenses:
 - sources: LICENSE.TXT
   text: |

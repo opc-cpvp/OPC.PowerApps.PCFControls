@@ -1,6 +1,6 @@
 ---
 name: System.Text.Encodings.Web
-version: 6.0.0
+version: 8.0.0
 type: nuget
 license: mit
 homepage: https://dot.net/

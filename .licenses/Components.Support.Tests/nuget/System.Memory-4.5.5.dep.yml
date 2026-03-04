@@ -1,6 +1,6 @@
 ---
-name: Microsoft.Bcl.AsyncInterfaces
-version: 6.0.0
+name: System.Memory
+version: 4.5.5
 type: nuget
 license: mit
 homepage: https://dot.net/
