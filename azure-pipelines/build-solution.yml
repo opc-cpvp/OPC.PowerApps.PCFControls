@@ -11,7 +11,7 @@ variables:
   - name: 'Version.MajorMinor'
     value: '1.0'
   - name: 'Version.Patch'
-    value: $[counter(variables['Version.MajorMinor'], 0)]
+    value: $[counter(variables['Version.MajorMinor'], 823)]
 
 name: '$(Version.MajorMinor).$(Version.Patch)'
 
